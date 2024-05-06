@@ -102,8 +102,6 @@ public class Exemple {
         G2.ajouterArete(trainTranconDC, 90);
 
         // AVIONS
-        G2.ajouterArete(avionTranconCD, 30); // + 60 si on vient de train CD
-        G2.ajouterArete(avionTranconDC, 30);
 
         // // BUS
         // G2.ajouterArete(aeroportToGareC, 60);
@@ -128,7 +126,5 @@ public class Exemple {
             Chemin path = shortestPaths10.get(i);
             System.out.println(i+1 +") Train de A_gare à A en passent par " + path.aretes() + ". Durée : " + path.poids() + " minutes");
         }
-
-
     }
 }
