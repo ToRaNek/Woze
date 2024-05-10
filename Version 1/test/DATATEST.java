@@ -107,4 +107,3 @@ public class DATATEST {
         System.out.println(dataTest.dataIsValid(data));
     }
 }
-*/
