@@ -164,6 +164,7 @@ public class Voyageur {
         
         // Affichage des sommets sous forme de menu numéroté
         System.out.println("Veuillez choisir la plateforme de départ :");
+        // TODO enlever la liste (verifier que la source est bien dans la graphe)
         List<Lieu> sommets = new ArrayList<>(G.sommets());
         for (int i = 0; i < sommets.size(); i++) {
             System.out.println((i + 1) + ". " + sommets.get(i));
