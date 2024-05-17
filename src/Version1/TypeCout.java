@@ -7,37 +7,26 @@ public enum TypeCout {
     /**
      * Coût en émissions de CO2.
      */
-    CO2(0.0," kg" ),
+    CO2(" kg" ),
     
     /**
      * Coût en temps.
      */
-    TEMPS(0.0," min" ),
+    TEMPS(" min" ),
     
     /**
      * Coût en prix.
      */
-    PRIX(0.0, " €");
+    PRIX( " €");
 
-    private double cout; 
     private final String SYMBOLE;
 
     /**
      * Constructeur de TypeCout.
-     * @param cout Le coût initial.
      * @param symbole Le symbole associé au type de coût.
      */
-    TypeCout(double cout, String symbole){
-        this.cout = cout;
+    TypeCout(String symbole){
         this.SYMBOLE = symbole;
-    }
-
-    /**
-     * Obtient le coût actuel.
-     * @return Le coût actuel.
-     */
-    public double getCout(){
-        return cout;
     }
 
     /**
@@ -48,21 +37,6 @@ public enum TypeCout {
         return SYMBOLE;
     }
 
-    /**
-     * Définit un nouveau coût.
-     * @param nouveau_cout Le nouveau coût à définir.
-     */
-    public void setCout(int nouveau_cout){
-        this.cout = nouveau_cout;
-    }
-
-    /**
-     * Affiche le coût avec son symbole.
-     * @return Une représentation sous forme de chaîne de caractères du coût avec son symbole.
-     */
-    public String display(){
-        return cout + SYMBOLE;
-    }
 
     /** 
      * Redéfinition de la méthode toString pour afficher le nom du type de coût avec son symbole.
@@ -70,7 +44,7 @@ public enum TypeCout {
      */
     @Override
     public String toString() {
-        return name();
+        return SYMBOLE;
     }
 
 }

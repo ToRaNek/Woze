@@ -9,10 +9,10 @@ import fr.ulille.but.sae_s2_2024.*;
  */
 public class Arete implements Trancon {
     /** Le lieu de départ de l'arête */
-    private Lieu depart;
+    private Structure depart;
     
     /** Le lieu d'arrivée de l'arête */
-    private Lieu arrivee;
+    private Structure arrivee;
     
     /** La modalité de transport associée à l'arête */
     private ModaliteTransport modalite;
@@ -29,7 +29,7 @@ public class Arete implements Trancon {
      * @param temps Le coût en temps.
      * @param prix Le coût en prix.
      */
-    public Arete(Lieu depart, Lieu arrivee, ModaliteTransport modalite, double co2, double temps, double prix) {
+    public Arete(Structure depart, Structure arrivee, ModaliteTransport modalite, double prix, double co2, double temps) {
         this.depart = depart;
         this.arrivee = arrivee;
         this.modalite = modalite;
@@ -44,7 +44,7 @@ public class Arete implements Trancon {
      * @return Le lieu de départ de l'arête.
      */
     @Override
-    public Lieu getDepart() {
+    public Structure getDepart() {
         return depart;
     }
 
@@ -53,7 +53,7 @@ public class Arete implements Trancon {
      * @return Le lieu d'arrivée de l'arête.
      */
     @Override
-    public Lieu getArrivee() {
+    public Structure getArrivee() {
         return arrivee;
     }
 
@@ -71,7 +71,7 @@ public class Arete implements Trancon {
      * @param typeCout Le type de coût.
      * @return Le coût associé au type donné.
      */
-    public double getCout(TypeCout typeCout) {
+    public double getCouts(TypeCout typeCout) {
         return couts.get(typeCout);
     }
 
