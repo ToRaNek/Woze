@@ -10,27 +10,27 @@ import fr.ulille.but.sae_s2_2024.*;
 
 public class AreteTest {
 
-    private Lieu villeA;
-    private Lieu villeB;
+    private Structure structureA;
+    private Structure structureB;
     private ModaliteTransport modalite;
     private Arete arete;
 
     @BeforeEach
     public void initialization() {
-        villeA = new Ville("VilleA");
-        villeB = new Ville("VilleB");
+        structureA = new Structure("StructureA");
+        structureB = new Structure("StructureB");
         modalite = ModaliteTransport.TRAIN;
-        arete = new Arete(villeA, villeB, modalite, 100.0, 60.0, 30.0);
+        arete = new Arete(structureA, structureB, modalite, 100.0, 1.20, 30.0);
     }
 
     @Test
     public void testGetDepart() {
-        assertEquals(villeA, arete.getDepart());
+        assertEquals(structureA, arete.getDepart());
     }
 
     @Test
     public void testGetArrivee() {
-        assertEquals(villeB, arete.getArrivee());
+        assertEquals(structureB, arete.getArrivee());
     }
 
     @Test
@@ -40,22 +40,22 @@ public class AreteTest {
 
     @Test
     public void testGetCoutCo2() {
-        assertEquals(100.0, arete.getCout(TypeCout.CO2));
+        assertEquals(1.2, arete.getCouts(TypeCout.CO2));
     }
 
     @Test
     public void testGetCoutTemps() {
-        assertEquals(60.0, arete.getCout(TypeCout.TEMPS));
+        assertEquals(30.0, arete.getCouts(TypeCout.TEMPS));
     }
 
     @Test
     public void testGetCoutPrix() {
-        assertEquals(30.0, arete.getCout(TypeCout.PRIX));
+        assertEquals(100.0, arete.getCouts(TypeCout.PRIX));
     }
 
     @Test
     public void testToString() {
         assertNotNull(arete.toString());
-        assertEquals("VilleA -> VilleB[TRAIN]", arete.toString());
+        assertEquals("StructureA -> StructureB [TRAIN]", arete.toString());
     }
 }

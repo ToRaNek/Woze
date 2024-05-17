@@ -1,19 +1,20 @@
 package Version1;
+
 import java.util.EnumMap;
 import java.util.Map;
 
 import fr.ulille.but.sae_s2_2024.*;
 
 /**
- * La classe Arrete représente une liaison entre deux lieux.
+ * La classe Arete représente une liaison entre deux structures.
  */
 public class Arete implements Trancon {
-    /** Le lieu de départ de l'arête */
+    /** La structure de départ de l'arête */
     private Structure depart;
-    
-    /** Le lieu d'arrivée de l'arête */
+
+    /** La structure d'arrivée de l'arête */
     private Structure arrivee;
-    
+
     /** La modalité de transport associée à l'arête */
     private ModaliteTransport modalite;
 
@@ -21,13 +22,13 @@ public class Arete implements Trancon {
     private final Map<TypeCout, Double> couts;
 
     /**
-     * Constructeur de la classe Arrete.
-     * @param depart Le lieu de départ de l'arête.
-     * @param arrivee Le lieu d'arrivée de l'arête.
+     * Constructeur de la classe Arete.
+     * @param depart La structure de départ de l'arête.
+     * @param arrivee La structure d'arrivée de l'arête.
      * @param modalite La modalité de transport associée à l'arête.
+     * @param prix Le coût en prix.
      * @param co2 Le coût en émissions de CO2.
      * @param temps Le coût en temps.
-     * @param prix Le coût en prix.
      */
     public Arete(Structure depart, Structure arrivee, ModaliteTransport modalite, double prix, double co2, double temps) {
         this.depart = depart;
@@ -40,8 +41,22 @@ public class Arete implements Trancon {
     }
 
     /**
-     * Renvoie le lieu de départ de l'arête.
-     * @return Le lieu de départ de l'arête.
+     * Constructeur de la classe Arete.
+     * @param depart La structure de départ de l'arête.
+     * @param arrivee La structure d'arrivée de l'arête.
+     * @param modalite La modalité de transport associée à l'arête.
+     * @param couts Une map contenant les différents coûts associés à l'arête.
+     */
+    public Arete(Structure depart, Structure arrivee, ModaliteTransport modalite, EnumMap<TypeCout, Double> couts) {
+        this.depart = depart;
+        this.arrivee = arrivee;
+        this.modalite = modalite;
+        this.couts = couts;
+    }
+
+    /**
+     * Renvoie la structure de départ de l'arête.
+     * @return La structure de départ de l'arête.
      */
     @Override
     public Structure getDepart() {
@@ -49,8 +64,8 @@ public class Arete implements Trancon {
     }
 
     /**
-     * Renvoie le lieu d'arrivée de l'arête.
-     * @return Le lieu d'arrivée de l'arête.
+     * Renvoie la structure d'arrivée de l'arête.
+     * @return La structure d'arrivée de l'arête.
      */
     @Override
     public Structure getArrivee() {
@@ -76,11 +91,45 @@ public class Arete implements Trancon {
     }
 
     /**
+     * Définit la structure de départ de l'arête.
+     * @param depart La nouvelle structure de départ.
+     */
+    public void setDepart(Structure depart) {
+        this.depart = depart;
+    }
+
+    /**
+     * Définit la structure d'arrivée de l'arête.
+     * @param arrivee La nouvelle structure d'arrivée.
+     */
+    public void setArrivee(Structure arrivee) {
+        this.arrivee = arrivee;
+    }
+
+    /**
+     * Définit la modalité de transport associée à l'arête.
+     * @param modalite La nouvelle modalité de transport.
+     */
+    public void setModalite(ModaliteTransport modalite) {
+        this.modalite = modalite;
+    }
+
+    /**
+     * Obtient les différents coûts associés à l'arête.
+     * @return Une map contenant les différents coûts.
+     */
+    public Map<TypeCout, Double> getCouts() {
+        return couts;
+    }
+
+    /**
      * Renvoie une représentation textuelle de l'arête sous forme de chaîne de caractères.
      * @return Une représentation textuelle de l'arête.
      */
     @Override
     public String toString() {
-        return depart +" -> " + arrivee + "[" + modalite + "]";
+        return depart + " -> " + arrivee + " [" + modalite + "]";
     }
+
+
 }

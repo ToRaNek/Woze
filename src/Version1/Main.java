@@ -14,6 +14,7 @@ public class Main {
         Plateforme plateforme = new Plateforme(data);
         System.out.println(plateforme);
 
+
         // Exemple d'utilisation de la méthode getStructure
         Structure villeA = plateforme.getStructure("Gare_de_villeA");
         Structure villeB = plateforme.getStructure("Gare_de_villeB");

@@ -1,18 +1,14 @@
 package Version1;
 
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
-import org.junit.Test;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 
 /**
  * Classe utilitaire pour valider un ensemble de données représentant des trajets entre villes.
  * Chaque ligne de données doit respecter un format spécifique :
  * `&lt;ville de départ&gt;;&lt;ville d'arrivée&gt;;&lt;mode de transport&gt;;&lt;distance&gt;;&lt;durée&gt;;&lt;prix&gt;`
  */
-public class DataTest {
+public class VerificationData {
+
 
     /**
      * Obtient le nombre de lignes dans un tableau de chaînes de caractères.
@@ -92,43 +88,5 @@ public class DataTest {
      */
     public boolean villeIsValid(String ville) {
         return ville.matches("[a-zA-Z'-]+");
-    }
-
-    @Test
-    public void testDataIsValid() {
-        String[] data = {
-                "villeA;villeB;Train;60;1.7;80",
-                "villeB;villeD;Train;22;2.4;40",
-                "villeA;villeC;Train;42;1.4;50",
-                "villeB;villeC;Train;14;1.4;60",
-                "villeC;villeD;Bus;110;150;22",
-                "villeC;villeD;Train;65;1.2;90"
-        };
-        assertTrue("Toutes les données devraient être valides", dataIsValid(data));
-    }
-
-    @Test
-    public void testLineIsValid() {
-        assertTrue("Une ligne valide devrait être reconnue", lineIsValid("villeA;villeB;Train;60;1.7;80"));
-        assertFalse("Une ligne invalide ne devrait pas être reconnue", lineIsValid("villA;villeB;;60;1.7;80"));
-    }
-
-    @Test
-    public void testDoubleIsValid() {
-        assertTrue("Un nombre double valide devrait être reconnu", doubleIsValid("3.14"));
-        assertFalse("Un nombre double invalide ne devrait pas être reconnu", doubleIsValid("abc"));
-    }
-
-    @Test
-    public void testTransportIsValid() {
-        assertTrue("Un transport valide devrait être reconnu", transportIsValid("TraIn"));
-        assertFalse("Un transport invalide ne devrait pas être reconnu", transportIsValid("CAR"));
-    }
-
-    @Test
-    public void testVilleIsValid() {
-        assertTrue("Une ville valide devrait être reconnue", villeIsValid("Lille"));
-        assertFalse("Une ville invalide ne devrait pas être reconnue", villeIsValid("123ville"));
-        assertFalse("Une ligne avec un nombre double invalide ne devrait pas être reconnue", lineIsValid("villeA;villeB;Train;60;1.7abc;80")); // Test ajouté pour couvrir le cas où une ligne a un nombre double invalide
     }
 }

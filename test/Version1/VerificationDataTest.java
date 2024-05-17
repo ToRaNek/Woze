@@ -1,6 +1,5 @@
 package Version1;
 
-import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
