@@ -1,6 +1,7 @@
 package Version1;
 
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
+import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -93,13 +94,9 @@ public class DATATEST {
         return ville.matches("[a-zA-Z'-]+");
     }
 
-    /**
-     * Méthode principale pour tester la validation des données.
-     *
-     * @param args Arguments de la ligne de commande (non utilisés).
-     */
-    public static void main(String[] args) {
-        String[] data = new String[]{
+    @Test
+    public void testDataIsValid() {
+        String[] data = {
                 "villeA;villeB;Train;60;1.7;80",
                 "villeB;villeD;Train;22;2.4;40",
                 "villeA;villeC;Train;42;1.4;50",
@@ -107,21 +104,31 @@ public class DATATEST {
                 "villeC;villeD;Bus;110;150;22",
                 "villeC;villeD;Train;65;1.2;90"
         };
-        DATATEST dataTest = new DATATEST();
+        assertTrue("Toutes les données devraient être valides", dataIsValid(data));
+    }
 
-        /* Les tests pour vérifier que mes méthodes fonctionnent*/
-        assertTrue("Toutes les données sont valides", dataTest.dataIsValid(data));
-        assertTrue("Une ligne valide rend les données valides", dataTest.lineIsValid("villeA;villeB;train;60;1.7;80"));
-        assertTrue("Un nombre double valide est reconnu", dataTest.doubleIsValid("3.14"));
-        assertTrue("Un transport valide est reconnu", dataTest.transportIsValid("TraIn"));
-        assertTrue("Une ville valide est reconnue", dataTest.villeIsValid("Lille"));
+    @Test
+    public void testLineIsValid() {
+        assertTrue("Une ligne valide devrait être reconnue", lineIsValid("villeA;villeB;Train;60;1.7;80"));
+        assertFalse("Une ligne invalide ne devrait pas être reconnue", lineIsValid("villA;villeB;;60;1.7;80"));
+    }
 
-        assertFalse("Une ligne invalide rend les données invalides", dataTest.lineIsValid("villA;villeB;;60;1.7;80"));
-        assertFalse("Une ligne avec un nombre double invalide rend les données invalides", dataTest.lineIsValid("villeA;villeB;Train;60;1.7abc;80"));
-        assertFalse("Un nombre double invalide n'est pas reconnu", dataTest.doubleIsValid("abc"));
-        assertFalse("Un transport invalide n'est pas reconnu", dataTest.transportIsValid("CAR"));
-        assertFalse("Une ville invalide n'est pas reconnue", dataTest.villeIsValid("123ville"));
+    @Test
+    public void testDoubleIsValid() {
+        assertTrue("Un nombre double valide devrait être reconnu", doubleIsValid("3.14"));
+        assertFalse("Un nombre double invalide ne devrait pas être reconnu", doubleIsValid("abc"));
+    }
 
-        System.out.println(dataTest.dataIsValid(data));
+    @Test
+    public void testTransportIsValid() {
+        assertTrue("Un transport valide devrait être reconnu", transportIsValid("TraIn"));
+        assertFalse("Un transport invalide ne devrait pas être reconnu", transportIsValid("CAR"));
+    }
+
+    @Test
+    public void testVilleIsValid() {
+        assertTrue("Une ville valide devrait être reconnue", villeIsValid("Lille"));
+        assertFalse("Une ville invalide ne devrait pas être reconnue", villeIsValid("123ville"));
+        assertFalse("Une ligne avec un nombre double invalide ne devrait pas être reconnue", lineIsValid("villeA;villeB;Train;60;1.7abc;80")); // Test ajouté pour couvrir le cas où une ligne a un nombre double invalide
     }
 }
