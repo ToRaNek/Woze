@@ -54,7 +54,7 @@ Dans cette première version, l’application doit être capable de :
 ## TODO
 
 ### java
-- Créations des classes ( Voyages, lieu, Platerforme,...).
+- Créations des classes ( Voyages, lieu, Platerforme,...). ok
 - Créations des méthodes nécessaires.
 -
 -
