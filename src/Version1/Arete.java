@@ -47,7 +47,7 @@ public class Arete implements Trancon {
      * @param modalite La modalité de transport associée à l'arête.
      * @param couts Une map contenant les différents coûts associés à l'arête.
      */
-    public Arete(Structure depart, Structure arrivee, ModaliteTransport modalite, EnumMap<TypeCout, Double> couts) {
+    public Arete(Structure depart, Structure arrivee, ModaliteTransport modalite, Map<TypeCout, Double> couts) {
         this.depart = depart;
         this.arrivee = arrivee;
         this.modalite = modalite;
@@ -86,7 +86,7 @@ public class Arete implements Trancon {
      * @param typeCout Le type de coût.
      * @return Le coût associé au type donné.
      */
-    public double getCouts(TypeCout typeCout) {
+    public double getCout(TypeCout typeCout) {
         return couts.get(typeCout);
     }
 
@@ -119,7 +119,7 @@ public class Arete implements Trancon {
      * @return Une map contenant les différents coûts.
      */
     public Map<TypeCout, Double> getCouts() {
-        return couts;
+        return this.couts;
     }
 
     /**

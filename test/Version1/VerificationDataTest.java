@@ -15,13 +15,13 @@ public class VerificationDataTest {
     @Test
     public void testDataIsValid() {
         String[] data = {
-                "villeA;villeB;Train;60;1.7;80",
-                "villeB;villeD;Train;22;2.4;40",
-                "villeA;villeC;Train;42;1.4;50",
-                "villeB;villeC;Train;14;1.4;60",
-                "villeC;villeD;Bus;110;150;22",
-                "villeC;villeD;Train;65;1.2;90"
-        };
+            "villeA;villeB;Train;60;1.7;80",
+            "villeB;villeD;Train;22;2.4;40",
+            "villeA;villeC;Train;42;1.4;50",
+            "villeB;villeC;Train;14;1.4;60",
+            "villeC;villeD;Bus;110;150;22",
+            "villeC;villeD;Train;65;1.2;90"
+    };
 
         assertTrue("Toutes les données devraient être valides", verificationData.dataIsValid(data));
     }

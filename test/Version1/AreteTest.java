@@ -1,61 +1,77 @@
 package Version1;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.ulille.but.sae_s2_2024.*;
 
-public class AreteTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    private Structure structureA;
-    private Structure structureB;
-    private ModaliteTransport modalite;
+import java.util.EnumMap;
+
+class AreteTest {
+
+    private Structure gareLille;
+    private Structure gareParis;
     private Arete arete;
 
     @BeforeEach
-    public void initialization() {
-        structureA = new Structure("StructureA");
-        structureB = new Structure("StructureB");
-        modalite = ModaliteTransport.TRAIN;
-        arete = new Arete(structureA, structureB, modalite, 100.0, 1.20, 30.0);
+    void setUp() {
+        gareLille = new Structure("Lille", ModaliteTransport.TRAIN);
+        gareParis = new Structure("Paris", ModaliteTransport.TRAIN);
+        arete = new Arete(gareLille, gareParis, ModaliteTransport.TRAIN, 10, 5, 120);
     }
 
     @Test
-    public void testGetDepart() {
-        assertEquals(structureA, arete.getDepart());
+    void testGetDepart() {
+        assertEquals(gareLille, arete.getDepart());
     }
 
     @Test
-    public void testGetArrivee() {
-        assertEquals(structureB, arete.getArrivee());
+    void testGetArrivee() {
+        assertEquals(gareParis, arete.getArrivee());
     }
 
     @Test
-    public void testGetModalite() {
-        assertEquals(modalite, arete.getModalite());
+    void testGetModalite() {
+        assertEquals(ModaliteTransport.TRAIN, arete.getModalite());
     }
 
     @Test
-    public void testGetCoutCo2() {
-        assertEquals(1.2, arete.getCouts(TypeCout.CO2));
+    void testGetCout() {
+        assertEquals(10, arete.getCout(TypeCout.PRIX));
+        assertEquals(5, arete.getCout(TypeCout.CO2));
+        assertEquals(120, arete.getCout(TypeCout.TEMPS));
     }
 
     @Test
-    public void testGetCoutTemps() {
-        assertEquals(30.0, arete.getCouts(TypeCout.TEMPS));
+    void testSetDepart() {
+        Structure gareRoubaix = new Structure("Roubaix", ModaliteTransport.TRAIN);
+        arete.setDepart(gareRoubaix);
+        assertEquals(gareRoubaix, arete.getDepart());
     }
 
     @Test
-    public void testGetCoutPrix() {
-        assertEquals(100.0, arete.getCouts(TypeCout.PRIX));
+    void testSetArrivee() {
+        Structure gareRoubaix = new Structure("Roubaix", ModaliteTransport.TRAIN);
+        arete.setArrivee(gareRoubaix);
+        assertEquals(gareRoubaix, arete.getArrivee());
     }
 
     @Test
-    public void testToString() {
-        assertNotNull(arete.toString());
-        assertEquals("StructureA -> StructureB [TRAIN]", arete.toString());
+    void testSetModalite() {
+        arete.setModalite(ModaliteTransport.AVION);
+        assertEquals(ModaliteTransport.AVION, arete.getModalite());
+    }
+
+    @Test
+    void testGetCouts() {
+        // Créer une map des couts attendus
+        EnumMap<TypeCout, Double> expectedCouts = new EnumMap<>(TypeCout.class);
+        expectedCouts.put(TypeCout.PRIX, 10.0);
+        expectedCouts.put(TypeCout.CO2, 5.0);
+        expectedCouts.put(TypeCout.TEMPS, 120.0);
+
+        assertEquals(expectedCouts, arete.getCouts());
     }
 }

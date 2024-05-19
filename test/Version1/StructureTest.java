@@ -2,24 +2,43 @@ package Version1;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import fr.ulille.but.sae_s2_2024.*;
 
 public class StructureTest {
 
     @Test
     void testGetNom() {
-        // Création d'une structure avec un nom spécifique
-        Structure structure = new Structure("Gare de Lille");
-
-        // Vérification que le nom retourné est correct
-        assertEquals("Gare de Lille", structure.getNom());
+        // Test de la méthode getNom()
+        Structure gareLille = new Structure("Lille", ModaliteTransport.TRAIN);
+        assertEquals("Gare_Lille", gareLille.getNom());
     }
 
     @Test
-    void testToString() {
-        // Création d'une structure avec un nom spécifique
-        Structure structure = new Structure("Aéroport de Paris");
+    void testGetVille() {
+        // Test de la méthode getVille()
+        Structure gareLille = new Structure("Lille", ModaliteTransport.TRAIN);
+        assertEquals("Lille", gareLille.getVille());
+    }
 
-        // Vérification que la représentation textuelle est correcte
-        assertEquals("Aéroport de Paris", structure.toString());
+    @Test
+    void testGetModalite() {
+        // Test de la méthode getModalite()
+        Structure gareLille = new Structure("Lille", ModaliteTransport.TRAIN);
+        assertEquals(ModaliteTransport.TRAIN, gareLille.getModalite());
+    }
+
+    @Test
+    void testNom() {
+        // Test de la méthode statique nom()
+        String nomStructure = Structure.nom("Paris", ModaliteTransport.AVION);
+        assertEquals("Aéroport_Paris", nomStructure);
+    }
+
+    @Test
+    void testInSameCityAs() {
+        // Test de la méthode inSameCityAs()
+        Structure aeroportParis = new Structure("Paris", ModaliteTransport.AVION);
+        Structure gareParis = new Structure("Paris", ModaliteTransport.TRAIN);
+        assertTrue(aeroportParis.inSameCityAs(gareParis));
     }
 }

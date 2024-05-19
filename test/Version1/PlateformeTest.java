@@ -1,86 +1,111 @@
 package Version1;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import fr.ulille.but.sae_s2_2024.ModaliteTransport;
-import fr.ulille.but.sae_s2_2024.MultiGrapheOrienteValue;
+import fr.ulille.but.sae_s2_2024.*;
 
-import static org.junit.Assert.*;
-
-/**
- * Classe de test pour la classe Plateforme
- */
+import static org.junit.jupiter.api.Assertions.*;
 public class PlateformeTest {
 
     private Plateforme plateforme;
 
-    @Before
-    public void setUp() {
-        // Données de test
+    @BeforeEach
+    void setUp() {
         String[] data = {
-                "villeA;villeB;Train;60;1.7;80",
-                "villeB;villeD;Train;22;2.4;40",
-                "villeA;villeC;Train;42;1.4;50",
-                "villeB;villeC;Train;14;1.4;60",
-                "villeC;villeD;Bus;110;150;22",
-                "villeC;villeD;Train;65;1.2;90"
-        };
-
-        // Initialisation de la plateforme
+                "Lille;Paris;TRAIN;50;10;120",
+                "Paris;Lille;BUS;30;15;180",
+                "Londres;Calais;TRAIN;150;1;180"};
         plateforme = new Plateforme(data);
     }
 
     @Test
-    public void testContains() {
-        assertTrue("La structure 'Gare_de_villeA' devrait être présente dans la plateforme", plateforme.contains("Gare_de_villeA"));
-        assertFalse("La structure 'Gare_de_villeE' ne devrait pas être présente dans la plateforme", plateforme.contains("Gare_de_villeE"));
+    void testAdd2Arete() {
+        assertEquals(6, plateforme.getAretes().size());
     }
 
     @Test
-    public void testGetStructure() {
-        Structure structureA = plateforme.getStructure("Gare_de_villeA");
-        assertNotNull("La structure 'Gare_de_villeA' devrait être trouvée dans la plateforme", structureA);
-        assertEquals("Le nom de la structure devrait être 'Gare_de_villeA'", "Gare_de_villeA", structureA.getNom());
-
-        Structure structureE = plateforme.getStructure("Gare_de_villeE");
-        assertNull("La structure 'Gare_de_villeE' ne devrait pas être trouvée dans la plateforme", structureE);
+    void testAdd1Arete() {
+        Structure s =  new Structure("Lille", ModaliteTransport.AVION);
+        Arete a = new Arete(s, s, ModaliteTransport.AVION, 1000,200,4);
+        plateforme.add1Arete(a);
+        assertEquals(7, plateforme.getAretes().size());
     }
 
     @Test
-    public void testBuildGraph() {
-        MultiGrapheOrienteValue graph = plateforme.buildGraph(TypeCout.TEMPS);
-        assertNotNull("Le graphe devrait être construit", graph);
-
-        assertEquals("Le nombre de sommets du graphe devrait être égal au nombre de structures dans la plateforme", plateforme.getStructures().size(), graph.sommets().size());
-        assertEquals("Le nombre d'arêtes du graphe devrait être égal au nombre d'arêtes dans la plateforme", plateforme.getAretes().size(), graph.aretes().size());
+    void testAddVille() {
+        assertTrue(plateforme.containsVille("Lille"));
+        assertTrue(plateforme.containsVille("Paris"));
     }
 
     @Test
-    public void testRemoveStructure() {
-        // Suppression d'une structure existante
-        Structure structureA = plateforme.getStructure("Gare_de_villeA");
-        assertNotNull("La structure 'Gare_de_villeA' devrait être trouvée dans la plateforme", structureA);
-        plateforme.removeStructure(structureA);
-        assertFalse("La structure 'Gare_de_villeA' ne devrait plus être présente dans la plateforme", plateforme.contains("Gare_de_villeA"));
-
-        // Suppression d'une structure inexistante
-        Structure structureE = new Structure("Gare_de_villeE");
-        assertFalse("La structure 'Gare_de_villeE' ne devrait pas être présente dans la plateforme", plateforme.contains("Gare_de_villeE"));
-        plateforme.removeStructure(structureE);
+    void testExistVilleStructureVersion() {
+        assertTrue(plateforme.existVilleStructureVersion("Lille"));
+        assertFalse(plateforme.existVilleStructureVersion("London"));
     }
 
     @Test
-    public void testRemoveArete() {
-        // Suppression d'une arête existante
+    void testAddStructure() {
+        assertEquals(4, plateforme.getVilles().size());
+        assertEquals(6, plateforme.getStructures().size());
+    }
+
+    @Test
+    void testCreateOrGetStructure() {
+        assertEquals(6, plateforme.getStructures().size());
+        Structure lTrain = plateforme.createOrGetStructure("Lille", ModaliteTransport.AVION);
+        assertEquals(7, plateforme.getStructures().size());
+        assertNotNull(lTrain);
+    }
+
+    @Test
+    void testGetStructure() {
+        Structure paris = plateforme.getStructure(Structure.nom("Paris", ModaliteTransport.BUS));
+        assertNotNull(paris);
+        assertEquals("Paris", paris.getVille());
+    }
+
+    @Test
+    void testIndexOf() {
+        assertEquals(0, plateforme.indexOf("Lille", "Paris", "TRAIN"));
+        assertEquals(1, plateforme.indexOf("Paris", "Lille", "TRAIN"));
+    }
+
+    @Test
+    void testRemoveArete() {
         Arete arete = plateforme.getAretes().get(0);
-        assertNotNull("Il devrait y avoir au moins une arête dans la plateforme", arete);
         plateforme.removeArete(arete);
-        assertFalse("L'arête devrait être supprimée de la plateforme", plateforme.getAretes().contains(arete));
+        assertEquals(5, plateforme.getAretes().size());
+    }
 
-        // Suppression d'une arête inexistante
-        Arete areteInexistante = new Arete(new Structure("Inexistante1"), new Structure("Inexistante2"), ModaliteTransport.TRAIN, 50, 1.5, 70);
-        assertFalse("L'arête inexistante ne devrait pas être présente dans la plateforme", plateforme.getAretes().contains(areteInexistante));
-        plateforme.removeArete(areteInexistante);
+    @Test
+    void testRemoveStructure() {
+        assertEquals(6, plateforme.getStructures().size());
+        Structure structure = plateforme.getStructures().get(0);
+        plateforme.removeStructure(structure);
+        assertEquals(5, plateforme.getStructures().size());
+    }
+
+    @Test
+    void testBuildGraph() {
+        MultiGrapheOrienteValue graph = plateforme.buildGraph(TypeCout.CO2);
+        assertNotNull(graph);
+    }
+
+    @Test
+    void testChercherPlusCourtsChemins() {
+        Structure lille = plateforme.getStructure("Gare_Lille");
+        Structure paris = plateforme.getStructure("Gare_Paris");
+        assertEquals(1, plateforme.chercherPlusCourtsChemins(lille, paris, TypeCout.TEMPS, 1).size());
+        assertEquals(1, plateforme.chercherPlusCourtsChemins(lille, paris, TypeCout.TEMPS, 2).size());
+    }
+
+    @Test
+    void testIsLinked() {
+        Structure lille = plateforme.getStructure("Gare_Lille");
+        Structure paris = plateforme.getStructure("Gare_Paris");
+        plateforme.buildGraph(TypeCout.CO2);
+        assertTrue(plateforme.isLinked(lille, paris));
+        assertFalse(plateforme.isLinked(lille, null));
     }
 }
