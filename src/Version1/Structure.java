@@ -87,4 +87,6 @@ public class Structure implements Lieu {
     public String toString() {
         return ville + " : " + nom;
     }
+        // V1 finis
+
 }

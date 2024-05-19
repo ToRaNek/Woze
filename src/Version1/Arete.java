@@ -131,5 +131,5 @@ public class Arete implements Trancon {
         return depart + " -> " + arrivee + " [" + modalite + "]";
     }
 
-
+    // V1 finis
 }

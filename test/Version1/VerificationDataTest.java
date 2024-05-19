@@ -50,4 +50,6 @@ public class VerificationDataTest {
         assertFalse("Une ville invalide ne devrait pas être reconnue", verificationData.villeIsValid("123ville"));
         assertFalse("Une ligne avec un nombre double invalide ne devrait pas être reconnue", verificationData.lineIsValid("villeA;villeB;Train;60;1.7abc;80")); // Test ajouté pour couvrir le cas où une ligne a un nombre double invalide
     }
+        // V1 finis
+
 }

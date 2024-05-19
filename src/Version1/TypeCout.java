@@ -47,4 +47,6 @@ public enum TypeCout {
     public String toString() {
         return name() + SYMBOLE;
     }
+        // V1 finis
+
 }

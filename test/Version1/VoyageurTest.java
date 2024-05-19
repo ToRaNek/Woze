@@ -81,4 +81,6 @@ public class VoyageurTest {
     void testGetProchaineID() {
         assertEquals(6, Voyageur.getProchaineID()); // à cause des modifications
     }
+        // V1 finis
+
 }

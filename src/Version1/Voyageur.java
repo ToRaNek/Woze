@@ -168,4 +168,6 @@ public class Voyageur {
     public String toString() {
         return "Voyageur [id=" + id + ", prenom=" + prenom + ", nom=" + nom + ", ville=" + ville + "]";
     }
+        // V1 finis
+
 }

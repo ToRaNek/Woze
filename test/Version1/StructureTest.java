@@ -41,4 +41,6 @@ public class StructureTest {
         Structure gareParis = new Structure("Paris", ModaliteTransport.TRAIN);
         assertTrue(aeroportParis.inSameCityAs(gareParis));
     }
+        // V1 finis
+
 }

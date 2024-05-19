@@ -462,6 +462,7 @@ public class Plateforme {
     public void setStructures(ArrayList<Structure> structures) {
         this.structures = structures;
     }
-    
+        // V1 finis
+
 }
     

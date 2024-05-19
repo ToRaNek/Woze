@@ -89,4 +89,6 @@ public class VerificationData {
     public boolean villeIsValid(String ville) {
         return ville.matches("[a-zA-Z'-]+");
     }
+        // V1 finis
+
 }

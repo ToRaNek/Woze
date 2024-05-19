@@ -20,4 +20,6 @@ public class TypeCoutTest {
         assertEquals("TEMPS min", TypeCout.TEMPS.toString());
         assertEquals("PRIX €", TypeCout.PRIX.toString());
     }
+        // V1 finis
+
 }

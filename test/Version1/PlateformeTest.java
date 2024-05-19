@@ -108,4 +108,6 @@ public class PlateformeTest {
         assertTrue(plateforme.isLinked(lille, paris));
         assertFalse(plateforme.isLinked(lille, null));
     }
+        // V1 finis
+
 }

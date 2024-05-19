@@ -74,4 +74,6 @@ class AreteTest {
 
         assertEquals(expectedCouts, arete.getCouts());
     }
+        // V1 finis
+
 }
