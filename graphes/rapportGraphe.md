@@ -12,7 +12,7 @@ Contraintes à respecter pour le rapport
 
 Idéalement, le rapport est rédigé au fur et à mesure avec le calendrier donné dans le sujet:
 
-- section Version 1 faite avant le 18/05/2024 (1pt/20 si c'est le cas)
+- section Version 1 faite avant le 20/05/2024 (1pt/20 si c'est le cas) ( modifier en amphi)
 - section Version 2 faite avant le 08/06/2024 (1pt/20 si c'est le cas)
 
 Finalement, l'utilisation d'un outils de génération de langage est autorisées, à condition de le faire intelligemment. En particulier, veillez à:
@@ -46,12 +46,58 @@ Version 1 : un seul moyen de transport
 *Donner la solution du problème du point de vue de l'utilisatrice, càd quels sont les itinéraires possibles, quels sont les meilleurs itinéraires et pourquoi.*
 *Pour l'instant on ne parle pas de graphes; on peut éventuellement faire des schémas.*
 
+**Problème :**
+
+Supposons que l'utilisateur souhaite planifier un voyage entre deux villes, Lille et Paris, en utilisant la plateforme de transport. Les données complètes pour la plateforme incluent plusieurs moyens de transport tels que le train, l'avion et le bus, ainsi que les informations sur les coûts associés à chaque moyen de transport (prix du billet, émissions de CO2 et durée du trajet). De plus, l'utilisateur a des préférences spécifiques, notamment le choix du moyen de transport (par exemple, elle préfère le train), le critère d'optimisation (par exemple, elle veut minimiser le coût du voyage), et elle demande un certain nombre d'itinéraires (par exemple, les 3 itinéraires les plus économiques).
+
+**Solution :**
+
+1. **Itinéraires Possibles :**
+   - Train : Le trajet en train de Lille à Paris.
+   - Avion : Le trajet en avion de Lille à Paris.
+   - Bus : Le trajet en bus de Lille à Paris.
+
+2. **Meilleurs Itinéraires :**
+   - Itinéraire 1 (Train) : Cet itinéraire est le meilleur si l'utilisateur préfère voyager en train. Il offre un bon compromis entre le temps de trajet et le coût, avec des émissions de CO2 relativement faibles.
+   - Itinéraire 2 (Avion) : Si l'utilisateur est pressé et dispose d'un budget plus important, l'option de l'avion peut être préférable. Cependant, cela peut être moins écologique en raison des émissions de CO2 plus élevées.
+   - Itinéraire 3 (Bus) : Si l'utilisateur souhaite minimiser les coûts et est prêt à passer plus de temps en voyage, l'option du bus peut être la meilleure. Cependant, cela peut nécessiter un certain compromis sur le confort et la durée du trajet.
+
+En résumé, la solution du problème consiste à recommander les meilleurs itinéraires en fonction des préférences de l'utilisateur tout en tenant compte des différents moyens de transport disponibles sur la plateforme.
 
 
 ### Modèle pour l'exemple
 
 *Donner le graphe modélisant l'exemple ci-dessus.*
 *Donner la solution du problème (càd les meilleurs itinéraires) en tant que chemins dans le graphe.*
+
+**Graphe :**
+
+Le graphe modélisant l'exemple ci-dessus peut être représenté de la manière suivante :
+
+```java
+  data = new String[]{
+      "Lille;Paris;Train;45;1.7;80",         
+      "Lille;Paris;Avion;120;2.8;60",         
+      "Lille;Paris;Bus;80;1.2;180",          
+      "Lille;Marseille;Avion;150;3.5;90",    
+      "Lille;Marseille;Train;30;3.5;90",    
+      "Paris;Marseille;Train;10;2.2;120",     
+      "Paris;Marseille;Avion;180;3.2;70",    
+      "Paris;Marseille;Bus;230;1.3;660",      
+      "Marseille;Paris;Train;85;2.5;110"      
+  };
+```
+
+**Solution :**
+
+Les meilleurs itinéraires dans le graphe sont les suivants :
+(Lille - Paris ) -> meilleur prix :
+
+BUS : Lille -> Paris : 80 €
+TRAIN : Lille -> Marseille -> Paris : 40 €
+AVION : Lille -> Paris : 120€
+
+
 
 ### Modélisation pour la Version 1 dans le cas général
 
@@ -63,11 +109,23 @@ Version 1 : un seul moyen de transport
 
 *Utiliser un vocabulaire précis sur les graphes.*
 
+Pour modéliser le problème de recherche d'itinéraire dans un graphe, nous pouvons suivre les étapes suivantes :
+
+    Sommets du Graphe : Chaque sommet du graphe représente une structure d'une ville. Dans notre exemple, nous avons trois villes : Lille, Paris et Marseille et 3 structures possible ( Gare, aéroport et Arrêt de bus).
+
+    Arêtes du Graphe : Les arêtes du graphe représentent les connexions entre les villes/les structures, c'est-à-dire les trajets possibles entre les villes. Chaque arête est pondérée par les données du trajet, telles que le coût, les émissions de CO2 et le temps de trajet.
+
+    Poids des Arêtes : Le poids des arêtes est déterminé par les critères d'optimisation du problème. Dans notre exemple, les poids des arêtes peuvent être le prix du billet, les émissions de CO2 et le temps de trajet.
+
+    Algorithme de Recherche d'Itinéraire : Pour résoudre le problème de recherche d'itinéraire dans le graphe, nous pouvons utiliser l'algorithme de Dijkstra. Cet algorithme permet de trouver le chemin le plus court entre deux sommets dans un graphe pondéré. En spécifiant le sommet de départ, le sommet d'arrivée et les poids des arêtes (prix, émissions de CO2, temps), l'algorithme de Dijkstra peut nous donner le meilleur itinéraire en fonction des critères d'optimisation donnés de plus il nous est donné dans une librairie sous le nom de kpcc.
+
+En résumé, pour résoudre un problème de recherche d'itinéraire, nous construisons un graphe où les sommets représentent les structres des villes, les arêtes représentent les trajets possibles entre les villes/structures avec des poids déterminés par les critères d'optimisation, et nous utilisons l'algorithme de Dijkstra pour trouver le meilleur itinéraire en fonction des préférences de l'utilisateur.
+
 ### Implémentation de la Version 1
 
 *Écrire une classe de test qui reprend l'exemple, définit toutes les données de la plateforme, construit le graphe et calcule la solution.*
 *Votre classe peut utiliser des assertions (test unitaire) ou bien afficher la solution.*
-*Donner ici le **nom complet de la classe**, **la date et l'identifiant du commit à regarder** et un **lien vers la page de cette classe sur gitlab qui correspond au bon commit***.
+*Donner ici le **test.java** ou bien **Main.java** si vous voulez tester vous même, **19/05/2024 4e74e89f0db2af92bc65ef7936b7e8104421efd3 ** et un **[lien vers la page de cette classe sur gitlab qui correspond au bon commit](https://gitlab.univ-lille.fr/sae2.01-2.02/2024/E3/-/commit/4e74e89f0db2af92bc65ef7936b7e8104421efd3)**.
 
 *On insiste sur l'importance de spécifier le commit. En effet, quand vous commencerez la Version 2, le code utilisé pour le test de la Version 1 sera modifié. Il se peut que vous n'ayez pas le temps de finaliser la Version 2 et vous retrouver avec un code qui ne marche pas même pour la Version 1. C'est pourquoi il est important de rédiger le rapport au fur et à mesure et de donner ici un lien vers la version de votre code qui marche pour la Version 1 du projet.*
 

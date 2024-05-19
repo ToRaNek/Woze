@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
+// classe de test
 public class Test {
     private static Plateforme p;
     private static String[] data = new String[]{
