@@ -12,7 +12,7 @@ Contraintes à respecter pour le rapport
 
 Idéalement, le rapport est rédigé au fur et à mesure avec le calendrier donné dans le sujet:
 
-- section Version 1 faite avant le 20/05/2024 (1pt/20 si c'est le cas) ( modifier en amphi)
+- section Version 1 faite avant le 20/05/2024 (1pt/20 si c'est le cas) ( date modifié en amphi)
 - section Version 2 faite avant le 08/06/2024 (1pt/20 si c'est le cas)
 
 Finalement, l'utilisation d'un outils de génération de langage est autorisées, à condition de le faire intelligemment. En particulier, veillez à:
@@ -125,7 +125,7 @@ En résumé, pour résoudre un problème de recherche d'itinéraire, nous constr
 
 *Écrire une classe de test qui reprend l'exemple, définit toutes les données de la plateforme, construit le graphe et calcule la solution.*
 *Votre classe peut utiliser des assertions (test unitaire) ou bien afficher la solution.*
-*Donner ici le **test.java** ou bien **Main.java** si vous voulez tester vous même, **19/05/2024 4e74e89f0db2af92bc65ef7936b7e8104421efd3 ** et un **[lien vers la page de cette classe sur gitlab qui correspond au bon commit](https://gitlab.univ-lille.fr/sae2.01-2.02/2024/E3/-/commit/4e74e89f0db2af92bc65ef7936b7e8104421efd3)**.
+*Donner ici le **[Test](../../src/Version1/Test.java)** ou bien **[Main](../../src/Version1/Main.java)** si vous voulez tester vous même, **19/05/2024 4e74e89f0db2af92bc65ef7936b7e8104421efd3 ** et un **[lien vers la page de cette classe sur gitlab qui correspond au bon commit](https://gitlab.univ-lille.fr/sae2.01-2.02/2024/E3/-/commit/4e74e89f0db2af92bc65ef7936b7e8104421efd3)**.
 
 *On insiste sur l'importance de spécifier le commit. En effet, quand vous commencerez la Version 2, le code utilisé pour le test de la Version 1 sera modifié. Il se peut que vous n'ayez pas le temps de finaliser la Version 2 et vous retrouver avec un code qui ne marche pas même pour la Version 1. C'est pourquoi il est important de rédiger le rapport au fur et à mesure et de donner ici un lien vers la version de votre code qui marche pour la Version 1 du projet.*
 
