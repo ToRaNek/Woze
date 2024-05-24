@@ -16,9 +16,7 @@ public class Plateforme {
     private TypeCout currentCrit;
     private ArrayList<String> villes;
     private ArrayList<Structure> structures;
-    // TODO CSV data 
-    // private CsvFileSource data; 
-    
+
     /**
      * Constructeur de la classe Plateforme.
      * @param data Les données pour initialiser la plateforme.
@@ -28,6 +26,36 @@ public class Plateforme {
         structures = new ArrayList<>();
         aretes = new ArrayList<>();
         villes = new ArrayList<>();
+
+        for (String entree : data_correspondances) {
+            String[] split = entree.split(";");
+            // ville
+            String ville = split[0];
+
+            // ajoute la ville si elle existe pas 
+            if (!containsVille(ville)) {
+                villes.add(ville);
+            }
+
+            // modalité 1
+            ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
+            // creation de structure si elle existe pas
+            Structure struct1 = createOrGetStructure(ville, modalite1);
+
+            // modalité 2
+            ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
+            // creation de structure si elle existe pas
+            Structure struct2 = createOrGetStructure(ville, modalite2);
+
+            // COUTS
+            double prix = Math.round(Double.parseDouble(split[5])*100)/100;
+            double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
+            double temps = Math.round(Double.parseDouble(split[3])*100)/100;
+
+            // ARETES ALLEE - RETOUR
+            Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); // TODO ajouter une modalité
+            add2Arete(correspondace);
+        }
 
         for (String entree : data_villes) {
             String[] split = entree.split(";");
@@ -44,12 +72,12 @@ public class Plateforme {
             // ARRIVEE
             arrivee = createOrGetStructure(ville_arrivee, modalite);
             // COUTS
-            double prix = Math.round(Double.parseDouble(split[3])*100)/100;
+            double prix = Math.round(Double.parseDouble(split[5])*100)/100;
             double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
-            double temps = Math.round(Double.parseDouble(split[5])*100)/100;
+            double temps = Math.round(Double.parseDouble(split[3])*100)/100;
 
             // ARETES ALLEE - RETOUR
-            Arete allee = new Arete(depart, arrivee, modalite,prix, co2, temps);
+            Arete allee = new Arete(depart, arrivee, modalite,temps, co2, prix);
             add2Arete(allee);
         }
     }

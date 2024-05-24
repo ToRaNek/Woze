@@ -30,7 +30,7 @@ public class Arete implements Trancon {
      * @param co2 Le coût en émissions de CO2.
      * @param temps Le coût en temps.
      */
-    public Arete(final Structure depart, final Structure arrivee, final ModaliteTransport modalite, final double prix, final double co2, final double temps) {
+    public Arete(final Structure depart, final Structure arrivee, final ModaliteTransport modalite, final double temps, final double co2, final double prix) {
         this.depart = depart;
         this.arrivee = arrivee;
         this.modalite = modalite;
