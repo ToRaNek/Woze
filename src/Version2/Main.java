@@ -3,8 +3,6 @@ package Version2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import Version1.VerificationData;
 import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 
@@ -228,8 +226,6 @@ public class Main {
         
         
     }
-    public static String[] data = DataExtractor.data_villes;
-
 
     // Méthode pour vérifier si le moyen de transport est valide, note :j'aurais pu faire avec TypeCout.valueOf() mais ça fonctionne
     private static boolean estMoyenTransportValide(String moyenTransport) {
@@ -312,10 +308,10 @@ public class Main {
     }
 
     // méthode qui verifie les données 
-    public static boolean verif(String [] data) {
+    public static boolean verif(String [] datav, String [] datac) {
         VerificationData verificationData = new VerificationData();
         // Vérifier la validité des données
-        boolean isValid = verificationData.dataIsValid(data);
+        boolean isValid = verificationData.dataIsValid(datav ) &&  verificationData.correspondanceIsValid(datac);
         System.out.println("Toutes les données sont valides : " + isValid + '\n');
         return isValid;
     }
@@ -324,7 +320,7 @@ public class Main {
     
 
     public static void main(String[] args) {
-        if (verif(data)) {
+        if (verif(data_villes, data_correspondances)) {
             // Création de la plateforme
             createPlateforme();
             createUser();
