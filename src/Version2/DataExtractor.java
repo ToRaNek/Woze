@@ -2,9 +2,8 @@ package Version2;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import Version1.VerificationData;
 
 public class DataExtractor {
 
@@ -46,23 +45,13 @@ public class DataExtractor {
         for (int i = 0; i < data.length; i++) {
             data[i] = dataList.get(i);
         }
-        return dataList.toArray(new String[0]);
+        return data;
     }
 
-    // méthode qui verifie les données 
-    public static boolean verif(String[] data) {
-        VerificationData verificationData = new VerificationData();
-        // Vérifier la validité des données
-        boolean isValid = verificationData.dataIsValid(data, ville);
-        System.out.println("Toutes les données sont valides : " + isValid + '\n');
-        return isValid;
-    }
+    private static final String path_villes = "res/Version2/data/villes.csv";
+    private static final String path_cor = "res/Version2/data/correspondances.csv";
 
-    private static final String path_villes = "E3/res/data/data_villes.csv";
-    private static final String path_cor = "E3/res/data/data_correspondances.csv";
-
-    public static String[] data_villes = listeData(cheminFichier);
-    public static String[] data_correspondances = listeData(cheminFichier);
-
+    public static String[] data_villes = listeData(path_villes);
+    public static String[] data_correspondances = listeData(path_cor);
 
 }
