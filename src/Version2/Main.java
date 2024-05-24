@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Version1.VerificationData;
 import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 
@@ -182,10 +183,11 @@ public class Main {
 
             if (!estMoyenTransportValide(moyenTransport)) {
                 System.out.println("Ce moyen de transport n'est pas valide. Veuillez entrer un moyen de transport valide (Train, Avion, Bus).");
-            } else if (!lienExiste(p, villeDepart, villeArrivee, moyenTransport)) {
-                System.out.println("Il n'existe pas de lien entre les deux villes par ce moyen de transport.");
-            }
-        } while (!estMoyenTransportValide(moyenTransport) || !lienExiste(p, villeDepart, villeArrivee, moyenTransport));
+            } 
+            // else if (!lienExiste(p, villeDepart, villeArrivee, moyenTransport)) {
+            //     System.out.println("Il n'existe pas de lien entre les deux villes par ce moyen de transport.");
+            // }
+        } while (!estMoyenTransportValide(moyenTransport) /*|| !lienExiste(p, villeDepart, villeArrivee, moyenTransport) */);
 
         ModaliteTransport modalite = ModaliteTransport.valueOf(moyenTransport.toUpperCase());
         Structure depart = p.getStructure(Structure.nom(villeDepart, modalite));
@@ -226,6 +228,8 @@ public class Main {
         
         
     }
+    public static String[] data = DataExtractor.data_villes;
+
 
     // Méthode pour vérifier si le moyen de transport est valide, note :j'aurais pu faire avec TypeCout.valueOf() mais ça fonctionne
     private static boolean estMoyenTransportValide(String moyenTransport) {
@@ -306,10 +310,21 @@ public class Main {
             System.out.println(user);
         }
     }
+
+    // méthode qui verifie les données 
+    public static boolean verif(String [] data) {
+        VerificationData verificationData = new VerificationData();
+        // Vérifier la validité des données
+        boolean isValid = verificationData.dataIsValid(data);
+        System.out.println("Toutes les données sont valides : " + isValid + '\n');
+        return isValid;
+    }
+
+
     
 
     public static void main(String[] args) {
-        if (verif()) {
+        if (verif(data)) {
             // Création de la plateforme
             createPlateforme();
             createUser();
