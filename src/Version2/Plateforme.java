@@ -21,7 +21,6 @@ public class Plateforme {
      * Constructeur de la classe Plateforme.
      * @param data Les données pour initialiser la plateforme.
      */
-    // TODO ajouter les correspondances
     public Plateforme(final String[] data_villes, final String[] data_correspondances) {
         structures = new ArrayList<>();
         aretes = new ArrayList<>();
@@ -53,7 +52,7 @@ public class Plateforme {
             double temps = Math.round(Double.parseDouble(split[3])*100)/100;
 
             // ARETES ALLEE - RETOUR
-            Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); // TODO ajouter une modalité
+            Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
             add2Arete(correspondace);
         }
 
@@ -418,6 +417,19 @@ public class Plateforme {
         return AlgorithmeKPCC.kpcc(buildGraph(crit), depart, arrivee, k);
     }
 
+    public List<Trancon> reductionAffichage(Chemin chemin) {
+        List<Trancon> arretesApresReduction = new ArrayList<Trancon>();
+        ModaliteTransport derniereModalite = chemin.aretes().get(0).getModalite();
+        arretesApresReduction.add(chemin.aretes().get(0));
+        chemin.aretes().remove(0);
+        for (Trancon trancon : chemin.aretes()) {
+            if (trancon.getModalite() != derniereModalite) {
+                arretesApresReduction.add(trancon);
+            }
+        }
+        return arretesApresReduction;
+    }
+
     /**
      * Vérifie si deux structures sont reliées dans le graphe actuel en utilisant le critère actuel.
      * 
@@ -434,7 +446,7 @@ public class Plateforme {
             List<Chemin> chemins = chercherPlusCourtsChemins(currentGraphe, depart, arrivee, 1);
             return !chemins.isEmpty();
         } catch (IllegalArgumentException e) {
-            System.out.println("Il n'existe pas de lien entre " + depart.getNom() + " et " + arrivee.getNom() + " par " + currentCrit);
+            System.out.println("Il n'existe pas de lien entre " + depart.getNom() + " et " + arrivee.getNom() + " pour " + currentCrit);
             return false;
         }
     }
@@ -494,6 +506,7 @@ public class Plateforme {
     public void setStructures(final ArrayList<Structure> structures) {
         this.structures = structures;
     }
+    
         
 
 }

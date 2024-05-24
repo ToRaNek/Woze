@@ -9,8 +9,6 @@ import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 public class Main {
 
     private static Plateforme p;
-    // TODO csv avec les infos de data_villes
-    // TODO csv data_correspondances
     private static String[] data_villes = DataExtractor.data_villes;
     private static String[] data_correspondances = DataExtractor.data_correspondances;
     

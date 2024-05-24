@@ -123,7 +123,8 @@ public class Arete implements Trancon {
     }
 
     /**
-     * Renvoie une représentation textuelle de l'arête sous forme de chaîne de caractères.
+     * Renvoie une représentation textuelle
+     * de l'arête sous forme de chaîne de caractères.
      * @return Une représentation textuelle de l'arête.
      */
     @Override
