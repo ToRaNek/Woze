@@ -1,4 +1,3 @@
-```markdown
 # IUT de Lille - Département informatique - N2
 ## Université de Lille
 ### Année académique 2023-2024
@@ -91,9 +90,7 @@ Nous avons utilisé un algorithme de plus courts chemins pour trouver les itiné
 
 ### Vérification de la Validité des Données
 
-Nous avons devolloppé une multitude de classe de teste pour tester l'integroité de notre code et les méthodes de chaque classe : tout est diponible dans le repertoire: [test](../test\Version1)
-
-
+Nous avons devolloppé une multitude de classe de teste pour tester l'integroité de notre code et les méthodes de chaque classe : tout est diponible dans le répertoire: [test](../test\Version1)
 
 Nous avons développé une méthode pour vérifier que les données fournies sont complètes et conformes au format attendu. Cette étape est cruciale pour garantir que le réseau de transport soit correctement construit ([VérificationData](../src\Version1\VerificationData.java)).
 
@@ -113,6 +110,7 @@ public static void chercherChemin();
 ```
 
 qui fait bien sûr appel à une méthode de la classe Plateforme mais définit la modalité de transport et la borne à l'intérieur de celle-ci. Ce que je veux dire par là, c'est que le code pourrait être mieux organisé (il le sera dans les versions futures).
+
 ---
 
 ## Conclusion
@@ -127,4 +125,4 @@ La version 1 de notre application répond aux exigences de base du projet en per
 - Cours de programmation orientée objet
 - Cours de théorie des graphes
 - Nos connaissances communes 
-```
+
