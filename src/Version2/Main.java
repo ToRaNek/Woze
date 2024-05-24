@@ -309,7 +309,7 @@ public class Main {
 
     // méthode qui verifie les données 
     public static boolean verif(String [] datav, String [] datac) {
-        VerificationData verificationData = new VerificationData();
+        Verification verificationData = new Verification();
         // Vérifier la validité des données
         boolean isValid = verificationData.dataIsValid(datav ) &&  verificationData.correspondanceIsValid(datac);
         System.out.println("Toutes les données sont valides : " + isValid + '\n');
