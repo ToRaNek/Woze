@@ -1,4 +1,4 @@
-package Version2;
+package version2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,15 @@ import fr.ulille.but.sae_s2_2024.*;
  */
 public class Plateforme {
 
+    // ATTRIBUTS :
+
     private ArrayList<Arete> aretes;
-    private MultiGrapheOrienteValue currentGraphe;
-    private TypeCout currentCrit;
     private ArrayList<String> villes;
     private ArrayList<Structure> structures;
+    private TypeCout currentCrit;
+    private MultiGrapheOrienteValue currentGraphe;
+
+    // CONSTRUCTEURS :
 
     /**
      * Constructeur de la classe Plateforme.
@@ -78,9 +82,89 @@ public class Plateforme {
             // ARETES ALLEE - RETOUR
             Arete allee = new Arete(depart, arrivee, modalite,temps, co2, prix);
             add2Arete(allee);
-        }
+        }  
     }
 
+    // GETTERS :
+
+    /**
+     * Obtient la liste des arêtes de la plateforme.
+     * @return La liste des arêtes.
+     */
+    public ArrayList<Arete> getAretes() {
+        return aretes;
+    }
+
+    /**
+     * Obtient le critère actuellement utilisé par la plateforme.
+     * 
+     * @return Le critère actuel utilisé par la plateforme.
+     */
+    public TypeCout getCurrentCrit() {
+        return currentCrit;
+    }
+    
+    /**
+     * Obtient la liste des villes de la plateforme.
+     * 
+     * @return La liste des villes.
+     */
+    public ArrayList<String> getVilles() {
+        return villes;
+    }
+
+    public ArrayList<Structure> getStructures() {
+        return structures;
+    }
+
+    /**
+     * Obtient le graphe actuellement utilisé par la plateforme.
+     * 
+     * @return Le graphe actuel utilisé par la plateforme.
+     */
+    public MultiGrapheOrienteValue getCurrentGraphe() {
+        return currentGraphe;
+    }
+
+
+    //SETTERS :
+
+    /**
+     * Définit le critère actuellement utilisé par la plateforme.
+     * 
+     * @param currentCrit Le critère à utiliser pour la plateforme.
+     */
+    public void setCurrentCrit(final TypeCout currentCrit) {
+        this.currentCrit = currentCrit;
+    }
+
+    /**
+     * Définit la liste des villes de la plateforme.
+     * 
+     * @param villes La liste des villes à définir.
+     */
+    public void setVilles(final ArrayList<String> villes) {
+        this.villes = villes;
+    }
+
+    public void setAretes(final ArrayList<Arete> aretes) {
+        this.aretes = aretes;
+    }
+
+    public void setStructures(final ArrayList<Structure> structures) {
+        this.structures = structures;
+    }
+
+    /**
+     * Définit le graphe à utiliser pour la plateforme.
+     * 
+     * @param currentGraphe Le graphe à utiliser pour la plateforme.
+     */
+    public void setCurrentGraphe(final MultiGrapheOrienteValue currentGraphe) {
+        this.currentGraphe = currentGraphe;
+    }
+
+    // METHODES  :
     /**
      * Ajoute une arête à la liste des arêtes de la plateforme.
      * @param arete L'arête à ajouter.
@@ -104,7 +188,6 @@ public class Plateforme {
         // Ajout de l'arête retour
         add1Arete(retour);
     }
-
 
     /**
      * Ajoute une ville à la liste des villes de la plateforme.
@@ -180,7 +263,6 @@ public class Plateforme {
         return struct;
     }
 
-
     /**
      * Obtient la structure avec le nom spécifié.
      * @param nom Le nom de la structure à obtenir.
@@ -196,14 +278,6 @@ public class Plateforme {
     }
 
     /**
-     * Obtient la liste des arêtes de la plateforme.
-     * @return La liste des arêtes.
-     */
-    public ArrayList<Arete> getAretes() {
-        return aretes;
-    }
-
-    /**
      * Retourne l'index de l'arête spécifiée dans la liste des arêtes de la plateforme.
      * 
      * @param arete L'arête dont on souhaite obtenir l'index.
@@ -214,18 +288,13 @@ public class Plateforme {
     }
 
     /**
-     * Retourne l'index de l'arête spécifiée par les noms de ses structures de départ et d'arrivée ainsi que la modalité de transport dans la liste des arêtes de la plateforme.
+     * Retourne l'index de la structure spécifiée dans la liste des structures de la plateforme.
      * 
-     * @param depart Le nom de la structure de départ de l'arête.
-     * @param arrivee Le nom de la structure d'arrivée de l'arête.
-     * @param modalite Le nom de la modalité de transport de l'arête.
-     * @return L'index de l'arête dans la liste, ou -1 si elle n'est pas présente.
+     * @param structure La structure dont on souhaite obtenir l'index.
+     * @return L'index de la structure dans la liste, ou -1 si elle n'est pas présente.
      */
-    public int indexOf(final String depart,final String arrivee,final String modalite) {
-        ModaliteTransport m = ModaliteTransport.valueOf(modalite.toUpperCase());
-        Structure d = getStructure(Structure.nom(depart,m));
-        Structure a = getStructure(Structure.nom(arrivee,m));
-        return indexOf(d, a, m);
+    public int indexOf(final Structure structure) {
+        return structures.indexOf(structure);
     }
 
     /**
@@ -247,13 +316,18 @@ public class Plateforme {
     }
 
     /**
-     * Retourne l'index de la structure spécifiée dans la liste des structures de la plateforme.
+     * Retourne l'index de l'arête spécifiée par les noms de ses structures de départ et d'arrivée ainsi que la modalité de transport dans la liste des arêtes de la plateforme.
      * 
-     * @param structure La structure dont on souhaite obtenir l'index.
-     * @return L'index de la structure dans la liste, ou -1 si elle n'est pas présente.
+     * @param depart Le nom de la structure de départ de l'arête.
+     * @param arrivee Le nom de la structure d'arrivée de l'arête.
+     * @param modalite Le nom de la modalité de transport de l'arête.
+     * @return L'index de l'arête dans la liste, ou -1 si elle n'est pas présente.
      */
-    public int indexOf(final Structure structure) {
-        return structures.indexOf(structure);
+    public int indexOf(final String depart,final String arrivee,final String modalite) {
+        ModaliteTransport m = ModaliteTransport.valueOf(modalite.toUpperCase());
+        Structure d = getStructure(Structure.nom(depart,m));
+        Structure a = getStructure(Structure.nom(arrivee,m));
+        return indexOf(d, a, m);
     }
 
     /**
@@ -308,43 +382,6 @@ public class Plateforme {
     }
 
     /**
-     * Obtient le graphe actuellement utilisé par la plateforme.
-     * 
-     * @return Le graphe actuel utilisé par la plateforme.
-     */
-    public MultiGrapheOrienteValue getCurrentGraphe() {
-        return currentGraphe;
-    }
-
-    /**
-     * Définit le graphe à utiliser pour la plateforme.
-     * 
-     * @param currentGraphe Le graphe à utiliser pour la plateforme.
-     */
-    public void setCurrentGraphe(final MultiGrapheOrienteValue currentGraphe) {
-        this.currentGraphe = currentGraphe;
-    }
-
-    /**
-     * Obtient le critère actuellement utilisé par la plateforme.
-     * 
-     * @return Le critère actuel utilisé par la plateforme.
-     */
-    public TypeCout getCurrentCrit() {
-        return currentCrit;
-    }
-
-
-    /**
-     * Définit le critère actuellement utilisé par la plateforme.
-     * 
-     * @param currentCrit Le critère à utiliser pour la plateforme.
-     */
-    public void setCurrentCrit(final TypeCout currentCrit) {
-        this.currentCrit = currentCrit;
-    }
-
-    /**
      * Construit un graphe à partir des structures et arêtes de la plateforme en utilisant le critère spécifié.
      * 
      * @param critere Le critère à utiliser pour construire le graphe.
@@ -358,7 +395,6 @@ public class Plateforme {
         for (Arete arete : aretes) {
             g.ajouterArete(arete, arete.getCout(critere));
         }
-        setCurrentGraphe(g);
         return g;
     }
 
@@ -378,18 +414,10 @@ public class Plateforme {
         return null;
     }
 
-    /**
-     * Recherche les k plus courts chemins entre deux structures spécifiées dans le graphe donné.
-     * 
-     * @param graphe Le graphe dans lequel effectuer la recherche.
-     * @param depart La structure de départ.
-     * @param arrivee La structure d'arrivée.
-     * @param k Le nombre de chemins à trouver.
-     * @return Une liste contenant les k plus courts chemins.
-     */
-    public static List<Chemin> chercherPlusCourtsChemins(final MultiGrapheOrienteValue graphe,final Structure depart,final Structure arrivee,final int k) {
-        return AlgorithmeKPCC.kpcc(graphe, depart, arrivee, k);
-    }
+
+    // TODO
+
+    
 
     /**
      * Recherche les k plus courts chemins entre deux structures spécifiées en utilisant le critère spécifié.
@@ -400,34 +428,8 @@ public class Plateforme {
      * @param k Le nombre de chemins à trouver.
      * @return Une liste contenant les k plus courts chemins.
      */
-    public List<Chemin> chercherPlusCourtsChemins(final Structure depart,final Structure arrivee,final TypeCout crit,final int k) {
-        return AlgorithmeKPCC.kpcc(buildGraph(crit), depart, arrivee, k);
-    }
-
-    /**
-     * Recherche les k plus courts chemins entre deux structures spécifiées en utilisant le critère spécifié sous forme de chaîne de caractères.
-     * 
-     * @param depart La structure de départ.
-     * @param arrivee La structure d'arrivée.
-     * @param crit Le critère à utiliser pour la recherche (sous forme de chaîne de caractères).
-     * @param k Le nombre de chemins à trouver.
-     * @return Une liste contenant les k plus courts chemins.
-     */
-    public List<Chemin> chercherPlusCourtsChemins(final Structure depart, final Structure arrivee, final String crit,final int k) {
-        return AlgorithmeKPCC.kpcc(buildGraph(crit), depart, arrivee, k);
-    }
-
-    public List<Trancon> reductionAffichage(Chemin chemin) {
-        List<Trancon> arretesApresReduction = new ArrayList<Trancon>();
-        ModaliteTransport derniereModalite = chemin.aretes().get(0).getModalite();
-        arretesApresReduction.add(chemin.aretes().get(0));
-        chemin.aretes().remove(0);
-        for (Trancon trancon : chemin.aretes()) {
-            if (trancon.getModalite() != derniereModalite) {
-                arretesApresReduction.add(trancon);
-            }
-        }
-        return arretesApresReduction;
+    public List<Chemin> simplePCC(final Structure depart,final Structure arrivee,final TypeCout crit,final int k) {
+        return reductionAffichage(AlgorithmeKPCC.kpcc(buildGraph(crit), depart, arrivee, k));
     }
 
     /**
@@ -443,33 +445,47 @@ public class Plateforme {
         }
 
         try {
-            List<Chemin> chemins = chercherPlusCourtsChemins(currentGraphe, depart, arrivee, 1);
+            List<Chemin> chemins = simplePCC(currentGraphe, depart, arrivee, 1);
             return !chemins.isEmpty();
         } catch (IllegalArgumentException e) {
             System.out.println("Il n'existe pas de lien entre " + depart.getNom() + " et " + arrivee.getNom() + " pour " + currentCrit);
             return false;
         }
     }
-
-    /**
-     * Obtient la liste des villes de la plateforme.
-     * 
-     * @return La liste des villes.
-     */
-    public ArrayList<String> getVilles() {
-        return villes;
-    }
-
-    /**
-     * Définit la liste des villes de la plateforme.
-     * 
-     * @param villes La liste des villes à définir.
-     */
-    public void setVilles(final ArrayList<String> villes) {
-        this.villes = villes;
-    }
-
     
+
+    // METHODES STATIQUE :
+
+    /**
+     * Recherche les k plus courts chemins entre deux structures spécifiées dans le graphe donné.
+     * 
+     * @param graphe Le graphe dans lequel effectuer la recherche.
+     * @param depart La structure de départ.
+     * @param arrivee La structure d'arrivée.
+     * @param k Le nombre de chemins à trouver.
+     * @return Une liste contenant les k plus courts chemins.
+     */
+    public static List<Chemin> simplePCC(final MultiGrapheOrienteValue graphe,final Structure depart,final Structure arrivee,final int k) {
+        return reductionAffichage(AlgorithmeKPCC.kpcc(graphe, depart, arrivee, k));
+    }
+
+    public static List<Trancon> reductionAffichage(Chemin chemin) {
+        List<Trancon> arretesApresReduction = new ArrayList<Trancon>();
+        ModaliteTransport derniereModalite = chemin.aretes().get(0).getModalite();
+        arretesApresReduction.add(chemin.aretes().get(0));
+        chemin.aretes().remove(0);
+        for (Trancon trancon : chemin.aretes()) {
+            if (trancon.getModalite() != derniereModalite) {
+                arretesApresReduction.add(trancon);
+            }
+        }
+        return arretesApresReduction;
+    }
+
+
+
+    // TOSTRING :
+
     /**
      * Renvoie une représentation textuelle de la plateforme sous forme de chaîne de caractères.
      * @return Une représentation textuelle de la plateforme.
@@ -494,20 +510,5 @@ public class Plateforme {
     
         return sb.toString();
     }
-
-    public void setAretes(final ArrayList<Arete> aretes) {
-        this.aretes = aretes;
-    }
-
-    public ArrayList<Structure> getStructures() {
-        return structures;
-    }
-
-    public void setStructures(final ArrayList<Structure> structures) {
-        this.structures = structures;
-    }
-    
-        
-
 }
     

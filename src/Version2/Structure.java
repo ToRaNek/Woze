@@ -1,4 +1,4 @@
-package Version2;
+package version2;
 
 import fr.ulille.but.sae_s2_2024.*;
 

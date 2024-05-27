@@ -1,4 +1,4 @@
-package Version2;
+package version2;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -48,8 +48,8 @@ public class DataExtractor {
         return data;
     }
 
-    private static final String path_villes = "res/Version2/data/villes.csv";
-    private static final String path_cor = "res/Version2/data/correspondances.csv";
+    private static final String path_villes = "res/version2/data/villes.csv";
+    private static final String path_cor = "res/version2/data/correspondances.csv";
 
     public static String[] data_villes = listeData(path_villes);
     public static String[] data_correspondances = listeData(path_cor);

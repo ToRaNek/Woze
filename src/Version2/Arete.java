@@ -1,4 +1,4 @@
-package Version2;
+package version2;
 
 import java.util.EnumMap;
 import java.util.Map;

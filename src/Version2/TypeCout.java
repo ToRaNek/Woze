@@ -1,4 +1,4 @@
-package Version2;
+package version2;
 
 /**
  * Cette énumération définit les différents types de coûts possibles.
