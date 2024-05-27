@@ -1,5 +1,7 @@
 package version2;
 
+import java.util.Scanner;
+
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 
 /**
@@ -117,4 +119,39 @@ public class Verification {
                 doubleIsValid(lineSeparator[4]) &&
                 doubleIsValid(lineSeparator[5]);
     }
+
+    // Méthode pour vérifier si le moyen de transport est valide, note :j'aurais pu faire avec TypeCout.valueOf() mais ça fonctionne
+    public static boolean estMoyenTransportValide(String moyenTransport) {
+       return moyenTransport.equals("TRAIN") || moyenTransport.equals("AVION") || moyenTransport.equals("BUS");
+    }
+    
+    // Vérifie si le critère est valide
+    public static boolean estCritereValide(String critere) {
+        return critere.equals("TEMPS") || critere.equals("CO2") || critere.equals("PRIX");
+    }
+    // TODO : dans les futur version à supprimer
+    // fonction qui permet de ne pas avoir d'exception à cause du scanner pour les double( désolé si on avait pas le droit j'en pouvais plus ) 
+    public static double getValidDoubleInput(Scanner scanner) {
+            while (true) {
+                try {
+                    double input = Double.parseDouble(scanner.nextLine());
+                    return input;
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
+                }
+            }
+
+        }
+
+        // fonction qui permet de ne pas avoir d'exception à cause du scanner pour les int ( désolé si on avait pas le droit j'en pouvais plus ) 
+        public static int getValidIntInput(Scanner scanner) {
+            while (true) {
+                try {
+                    int input = Integer.parseInt(scanner.nextLine());
+                    return input;
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
+                }
+            }
+        }
 }

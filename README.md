@@ -124,20 +124,20 @@ Dans cette version, en plus des fonctionnalités fournies par les versions préc
 
 ⇒ commits étiquetés POO-v2 GRAPHE-v2 IHM-V1 à faire avant le 8/06
 #### java 
-- poo [gas] exclure des alternatives qui excèdent les bornes définies par l’utilisateur. Par exemple, le critère le plus important est l’impact environnemental (qu’il convient alors de minimiser), à condition que la durée du voyage n’excède pas 180 minutes. Tout voyage possible dépassant cette limite doit alors être écarté.
-- poo [gas] gestion de l’existence d’un voyage possible via un mécanisme d’exception
-- poo [x] import des données issues de fichiers CSV
-- poo [gab] affichage d’un voyage par ses points d’intérêt uniquement (lors des changements de modalités
+- gas poo [-] exclure des alternatives qui excèdent les bornes définies par l’utilisateur. Par exemple, le critère le plus important est l’impact environnemental (qu’il convient alors de minimiser), à condition que la durée du voyage n’excède pas 180 minutes. Tout voyage possible dépassant cette limite doit alors être écarté.
+- gas poo [x] gestion de l’existence d’un voyage possible via un mécanisme d’exception (méthode isLinked)
+- gas poo [x] import des données issues de fichiers CSV 
+- gab poo [-] affichage d’un voyage par ses points d’intérêt uniquement (lors des changements de modalités
 de transport)
 
 ### Graphe
 - graphes [x] prise en compte des coûts de correspondance (Version 2)
-- graphes [gas] implémentation d’un scénario illustrant le bon fonctionnement du système
+- gas graphes [-] implémentation d’un scénario illustrant le bon fonctionnement du système
 
 ### Autres
-- poo [gor] réalisation d’un diagramme UML
-- ihm [gor] maquettage et prototype basse fidélité
-- poo [gab] PMD
+- gor poo [] réalisation d’un diagramme UML
+- gor ihm [] maquettage et prototype basse fidélité
+- gab poo [] PMD
 
 ## Version 3
 ---

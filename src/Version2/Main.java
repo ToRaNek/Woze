@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import fr.ulille.but.sae_s2_2024.Chemin;
-import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 
 public class Main {
 
     private static Plateforme p;
-    private static String[] data_villes = DataExtractor.data_villes;
-    private static String[] data_correspondances = DataExtractor.data_correspondances;
     
-    // TODO csv avec les infos users
+    // TODO csv avec les infos users (version 3)
     private static Voyageur user;
     private static Scanner scanner = new Scanner(System.in);
 
@@ -25,11 +22,10 @@ public class Main {
 
     
 
-
     // méthode qui crée la plateforme
     public static void createPlateforme() {
         // Création de la plateforme p
-        p = new Plateforme(data_villes, data_correspondances);
+        p = new Plateforme();
         // System.out.println(p); 
     }
 
@@ -37,7 +33,6 @@ public class Main {
         System.out.println("Bonjour et bienvenue sur Woze, votre Plateforme de Comparaison d’itinéraires de transport.\n");
 
         // prenom
-        clear();
         System.out.println("Quel est votre Prénom ?");
         String prenom = scanner.nextLine();
 
@@ -66,7 +61,7 @@ public class Main {
         System.out.println("Quel critère de recherche d'itinéraire vous semble le plus adapté ? (Temps/Co2/Prix)");
         String critere = scanner.nextLine().toUpperCase();
         System.out.println(critere);
-        while(!critere.equals("TEMPS") && !critere.equals("CO2") && !critere.equals("PRIX")){
+        while(!Verification.estCritereValide(critere)){
             System.out.println("Critère invalide. (Temps/Co2/Prix)");
             critere = scanner.nextLine().toUpperCase();
         };
@@ -75,13 +70,11 @@ public class Main {
         // user
         clear();
         user = new Voyageur(prenom, nom, villeDepart, crit);
-
-        // graphe
-        p.buildGraph(crit);
+        p.addUser(user); // graph creer par la meme occasion
+        p.setCurrentUser(user);
 
     }
 
-    // affiche un menu vite fait pour accéder aux fonctionnalités du futur logiciel
     public static void menu() {
         int choix;
         do {
@@ -89,11 +82,12 @@ public class Main {
             System.out.println("1. Voir le graph");
             System.out.println("2. Chercher un chemin");
             System.out.println("3. Mes informations");
-            System.out.println("4. Quitter");
+            System.out.println("4. Changer d'utilisateur");
+            System.out.println("5. Quitter");
             System.out.print("Votre choix: ");
-            choix = getValidIntInput();
+            choix = Verification.getValidIntInput(scanner);
             clear();
-
+    
             switch (choix) {
                 case 1:
                     // affichage du graphe 
@@ -108,6 +102,10 @@ public class Main {
                     afficherInfosUtilisateur();
                     break;
                 case 4:
+                    // Changer d'utilisateur
+                    changerUtilisateur();
+                    break;
+                case 5:
                     // quitter 
                     System.out.println("Au revoir !");
                     break;
@@ -115,30 +113,19 @@ public class Main {
                     // choix invalide 
                     System.out.println("Choix invalide, veuillez réessayer.");
             }
-        } while (choix != 4);
+        } while (choix != 5);
     }
 
-    // fonction qui permet de ne pas avoir d'exception à cause du scanner pour les int ( désolé si on avait pas le droit j'en pouvais plus ) 
-    private static int getValidIntInput() {
-        while (true) {
-            try {
-                int input = Integer.parseInt(scanner.nextLine());
-                return input;
-            } catch (NumberFormatException e) {
-                System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
-            }
-        }
-    }
-
-    // fonction qui permet de ne pas avoir d'exception à cause du scanner pour les double( désolé si on avait pas le droit j'en pouvais plus ) 
-    private static double getValidDoubleInput() {
-        while (true) {
-            try {
-                double input = Double.parseDouble(scanner.nextLine());
-                return input;
-            } catch (NumberFormatException e) {
-                System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
-            }
+    public static void changerUtilisateur() {
+        System.out.println("Êtes-vous sûr de vouloir changer d'utilisateur ? (Oui/Non)");
+        String confirmation = scanner.nextLine().toUpperCase();
+        if (confirmation.equals("OUI") || confirmation.equals("O")) {
+            chooseUser(); // Si l'utilisateur confirme, appelle la méthode chooseUser() pour changer d'utilisateur
+        } else if (confirmation.equals("NON") || confirmation.equals("N")) {
+            // Si l'utilisateur ne confirme pas, retourne simplement au menu
+            System.out.println("Changement d'utilisateur annulé.");
+        } else {
+            System.out.println("Choix invalide. Retour au menu principal.");
         }
     }
 
@@ -147,96 +134,77 @@ public class Main {
         System.out.println(p.getCurrentGraphe());
     }
 
-    // algo kpcc adapter à une utilisation par un utilisateur
     public static void chercherChemin() {
-        // départ
-        System.out.println("De quelle ville partez-vous ?");
-        System.out.println(p.getVilles());
-        String villeDepart = scanner.nextLine();
-        while (!p.containsVille(villeDepart)) {
-            System.out.println("Cette ville n'existe pas. Veuillez entrer une ville valide.");
-            System.out.println(p.getVilles());
-            villeDepart = scanner.nextLine();
+        // Départ
+        System.out.println("De quelle ville souhaitez-vous partir ?");
+        for (int i = 0; i < p.getVilles().size(); i++) {
+            System.out.println((i + 1) + ". " + p.getVilles().get(i));
         }
-        
-        // arrivee 
+        int choixVilleDepart = Verification.getValidIntInput(scanner) - 1;
+        String villeDepart = p.getVilles().get(choixVilleDepart);
+    
+        System.out.println(p.getAllStructuresOf(villeDepart));
+        System.out.println("De quelle structure souhaitez-vous partir ?");
+        for (int i = 0; i < p.getStructures().size(); i++) {
+            System.out.println((i + 1) + ". " + p.getStructures().get(i));
+        }
+        int choixStructureDepart = Verification.getValidIntInput(scanner) - 1;
+        String structureDepart = p.getStructures().get(choixStructureDepart).getNom();
+    
+        // Arrivée
         clear();
         System.out.println("Quelle est votre destination ?");
-        System.out.println(p.getVilles());
-        String villeArrivee = scanner.nextLine();
-        while (!p.containsVille(villeArrivee)) {
-            System.out.println("Cette ville n'existe pas. Veuillez entrer une ville valide.");
-            System.out.println(p.getVilles());
-            villeArrivee = scanner.nextLine();
+        for (int i = 0; i < p.getVilles().size(); i++) {
+            System.out.println((i + 1) + ". " + p.getVilles().get(i));
         }
-        
-        // modalité
-        clear();
-        String moyenTransport;
-        do {
-            System.out.println("Quel moyen de transport souhaitez-vous utiliser ? (Train, Avion, Bus)");
-            moyenTransport = scanner.nextLine().toUpperCase();
-
-            if (!estMoyenTransportValide(moyenTransport)) {
-                System.out.println("Ce moyen de transport n'est pas valide. Veuillez entrer un moyen de transport valide (Train, Avion, Bus).");
-            } 
-            // else if (!lienExiste(p, villeDepart, villeArrivee, moyenTransport)) {
-            //     System.out.println("Il n'existe pas de lien entre les deux villes par ce moyen de transport.");
-            // }
-        } while (!estMoyenTransportValide(moyenTransport) /*|| !lienExiste(p, villeDepart, villeArrivee, moyenTransport) */);
-
-        ModaliteTransport modalite = ModaliteTransport.valueOf(moyenTransport.toUpperCase());
-        Structure depart = p.getStructure(Structure.nom(villeDepart, modalite));
-        Structure arrivee = p.getStructure(Structure.nom(villeArrivee, modalite));
-
+        int choixVilleArrivee = Verification.getValidIntInput(scanner) - 1;
+        String villeArrivee = p.getVilles().get(choixVilleArrivee);
+    
+        System.out.println(p.getAllStructuresOf(villeArrivee));
+        System.out.println("À quelle structure souhaitez-vous arriver ?");
+        for (int i = 0; i < p.getStructures().size(); i++) {
+            System.out.println((i + 1) + ". " + p.getStructures().get(i));
+        }
+        int choixStructureArrivee = Verification.getValidIntInput(scanner) - 1;
+        String structureArrivee = p.getStructures().get(choixStructureArrivee).getNom();
+    
+        Structure depart = p.getStructure(structureDepart);
+        Structure arrivee = p.getStructure(structureArrivee);
     
         System.out.println("Combien de chemins souhaitez-vous trouver ?");
-        int k = getValidIntInput();
-
+        int k = Verification.getValidIntInput(scanner);
+    
         System.out.println("Quel poids ne doit pas excéder le trajet ?");
-        double poids_max = getValidDoubleInput();
-        // chemin
+        double poids_max = Verification.getValidDoubleInput(scanner);
+    
+        // Chemin
         clear();
-        List<Chemin> chemins = p.chercherPlusCourtsChemins(depart, arrivee, user.getCritere(), k);
+        List<Chemin> chemins = p.simplePCC(depart, arrivee, user.getCritere(), k);
         List<String> chemins_max = new ArrayList<>();
         for (Chemin chemin : chemins) {
             String poidsString = chemin.toString().split("Poids: ")[1].replace(',', '.').replace(')', '0');
-
+    
             double poidsChemin = Double.parseDouble(poidsString);
-        
+    
             if (poidsChemin <= poids_max) {
                 chemins_max.add(chemin.toString());
             }
         }
-        
     
         if (chemins_max.isEmpty()) {
-            System.out.println("Aucun chemin trouvé de " + villeDepart + " à " + villeArrivee + " selon le critère " + user.getCritere() + " et le moyen de transport " + moyenTransport + ".");
+            System.out.println("Aucun chemin trouvé de " + structureDepart + " à " + structureArrivee + " selon le critère " + user.getCritere() + ".");
         } else if (chemins_max.size() == 1) {
-            System.out.println("Chemin le plus court trouvé de " + villeDepart + " à " + villeArrivee + " selon le critère " + user.getCritere() + " et le moyen de transport " + moyenTransport + ":");
+            System.out.println("Chemin le plus court trouvé de " + structureDepart + " à " + structureArrivee + " selon le critère " + user.getCritere() + ":");
         } else {
-            System.out.println("Les " + chemins_max.size() + " plus courts chemins trouvés de " + villeDepart + " à " + villeArrivee + " selon le critère " + user.getCritere() + " et le moyen de transport " + moyenTransport + " sont :");
+            System.out.println("Les " + chemins_max.size() + " plus courts chemins trouvés de " + structureDepart + " à " + structureArrivee + " selon le critère " + user.getCritere() + " sont :");
         }
-        
+    
         for (String chemin : chemins_max) {
             System.out.println(chemin); // Affiche chaque chemin trouvé 
         }
-        
-        
     }
-
-    // Méthode pour vérifier si le moyen de transport est valide, note :j'aurais pu faire avec TypeCout.valueOf() mais ça fonctionne
-    private static boolean estMoyenTransportValide(String moyenTransport) {
-        return moyenTransport.equals("TRAIN") || moyenTransport.equals("AVION") || moyenTransport.equals("BUS");
-    }
-
-    // Méthode pour vérifier si un lien existe entre les deux structures par le moyen de transport spécifié, ça réutilise une méthode de plateforme 
-    private static boolean lienExiste(Plateforme p, String villeDepart, String villeArrivee, String moyenTransport) {
-        ModaliteTransport modalite = ModaliteTransport.valueOf(moyenTransport);
-        Structure depart = p.getStructure(Structure.nom(villeDepart, modalite));
-        Structure arrivee = p.getStructure(Structure.nom(villeArrivee, modalite));
-        return p.isLinked(depart, arrivee);
-    }
+    
+    
 
     // tout est dans le titre, la méthode permet même de modifier les informations
     public static void afficherInfosUtilisateur() {
@@ -252,7 +220,7 @@ public class Main {
             System.out.println("5. Retour au menu principal");
             System.out.print("Choisissez une option: ");
             
-            int choix = getValidIntInput();
+            int choix = Verification.getValidIntInput(scanner);
     
             switch (choix) {
                 case 1:
@@ -273,8 +241,8 @@ public class Main {
                     // ville de référence note : supprimé au lancement donc initialement c'est établit à : "Aucune"
                     clear();
                     System.out.print("Entrez la nouvelle ville: ");
-                    String nouvelleVille = scanner.nextLine();
-                    if (!p.containsVille(nouvelleVille)) {
+                    String nouvelleVille = scanner.nextLine().toUpperCase();
+                    if (p.containsVille(nouvelleVille)) {
                         user.setVille(nouvelleVille);
                     } else {
                         System.out.println("Cette ville n'existe pas. Modification annulée.");
@@ -315,13 +283,34 @@ public class Main {
     }
 
 
+    public static void chooseUser() {
+        if (p.getUsers().isEmpty()) {
+            System.out.println("Aucun utilisateur trouvé. Création d'un nouvel utilisateur.");
+            createUser();
+        } else {
+            System.out.println("Choisissez un utilisateur existant :");
+            for (int i = 0; i < p.getUsers().size(); i++) {
+                System.out.println((i + 1) + ". " + p.getUsers().get(i).getNom() + " " + p.getUsers().get(i).getPrenom());
+            }
+    
+            int choix = Verification.getValidIntInput(scanner);
+            while (choix < 1 || choix > p.getUsers().size()) {
+                System.out.println("Choix invalide, veuillez réessayer.");
+                choix = Verification.getValidIntInput(scanner);
+            }
+    
+            user = p.getUsers().get(choix - 1);
+            System.out.println("Utilisateur sélectionné : " + user);
+            p.setCurrentUser(user);
+        }
+    }
     
 
     public static void main(String[] args) {
-        if (verif(data_villes, data_correspondances)) {
+        if (verif(DataExtractor.data_villes, DataExtractor.data_correspondances)) {
             // Création de la plateforme
             createPlateforme();
-            createUser();
+            chooseUser();
             menu();
         }
     }

@@ -2,7 +2,6 @@ package version2;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DataExtractor {
@@ -50,8 +49,10 @@ public class DataExtractor {
 
     private static final String path_villes = "res/version2/data/villes.csv";
     private static final String path_cor = "res/version2/data/correspondances.csv";
+    private static final String path_users = "res/version2/user/users.csv";
 
     public static String[] data_villes = listeData(path_villes);
     public static String[] data_correspondances = listeData(path_cor);
+    public static String[] users = listeData(path_users); // users pour la version 3
 
 }
