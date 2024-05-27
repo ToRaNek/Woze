@@ -132,7 +132,7 @@ de transport)
 
 ### Graphe
 - graphes [x] prise en compte des coûts de correspondance (Version 2)
-- gas graphes [-] implémentation d’un scénario illustrant le bon fonctionnement du système
+- gas graphes [x] implémentation d’un scénario illustrant le bon fonctionnement du système
 
 ### Autres
 - gor poo [] réalisation d’un diagramme UML
