@@ -135,6 +135,9 @@ public class Plateforme {
 
     // GETTERS :
 
+    public HashMap<TypeCout, MultiGrapheOrienteValue> getGraphes() {
+        return graphes;
+    }
     /**
      * Obtient la liste des arêtes de la plateforme.
      * @return La liste des arêtes.
@@ -194,6 +197,10 @@ public class Plateforme {
 
     //SETTERS :
 
+    public void setGraphes(HashMap<TypeCout, MultiGrapheOrienteValue> graphes) {
+        this.graphes = graphes;
+    }
+
     /**
      * Définit le critère actuellement utilisé par la plateforme.
      * 
@@ -246,11 +253,19 @@ public class Plateforme {
      * 
      * @param currentGraphe Le graphe à utiliser pour la plateforme.
      */
-    public void setCurrentGraphe(final MultiGrapheOrienteValue currentGraphe) {
+    private void setCurrentGraphe(final MultiGrapheOrienteValue currentGraphe) {
         this.currentGraphe = currentGraphe;
     }
 
+    public void setCurrentGraphe(final TypeCout crit) {
+        setCurrentGraphe(graphes.get(crit));
+    }
+
     // METHODES  :
+    public void add(MultiGrapheOrienteValue g, TypeCout crit ) {
+        graphes.put(crit, g);
+    }
+
 
     /**
      * Ajoute un utilisateur à la liste users de la plateforme.
@@ -538,7 +553,7 @@ public class Plateforme {
         System.err.println("Le critère n'est pas valide");
         return null;
     }
-    // TODO
+    // TODO les plus court chemin avec un poid, trier avec un chemin que par un certain transport
 
     
 
@@ -809,5 +824,7 @@ public class Plateforme {
     
         return sb.toString();
     }
+
+
 }
     
