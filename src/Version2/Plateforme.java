@@ -1,6 +1,7 @@
 package version2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 // import org.junit.jupiter.params.provider.CsvFileSource;
@@ -21,6 +22,7 @@ public class Plateforme {
     private ArrayList<Structure> structures;
     private TypeCout currentCrit = Voyageur.getCritereDefaut();
     private MultiGrapheOrienteValue currentGraphe;
+    private HashMap<TypeCout,MultiGrapheOrienteValue> graphes;
 
     // CONSTRUCTEURS :
 
@@ -88,7 +90,13 @@ public class Plateforme {
             Arete allee = new Arete(depart, arrivee, modalite,temps, co2, prix);
             add2Arete(allee);
         }  
-        currentGraphe = buildGraph(Voyageur.getCritereDefaut());
+
+        for (TypeCout crit : TypeCout.values()) {
+            MultiGrapheOrienteValue g = buildGraph(crit.name());
+            graphes.put(crit, g);
+        }
+        currentGraphe = graphes.get(Voyageur.getCritereDefaut());
+
         for (String data : DataExtractor.users) {
             String[] split = data.split(";");
 
@@ -203,7 +211,7 @@ public class Plateforme {
     public void setCurrentUser(Voyageur currentUser) {
         this.currentUser = currentUser;
         this.currentCrit = currentUser.getCritere();
-        buildGraph(currentCrit);
+        graphes.get(currentCrit);
     }
 
     //TODO enregister dans un csv à chaque modif
@@ -511,6 +519,7 @@ public class Plateforme {
             g.ajouterArete(arete, arete.getCout(critere));
         }
         currentGraphe = g;
+        graphes.put(critere, g);
         return g;
     }
 
@@ -543,7 +552,7 @@ public class Plateforme {
      * @return Une liste contenant les k plus courts chemins.
      */
     public List<Chemin> simplePCC(final Structure depart,final Structure arrivee,final TypeCout crit,final int k) {
-        return (AlgorithmeKPCC.kpcc(buildGraph(crit), depart, arrivee, k));
+        return (AlgorithmeKPCC.kpcc(graphes.get(crit), depart, arrivee, k));
     }
 
     /**
