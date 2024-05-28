@@ -89,20 +89,19 @@ public class Plateforme {
             add2Arete(allee);
         }  
         currentGraphe = buildGraph(Voyageur.getCritereDefaut());
-        int cpt = 1;
         for (String data : DataExtractor.users) {
             String[] split = data.split(";");
 
             // TODO demander à gordon de faire ses vérifications aussi dans la classe associé
         
-            // Vérifie si toutes les données sont présentes
+            // verif si toutes les données sont présentes
             if (split.length >= 3 && split.length <= 5) {
                 String prenom = split[0];
                 String nom = split[1];
                 String ville = split[2];
                 String critere = (split.length >= 4) ? split[3] : null;
         
-                // Vérifie si aucune des données est nulle
+                // verif si aucune des données est null
                 if (prenom != null && nom != null && ville != null && (critere == null || Verification.estCritereValide(critere))) {
                     TypeCout critUser = (critere != null) ? TypeCout.valueOf(critere.toUpperCase()) : Voyageur.getCritereDefaut();
                     
@@ -117,12 +116,11 @@ public class Plateforme {
                         users.add(new Voyageur(prenom, nom, ville, crit));
                     }
                 } else {
-                    System.out.println("Le fichier d'utilisateurs contient des données compromises ligne : " + cpt );
+                    // System.out.println("Le fichier d'utilisateurs contient des données compromises ligne : " + cpt );
                 }
             } else {
-                System.out.println("Le fichier d'utilisateurs contient des données compromises ligne : " + cpt );
+                // System.out.println("Le fichier d'utilisateurs contient des données compromises ligne : " + cpt );
             }
-            cpt++;
         }
         
     }
@@ -256,6 +254,19 @@ public class Plateforme {
     }
 
     /**
+     * supprime un utilisateur à la liste users de la plateforme.
+     * @param arete L'utilisateur à ajouter.
+     */
+    public void delUser(final Voyageur user) {
+        Voyageur.getIdTrash().add(user.getId());
+        users.remove(user);
+        currentUser=null;
+        // TODO version 3 enregistrer dans le csv 
+    }
+
+
+
+    /**
      * Ajoute une arête à la liste des arêtes de la plateforme.
      * @param arete L'arête à ajouter.
      */
@@ -269,13 +280,13 @@ public class Plateforme {
      * @param arete L'arête à ajouter.
      */
     public void add2Arete(final Arete arete) {
-        // Ajout de l'arête originale
+        // ajoute l'allee
         add1Arete(arete);
         
-        // Création de l'arête retour avec les villes inversées
+        // arête retour avec les villes inversées
         Arete retour = new Arete(arete.getArrivee(), arete.getDepart(), arete.getModalite(), arete.getCouts());
         
-        // Ajout de l'arête retour
+        // ajoute l'arête retour
         add1Arete(retour);
     }
 
@@ -630,7 +641,7 @@ public class Plateforme {
                     System.out.println(structure);
                 }
             }
-            System.out.println(); // Ajout d'une ligne vide entre chaque ville
+            System.out.println();
         }
     }
 
@@ -711,7 +722,7 @@ public class Plateforme {
                     result.append(structure).append("\n");
                 }
             }
-            result.append("\n"); // Ajout d'une ligne vide entre chaque ville
+            result.append("\n");
         }
         return result.toString();
     }

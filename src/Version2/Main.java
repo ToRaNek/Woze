@@ -136,14 +136,14 @@ public class Main {
 
     public static void chercherChemin() {
         // Départ
-        System.out.println("De quelle ville souhaitez-vous partir ?");
-        for (int i = 0; i < p.getVilles().size(); i++) {
-            System.out.println((i + 1) + ". " + p.getVilles().get(i));
-        }
-        int choixVilleDepart = Verification.getValidIntInput(scanner) - 1;
-        String villeDepart = p.getVilles().get(choixVilleDepart);
+        // System.out.println("De quelle ville souhaitez-vous partir ?");
+        // for (int i = 0; i < p.getVilles().size(); i++) {
+        //     System.out.println((i + 1) + ". " + p.getVilles().get(i));
+        // }
+        // int choixVilleDepart = Verification.getValidIntInput(scanner) - 1;
+        // String villeDepart = p.getVilles().get(choixVilleDepart);
     
-        System.out.println(p.getAllStructuresOf(villeDepart));
+        // System.out.println(p.getAllStructuresOf(villeDepart));
         System.out.println("De quelle structure souhaitez-vous partir ?");
         for (int i = 0; i < p.getStructures().size(); i++) {
             System.out.println((i + 1) + ". " + p.getStructures().get(i));
@@ -152,15 +152,15 @@ public class Main {
         String structureDepart = p.getStructures().get(choixStructureDepart).getNom();
     
         // Arrivée
-        clear();
-        System.out.println("Quelle est votre destination ?");
-        for (int i = 0; i < p.getVilles().size(); i++) {
-            System.out.println((i + 1) + ". " + p.getVilles().get(i));
-        }
-        int choixVilleArrivee = Verification.getValidIntInput(scanner) - 1;
-        String villeArrivee = p.getVilles().get(choixVilleArrivee);
+        // clear();
+        // System.out.println("Quelle est votre destination ?");
+        // for (int i = 0; i < p.getVilles().size(); i++) {
+        //     System.out.println((i + 1) + ". " + p.getVilles().get(i));
+        // }
+        // int choixVilleArrivee = Verification.getValidIntInput(scanner) - 1;
+        // String villeArrivee = p.getVilles().get(choixVilleArrivee);
     
-        System.out.println(p.getAllStructuresOf(villeArrivee));
+        // System.out.println(p.getAllStructuresOf(villeArrivee));
         System.out.println("À quelle structure souhaitez-vous arriver ?");
         for (int i = 0; i < p.getStructures().size(); i++) {
             System.out.println((i + 1) + ". " + p.getStructures().get(i));
@@ -200,13 +200,25 @@ public class Main {
         }
     
         for (String chemin : chemins_max) {
-            System.out.println(chemin); // Affiche chaque chemin trouvé 
+            System.out.println(chemin); // tous les chemins trouvé 
         }
     }
     
+    public static void supprimerDonneesUtilisateur() {
+        System.out.println("Êtes-vous sûr de vouloir supprimer vos données ? (Tapez 'CONFIRMATION' pour confirmer)");
+        String confirmation = scanner.nextLine().toUpperCase();
+    
+        if (confirmation.equals("CONFIRMATION")) {
+            p.delUser(user); // supp l'utilisateur de la plateforme
+            user = null;
+            System.out.println("Vos données ont été supprimées.");
+            chooseUser(); // choix d'un nouvel utilisateur ou création d'un nouveau
+        } else {
+            System.out.println("Suppression annulée.");
+        }
+    }
     
 
-    // tout est dans le titre, la méthode permet même de modifier les informations
     public static void afficherInfosUtilisateur() {
         System.out.println("Informations utilisateur:");
         System.out.println(user);
@@ -217,7 +229,8 @@ public class Main {
             System.out.println("2. Prénom");
             System.out.println("3. Ville");
             System.out.println("4. Critère");
-            System.out.println("5. Retour au menu principal");
+            System.out.println("5. Supprimer mes données");
+            System.out.println("6. Retour au menu principal");
             System.out.print("Choisissez une option: ");
             
             int choix = Verification.getValidIntInput(scanner);
@@ -260,6 +273,11 @@ public class Main {
                     }
                     break;
                 case 5:
+                    // Supprimer les données utilisateur
+                    clear();
+                    supprimerDonneesUtilisateur();
+                    break;
+                case 6:
                     clear();
                     return; // Retour au menu principal
                 default:   
@@ -272,6 +290,7 @@ public class Main {
             System.out.println(user);
         }
     }
+    
 
     // méthode qui verifie les données 
     public static boolean verif(String [] datav, String [] datac) {
@@ -288,22 +307,37 @@ public class Main {
             System.out.println("Aucun utilisateur trouvé. Création d'un nouvel utilisateur.");
             createUser();
         } else {
-            System.out.println("Choisissez un utilisateur existant :");
-            for (int i = 0; i < p.getUsers().size(); i++) {
-                System.out.println((i + 1) + ". " + p.getUsers().get(i).getNom() + " " + p.getUsers().get(i).getPrenom());
-            }
-    
+            System.out.println("Que souhaitez-vous faire ?");
+            System.out.println("1. Choisir un utilisateur existant");
+            System.out.println("2. Créer un nouvel utilisateur");
+            
             int choix = Verification.getValidIntInput(scanner);
-            while (choix < 1 || choix > p.getUsers().size()) {
+            while (choix < 1 || choix > 2) {
                 System.out.println("Choix invalide, veuillez réessayer.");
                 choix = Verification.getValidIntInput(scanner);
             }
-    
-            user = p.getUsers().get(choix - 1);
-            System.out.println("Utilisateur sélectionné : " + user);
-            p.setCurrentUser(user);
+            
+            if (choix == 1) {
+                System.out.println("Choisissez un utilisateur existant :");
+                for (int i = 0; i < p.getUsers().size(); i++) {
+                    System.out.println((i + 1) + ". " + p.getUsers().get(i).getNom() + " " + p.getUsers().get(i).getPrenom());
+                }
+        
+                int choixUser = Verification.getValidIntInput(scanner);
+                while (choixUser < 1 || choixUser > p.getUsers().size()) {
+                    System.out.println("Choix invalide, veuillez réessayer.");
+                    choixUser = Verification.getValidIntInput(scanner);
+                }
+        
+                user = p.getUsers().get(choixUser - 1);
+                System.out.println("Utilisateur sélectionné : " + user);
+                p.setCurrentUser(user);
+            } else if (choix == 2) {
+                createUser();
+            }
         }
     }
+    
     
 
     public static void main(String[] args) {

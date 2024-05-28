@@ -11,8 +11,8 @@ public class Voyageur {
     /** La liste des ID d'utilisateurs supprimés */
     private final static List<Integer> IdTrash = new ArrayList<>();
 
-    /**  Variables statiques pour gérer les ID */
-    private static int prochaineID = 0;
+    /** Variables statiques pour gérer les ID */
+    private static int prochaineID = 1;
 
     /** Le critère de l'utilisateur */
     private TypeCout critere;
@@ -36,20 +36,26 @@ public class Voyageur {
     private static final String ville_defaut = "Aucune";
 
     /**
+     * Génère un ID unique pour le voyageur.
+     * @return Un ID unique.
+     */
+    private static int generateId() { 
+        if (!IdTrash.isEmpty()) {
+            return IdTrash.remove(0);
+        } else {
+            return prochaineID++;
+        }
+    }
+
+    /**
      * Constructeur de la classe Voyageur.
      * @param prenom Le prénom de l'utilisateur.
      * @param nom Le nom de l'utilisateur.
      * @param ville La ville de référence de l'utilisateur.
      * @param critere Le critère de l'utilisateur.
      */
-    public Voyageur(final String prenom, final String nom,final String ville, final TypeCout critere) {
-        if (!IdTrash.isEmpty()) {
-            // Utiliser l'ID d'un utilisateur supprimé s'il y en a
-            this.id = IdTrash.remove(0);
-        } else {
-            // Incrémenter l'ID s'il n'y a pas d'utilisateur supprimé
-            this.id = prochaineID++;
-        }
+    public Voyageur(final String prenom, final String nom, final String ville, final TypeCout critere) {
+        this.id = generateId();
         this.prenom = prenom;
         this.nom = nom;
         this.ville = ville;
@@ -62,34 +68,21 @@ public class Voyageur {
      * @param nom Le nom de l'utilisateur.
      * @param ville La ville de référence de l'utilisateur.
      */
-    public Voyageur(final String prenom, final String nom,final String ville) {
-        if (!IdTrash.isEmpty()) {
-            // Utiliser l'ID d'un utilisateur supprimé s'il y en a
-            this.id = IdTrash.remove(0);
-        } else {
-            // Incrémenter l'ID s'il n'y a pas d'utilisateur supprimé
-            this.id = prochaineID++;
-        }
+    public Voyageur(final String prenom, final String nom, final String ville) {
+        this.id = generateId();
         this.prenom = prenom;
         this.nom = nom;
         this.ville = ville;
         this.critere = critere_defaut;
     }
 
-        /**
+    /**
      * Constructeur de la classe Voyageur.
      * @param prenom Le prénom de l'utilisateur.
      * @param nom Le nom de l'utilisateur.
-     * @param ville La ville de référence de l'utilisateur.
      */
     public Voyageur(final String prenom, final String nom) {
-        if (!IdTrash.isEmpty()) {
-            // Utiliser l'ID d'un utilisateur supprimé s'il y en a
-            this.id = IdTrash.remove(0);
-        } else {
-            // Incrémenter l'ID s'il n'y a pas d'utilisateur supprimé
-            this.id = prochaineID++;
-        }
+        this.id = generateId();
         this.prenom = prenom;
         this.nom = nom;
         this.ville = ville_defaut;
@@ -100,20 +93,14 @@ public class Voyageur {
      * Constructeur de la classe Voyageur.
      * @param prenom Le prénom de l'utilisateur.
      * @param nom Le nom de l'utilisateur.
-     * @param ville La ville de référence de l'utilisateur.
+     * @param critere Le critère de l'utilisateur.
      */
-    public Voyageur(final String prenom, final String nom,final TypeCout crit) {
-        if (!IdTrash.isEmpty()) {
-            // Utiliser l'ID d'un utilisateur supprimé s'il y en a
-            this.id = IdTrash.remove(0);
-        } else {
-            // Incrémenter l'ID s'il n'y a pas d'utilisateur supprimé
-            this.id = prochaineID++;
-        }
+    public Voyageur(final String prenom, final String nom, final TypeCout critere) {
+        this.id = generateId();
         this.prenom = prenom;
         this.nom = nom;
         this.ville = ville_defaut;
-        this.critere = crit;
+        this.critere = critere;
     }
 
     /**
@@ -236,5 +223,4 @@ public class Voyageur {
         return "Voyageur [critere=" + critere + ", id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", ville="
                 + ville + "]";
     }
-
 }

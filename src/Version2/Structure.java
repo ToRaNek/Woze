@@ -1,6 +1,8 @@
 package version2;
 
 import fr.ulille.but.sae_s2_2024.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * La classe Structure représente une structure liée à une ville (comme une gare, un aéroport, etc.).
@@ -10,6 +12,11 @@ public class Structure implements Lieu {
     private final String nom;
     private final String ville;
     private final ModaliteTransport modalite;
+    private final int id;
+
+    /** Static fields for managing IDs */
+    private static int nextId = 1;
+    private static final List<Integer> deletedIds = new ArrayList<>();
 
     /**
      * Constructeur de la classe Structure.
@@ -20,6 +27,19 @@ public class Structure implements Lieu {
         this.ville = ville;
         this.modalite = modalite;
         this.nom = Structure.nom(ville, modalite);
+        this.id = generateId();
+    }
+
+    /**
+     * Génère un ID unique pour la structure.
+     * @return Un ID unique.
+     */
+    private static synchronized int generateId() {
+        if (!deletedIds.isEmpty()) {
+            return deletedIds.remove(0);
+        } else {
+            return nextId++;
+        }
     }
 
     /**
@@ -44,6 +64,14 @@ public class Structure implements Lieu {
      */
     public ModaliteTransport getModalite() {
         return modalite;
+    }
+
+    /**
+     * Obtient l'ID de la structure.
+     * @return L'ID de la structure.
+     */
+    public int getId() {
+        return id;
     }
 
     /**
@@ -85,8 +113,7 @@ public class Structure implements Lieu {
      */
     @Override
     public String toString() {
-        return ville + " : " + nom;
+        return ville + " : " + nom + " (ID: " + id + ")";
     }
-        
 
 }
