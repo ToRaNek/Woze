@@ -107,6 +107,7 @@ public class Main {
                     break;
                 case 5:
                     // quitter 
+                    scanner.close();
                     System.out.println("Au revoir !");
                     break;
                 default:

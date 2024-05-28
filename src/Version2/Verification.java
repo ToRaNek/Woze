@@ -129,7 +129,7 @@ public class Verification {
     public static boolean estCritereValide(String critere) {
         return critere.equals("TEMPS") || critere.equals("CO2") || critere.equals("PRIX");
     }
-    // TODO : dans les futur version à supprimer
+    // TODO : dans les futur version à supprimer ou a modifier pour ihm
     // fonction qui permet de ne pas avoir d'exception à cause du scanner pour les double( désolé si on avait pas le droit j'en pouvais plus ) 
     public static double getValidDoubleInput(Scanner scanner) {
             while (true) {

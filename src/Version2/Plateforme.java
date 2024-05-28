@@ -115,12 +115,12 @@ public class Plateforme {
                         TypeCout crit = TypeCout.valueOf(split[4].toUpperCase());
                         users.add(new Voyageur(prenom, nom, ville, crit));
                     }
-                } else {
-                    // System.out.println("Le fichier d'utilisateurs contient des données compromises ligne : " + cpt );
-                }
-            } else {
+                } // else {
+                //     System.out.println("Le fichier d'utilisateurs contient des données compromises ligne : " + cpt );
+                // }
+            } // else {
                 // System.out.println("Le fichier d'utilisateurs contient des données compromises ligne : " + cpt );
-            }
+            // }
         }
         
     }
