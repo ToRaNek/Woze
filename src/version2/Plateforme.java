@@ -628,8 +628,11 @@ public class Plateforme {
         ModaliteTransport derniereModalite = chemin.aretes().get(0).getModalite();
         arretesApresReduction.add(chemin.aretes().get(0));
         chemin.aretes().remove(0);
+        arretesApresReduction.add(chemin.aretes().get(chemin.aretes().size()));
+        chemin.aretes().remove(chemin.aretes().size());
         for (Trancon trancon : chemin.aretes()) {
             if (trancon.getModalite() != derniereModalite) {
+                chemin.aretes().remove(0);
                 arretesApresReduction.add(trancon);
             }
         }
