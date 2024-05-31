@@ -123,12 +123,14 @@ Dans cette version, en plus des fonctionnalités fournies par les versions préc
 
 
 ⇒ commits étiquetés POO-v2 GRAPHE-v2 IHM-V1 à faire avant le 8/06
+
 #### java 
 - gas poo [-] exclure des alternatives qui excèdent les bornes définies par l’utilisateur. Par exemple, le critère le plus important est l’impact environnemental (qu’il convient alors de minimiser), à condition que la durée du voyage n’excède pas 180 minutes. Tout voyage possible dépassant cette limite doit alors être écarté.
 - gas poo [x] gestion de l’existence d’un voyage possible via un mécanisme d’exception (méthode isLinked)
 - gas poo [x] import des données issues de fichiers CSV 
 - gab poo [-] affichage d’un voyage par ses points d’intérêt uniquement (lors des changements de modalités
 de transport)
+- gor poo [] verification du fichier user ( csv à ajouter dans [verif](./src/version2/Verification.java))
 
 ### Graphe
 - graphes [x] prise en compte des coûts de correspondance (Version 2)
