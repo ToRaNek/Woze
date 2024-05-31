@@ -181,6 +181,7 @@ public class Main {
         // Chemin
         clear();
         List<Chemin> chemins = p.simplePCC(depart, arrivee, user.getCritere(), k);
+        chemins = Plateforme.reductionAffichageChemins(chemins);
         List<String> chemins_max = new ArrayList<>();
         for (Chemin chemin : chemins) {
             String poidsString = chemin.toString().split("Poids: ")[1].replace(',', '.').replace(')', '0');

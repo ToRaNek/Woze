@@ -1,0 +1,9 @@
+Chemin le plus court trouvé de Gare_Lille à Gare_Grenoble selon le critère TEMPS min:
+Chemin(Arêtes: [Lille : Gare_Lille (ID: 1) -> Paris : Gare_Paris (ID: 6) [TRAIN], Paris : Gare_Paris (ID: 6) -> Lyon : Gare_Lyon (ID: 22) [TRAIN], Lyon : Gare_Lyon (ID: 22) -> Grenoble : Gare_Grenoble (ID: 31) [TRAIN]], Poids: 280,000000)
+
+Chemin le plus court trouvé de Gare_Lille à Gare_Grenoble selon le critère TEMPS min:
+Chemin(Arêtes: [Lille : Gare_Lille (ID: 1) -> Paris : Gare_Paris (ID: 6) [TRAIN], Paris : Gare_Paris (ID: 6) -> Lyon : Gare_Lyon (ID: 22) [TRAIN], Lyon : Gare_Lyon (ID: 22) -> Grenoble : Gare_Grenoble (ID: 31) [TRAIN]], Poids: 280,000000)
+
+Chemin(Arêtes: [Lille : Aéroport_Lille (ID: 2) -> Lille : Arrêt_de_bus_Lille (ID: 3) [null], Lille : Arrêt_de_bus_Lille (ID: 3) -> Lille : Gare_Lille (ID: 1) [null], Lille : Gare_Lille (ID: 1) -> Paris : Gare_Paris (ID: 6) [TRAIN], Paris : Gare_Paris (ID: 6) -> Lyon : Gare_Lyon (ID: 22) [TRAIN], Lyon : Gare_Lyon (ID: 22) -> Grenoble : Gare_Grenoble (ID: 31) [TRAIN]], Poids: 420,000000)
+
+Chemin(Arêtes: [Lille : Aéroport_Lille (ID: 2) -> Lille : Arrêt_de_bus_Lille (ID: 3) [null], Lille : Gare_Lille (ID: 1) -> Paris : Gare_Paris (ID: 6) [TRAIN], Lyon : Gare_Lyon (ID: 22) -> Grenoble : Gare_Grenoble (ID: 31) [TRAIN]], Poids: 420,000000)

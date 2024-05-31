@@ -35,6 +35,7 @@ public class Plateforme {
         aretes = new ArrayList<>();
         villes = new ArrayList<>();
         users = new ArrayList<>();
+        graphes = new HashMap<>();
 
         
         for (String data : DataExtractor.data_correspondances) {
@@ -623,21 +624,28 @@ public class Plateforme {
         return AlgorithmeKPCC.kpcc(graphe, depart, arrivee, k);
     }
 
-    public static List<Trancon> reductionAffichage(Chemin chemin) {
-        List<Trancon> arretesApresReduction = new ArrayList<Trancon>();
-        ModaliteTransport derniereModalite = chemin.aretes().get(0).getModalite();
-        arretesApresReduction.add(chemin.aretes().get(0));
-        chemin.aretes().remove(0);
-        arretesApresReduction.add(chemin.aretes().get(chemin.aretes().size()));
-        chemin.aretes().remove(chemin.aretes().size());
-        for (Trancon trancon : chemin.aretes()) {
-            if (trancon.getModalite() != derniereModalite) {
-                chemin.aretes().remove(0);
-                arretesApresReduction.add(trancon);
-            }
+    public static Chemin reductionAffichageChemin(Chemin chemin) {
+        List<Trancon> delTrancon = new ArrayList();
+        ModaliteTransport nextModalite;
+        for (int idx = 1; idx < chemin.aretes().size()-2; idx++) {
+            nextModalite = chemin.aretes().get(idx+1).getModalite();
+            if (chemin.aretes().get(idx).getModalite() == nextModalite) {
+                delTrancon.add(chemin.aretes().get(idx));
+            } 
         }
-        return arretesApresReduction;
+        chemin.aretes().removeAll(delTrancon);
+        System.out.println(delTrancon);
+        return chemin;
     }
+
+    public static List<Chemin> reductionAffichageChemins(List<Chemin> chemins) {
+        List<Chemin> cheminsApresReduc = new ArrayList<Chemin>();
+        for (Chemin chemin : chemins) {
+            cheminsApresReduc.add(reductionAffichageChemin(chemin));
+        }
+        return cheminsApresReduc;
+    }
+
 
 
     // DISPLAY 
