@@ -1,4 +1,4 @@
-package Version2;
+package version2;
 
 import org.junit.Test;
 
