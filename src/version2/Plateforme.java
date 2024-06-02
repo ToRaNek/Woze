@@ -14,7 +14,6 @@ public class Plateforme {
 
     // ATTRIBUTS :
 
-    // TODO ajouter une liste de user et toutes les méthodes associé ( version 3)
     private Voyageur currentUser;
     private ArrayList<Voyageur> users;
     private ArrayList<Arete> aretes;
@@ -135,6 +134,18 @@ public class Plateforme {
     }
 
     // GETTERS :
+
+
+    public Arete getArete(Structure struct1, Structure struct2){
+
+        if(isLinked(struct1, struct2)){
+            for (Arete arete : aretes) {
+                if(arete.getArrivee().equals(struct2) && arete.getDepart().equals(struct1))return arete;
+            }
+            System.out.println("il n'y a pas d'arete associé à ces deux structures");
+        }   
+        return null;
+    }
 
     public HashMap<TypeCout, MultiGrapheOrienteValue> getGraphes() {
         return graphes;
@@ -554,8 +565,6 @@ public class Plateforme {
         System.err.println("Le critère n'est pas valide");
         return null;
     }
-    // TODO les plus court chemin avec un poid, trier avec un chemin que par un certain transport
-
     
 
     /**
@@ -607,7 +616,33 @@ public class Plateforme {
         return bool;
     }
     
-
+    // TODO les plus court chemin avec un poid, trier avec un chemin que par un certain transport
+    // TODO faire d'une ville à une autre
+    public List<Chemin> KPCC(final Structure depart, final Structure arrivee, final TypeCout crit1, final int k, TypeCout crit2, double p_max) {
+        // Récupérer les k chemins du premier graphe avec le premier critère
+        List<Chemin> chemins = AlgorithmeKPCC.kpcc(graphes.get(crit1), depart, arrivee, k);
+    
+        // Parcourir chaque chemin
+        for (Chemin chemin : chemins) {
+            List<Trancon> trancons = chemin.aretes(); // Obtenir la liste des trançons du chemin
+            double poids2 = 0; // Initialiser le poids pour le deuxième critère
+    
+            // Calculer le poids pour le deuxième critère en parcourant chaque trançon
+            for (Trancon trancon : trancons) {
+                Arete arete = getArete((Structure)trancon.getDepart(), (Structure)trancon.getArrivee()); // Obtenir l'arête correspondante
+                poids2 += arete.getCout(crit2); // Ajouter le poids de l'arête pour le deuxième critère
+            }
+    
+            // Vérifier si le poids pour le deuxième critère dépasse la limite
+            if (poids2 > p_max) {
+                // Supprimer le chemin de la liste
+                chemins.remove(chemin);
+                break; // Arrêter la boucle, puisque nous avons déjà supprimé un chemin
+            }
+        }
+    
+        return chemins; // Retourner la liste des chemins restants
+    }
 
     // METHODES STATIQUE :
 
@@ -625,7 +660,7 @@ public class Plateforme {
     }
 
     public static Chemin reductionAffichageChemin(Chemin chemin) {
-        List<Trancon> delTrancon = new ArrayList();
+        List<Trancon> delTrancon = new ArrayList<>();
         ModaliteTransport nextModalite;
         for (int idx = 1; idx < chemin.aretes().size()-2; idx++) {
             nextModalite = chemin.aretes().get(idx+1).getModalite();
@@ -724,13 +759,15 @@ public class Plateforme {
 
     // TOSTRING :
 
+
+    
     /**
      * Renvoie une chaîne de caractères contenant toutes les structures de la ville spécifiée.
      *
      * @param ville Le nom de la ville dont on souhaite obtenir les structures.
      * @return Une chaîne de caractères contenant les structures de la ville.
      */
-    public String getAllStructuresOf(String ville) {
+    public String toStringAllStructuresOf(String ville) {
         StringBuilder result = new StringBuilder();
         result.append("Structures de la ville ").append(ville).append(" :\n");
         for (Structure structure : structures) {
@@ -746,7 +783,7 @@ public class Plateforme {
      *
      * @return Une chaîne de caractères contenant les structures de chaque ville.
      */
-    public String getAllStructures() {
+    public String toStringAllStructures() {
         StringBuilder result = new StringBuilder();
         result.append("Toutes les structures de chaque ville de la plateforme :\n");
         for (String ville : villes) {
@@ -767,7 +804,7 @@ public class Plateforme {
      *
      * @return Une chaîne de caractères contenant toutes les villes.
      */
-    public String getAllVilles() {
+    public String toStringAllVilles() {
         StringBuilder result = new StringBuilder();
         result.append("Toutes les villes de la plateforme :\n");
         for (String ville : villes) {
@@ -782,7 +819,7 @@ public class Plateforme {
      * @param modalite La modalité de transport dont on souhaite obtenir les villes.
      * @return Une chaîne de caractères contenant les villes avec la modalité de transport spécifiée.
      */
-    public String getVillesWithTransport(ModaliteTransport modalite) {
+    public String toStringVillesWithTransport(ModaliteTransport modalite) {
         StringBuilder result = new StringBuilder();
         result.append("Villes avec des structures de transport de type ").append(modalite).append(" :\n");
         for (Structure structure : structures) {
@@ -799,7 +836,7 @@ public class Plateforme {
      * @param modalite La modalité de transport dont on souhaite obtenir les structures.
      * @return Une chaîne de caractères contenant les structures avec la modalité de transport spécifiée.
      */
-    public String getStructuresWithTransport(ModaliteTransport modalite) {
+    public String toStringStructuresWithTransport(ModaliteTransport modalite) {
         StringBuilder result = new StringBuilder();
         result.append("Structures avec la modalité de transport de type ").append(modalite).append(" :\n");
         for (Structure structure : structures) {

@@ -1,6 +1,5 @@
 package version2;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import fr.ulille.but.sae_s2_2024.Chemin;
@@ -137,14 +136,6 @@ public class Main {
 
     public static void chercherChemin() {
         // Départ
-        // System.out.println("De quelle ville souhaitez-vous partir ?");
-        // for (int i = 0; i < p.getVilles().size(); i++) {
-        //     System.out.println((i + 1) + ". " + p.getVilles().get(i));
-        // }
-        // int choixVilleDepart = Verification.getValidIntInput(scanner) - 1;
-        // String villeDepart = p.getVilles().get(choixVilleDepart);
-    
-        // System.out.println(p.getAllStructuresOf(villeDepart));
         System.out.println("De quelle structure souhaitez-vous partir ?");
         for (int i = 0; i < p.getStructures().size(); i++) {
             System.out.println((i + 1) + ". " + p.getStructures().get(i));
@@ -153,15 +144,6 @@ public class Main {
         String structureDepart = p.getStructures().get(choixStructureDepart).getNom();
     
         // Arrivée
-        // clear();
-        // System.out.println("Quelle est votre destination ?");
-        // for (int i = 0; i < p.getVilles().size(); i++) {
-        //     System.out.println((i + 1) + ". " + p.getVilles().get(i));
-        // }
-        // int choixVilleArrivee = Verification.getValidIntInput(scanner) - 1;
-        // String villeArrivee = p.getVilles().get(choixVilleArrivee);
-    
-        // System.out.println(p.getAllStructuresOf(villeArrivee));
         System.out.println("À quelle structure souhaitez-vous arriver ?");
         for (int i = 0; i < p.getStructures().size(); i++) {
             System.out.println((i + 1) + ". " + p.getStructures().get(i));
@@ -178,32 +160,31 @@ public class Main {
         System.out.println("Quel poids ne doit pas excéder le trajet ?");
         double poids_max = Verification.getValidDoubleInput(scanner);
     
+        System.out.println("Quel est le deuxième critère (temps, prix ou CO2) ?");
+        String critere2 = scanner.next();
+    
+        TypeCout critere1 = user.getCritere();
+        TypeCout critere2Enum = TypeCout.valueOf(critere2.toUpperCase());
+    
         // Chemin
         clear();
-        List<Chemin> chemins = p.simplePCC(depart, arrivee, user.getCritere(), k);
-        chemins = Plateforme.reductionAffichageChemins(chemins);
-        List<String> chemins_max = new ArrayList<>();
-        for (Chemin chemin : chemins) {
-            String poidsString = chemin.toString().split("Poids: ")[1].replace(',', '.').replace(')', '0');
+        List<Chemin> chemins = p.KPCC(depart, arrivee, critere1, k, critere2Enum, poids_max);
     
-            double poidsChemin = Double.parseDouble(poidsString);
-    
-            if (poidsChemin <= poids_max) {
-                chemins_max.add(chemin.toString());
+        if (chemins.isEmpty()) {
+            System.out.println("Aucun chemin trouvé de " + structureDepart + " à " + structureArrivee + " selon le critère " + critere1 + ".");
+        } else if (chemins.size() == 1) {
+            System.out.println("Chemin le plus court trouvé de " + structureDepart + " à " + structureArrivee + " selon le critère " + critere1 + ":");
+            for (Chemin chemin : chemins) {
+                System.out.println(chemin.toString()); // tous les chemins trouvé 
+            }
+        } else {
+            System.out.println("Les " + chemins.size() + " plus courts chemins trouvés de " + structureDepart + " à " + structureArrivee + " selon le critère " + critere1 + " sont :");
+            for (Chemin chemin : chemins) {
+                System.out.println(chemin.toString()); // tous les chemins trouvé 
             }
         }
     
-        if (chemins_max.isEmpty()) {
-            System.out.println("Aucun chemin trouvé de " + structureDepart + " à " + structureArrivee + " selon le critère " + user.getCritere() + ".");
-        } else if (chemins_max.size() == 1) {
-            System.out.println("Chemin le plus court trouvé de " + structureDepart + " à " + structureArrivee + " selon le critère " + user.getCritere() + ":");
-        } else {
-            System.out.println("Les " + chemins_max.size() + " plus courts chemins trouvés de " + structureDepart + " à " + structureArrivee + " selon le critère " + user.getCritere() + " sont :");
-        }
-    
-        for (String chemin : chemins_max) {
-            System.out.println(chemin); // tous les chemins trouvé 
-        }
+
     }
     
     public static void supprimerDonneesUtilisateur() {

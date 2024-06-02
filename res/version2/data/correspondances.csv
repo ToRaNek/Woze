@@ -6,6 +6,7 @@ Valenciennes;Train;Bus;10;0;0
 Paris;Train;Bus;60;0.5;15
 Lyon;Avion;Bus;45;1.2;50
 Marseille;Train;Avion;150;1.5;100
+Marseille;Train;Avion;150;1.5;100
 Toulouse;Bus;Train;100;0.8;40
 Bordeaux;Avion;Train;70;0.9;80
 Strasbourg;Bus;Train;90;0.7;25

@@ -113,7 +113,19 @@ public class Structure implements Lieu {
      */
     @Override
     public String toString() {
-        return ville + " : " + nom + " (ID: " + id + ")";
+        return ville + " : " + nom ;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Structure other = (Structure) obj;
+        
+        return nom.equals(other.getNom()) && ville.equals(other.getVille()) && modalite == other.getModalite();
+    }
 }

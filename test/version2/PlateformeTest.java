@@ -12,11 +12,7 @@ public class PlateformeTest {
 
     @BeforeEach
     void setUp() {
-        String[] data = {
-                "Lille;Paris;TRAIN;50;10;120",
-                "Paris;Lille;BUS;30;15;180",
-                "Londres;Calais;TRAIN;150;1;180"};
-        plateforme = new Plateforme(data);
+        plateforme = new Plateforme();
     }
 
     @Test
