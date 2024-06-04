@@ -14,13 +14,21 @@ public class Plateforme {
 
     // ATTRIBUTS :
 
+    /*Utilisateur courrant. */
     private Voyageur currentUser;
+    /*Liste des utilisateurs. */
     private ArrayList<Voyageur> users;
+    /*Liste des aretes.*/
     private ArrayList<Arete> aretes;
+    /*Liste des villes.*/
     private ArrayList<String> villes;
+    /*Liste des structures.*/
     private ArrayList<Structure> structures;
+    /*Critère courrant.*/
     private TypeCout currentCrit = Voyageur.getCritereDefaut();
+    /*Graphe courrant. */
     private MultiGrapheOrienteValue currentGraphe;
+    /*HashMap des graphes selon le critère */
     private HashMap<TypeCout,MultiGrapheOrienteValue> graphes;
 
     // CONSTRUCTEURS :
@@ -37,10 +45,10 @@ public class Plateforme {
         graphes = new HashMap<>();
 
         
-        for (String data : DataExtractor.data_correspondances) {
-            String[] split = data.split(";");
+        for (final String data : DataExtractor.data_correspondances) {
+            final String[] split = data.split(";");
             // ville
-            String ville = split[0];
+            final String ville = split[0];
 
             // ajoute la ville si elle existe pas 
             if (!containsVille(ville)) {
@@ -48,70 +56,71 @@ public class Plateforme {
             }
 
             // modalité 1
-            ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
+            final ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
             // creation de structure si elle existe pas
-            Structure struct1 = createOrGetStructure(ville, modalite1);
+            final Structure struct1 = createOrGetStructure(ville, modalite1);
 
             // modalité 2
-            ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
+            final ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
             // creation de structure si elle existe pas
-            Structure struct2 = createOrGetStructure(ville, modalite2);
+            final Structure struct2 = createOrGetStructure(ville, modalite2);
 
             // COUTS
-            double prix = Math.round(Double.parseDouble(split[5])*100)/100;
-            double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
-            double temps = Math.round(Double.parseDouble(split[3])*100)/100;
+            final double prix = Math.round(Double.parseDouble(split[5])*100)/100;
+            final double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
+            final double temps = Math.round(Double.parseDouble(split[3])*100)/100;
 
             // ARETES ALLEE - RETOUR
-            Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
+            final Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
             add2Arete(correspondace);
         }
 
-        for (String data : DataExtractor.data_villes) {
-            String[] split = data.split(";");
+        for (final String data : DataExtractor.data_villes) {
+            final String[] split = data.split(";");
 
-            ModaliteTransport modalite = ModaliteTransport.valueOf(split[2].toUpperCase());
+            final ModaliteTransport modalite = ModaliteTransport.valueOf(split[2].toUpperCase());
 
-            String ville_depart = split[0];
-            String ville_arrivee = split[1];
+            final String villeDepart = split[0];
+            final String villeArrivee = split[1];
 
-            Structure depart, arrivee;
+            Structure depart;
+            Structure arrivee;
 
             // DEPART
-            depart = createOrGetStructure(ville_depart, modalite);
+            depart = createOrGetStructure(villeDepart, modalite);
             // ARRIVEE
-            arrivee = createOrGetStructure(ville_arrivee, modalite);
+            arrivee = createOrGetStructure(villeArrivee, modalite);
             // COUTS
-            double prix = Math.round(Double.parseDouble(split[5])*100)/100;
-            double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
-            double temps = Math.round(Double.parseDouble(split[3])*100)/100;
+            final double prix = Math.round(Double.parseDouble(split[5])*100)/100;
+            final double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
+            final double temps = Math.round(Double.parseDouble(split[3])*100)/100;
 
             // ARETES ALLEE - RETOUR
-            Arete allee = new Arete(depart, arrivee, modalite,temps, co2, prix);
+            final Arete allee = new Arete(depart, arrivee, modalite,temps, co2, prix);
             add2Arete(allee);
         }  
 
-        for (TypeCout crit : TypeCout.values()) {
-            MultiGrapheOrienteValue g = buildGraph(crit.name());
+        for (final TypeCout crit : TypeCout.values()) {
+            final MultiGrapheOrienteValue g = buildGraph(crit.name());
             graphes.put(crit, g);
         }
         currentGraphe = graphes.get(Voyageur.getCritereDefaut());
 
-        for (String data : DataExtractor.users) {
-            String[] split = data.split(";");
+        for (final String data : DataExtractor.users) {
+            final String[] split = data.split(";");
 
             // TODO demander à gordon de faire ses vérifications aussi dans la classe associé
         
             // verif si toutes les données sont présentes
             if (split.length >= 3 && split.length <= 5) {
-                String prenom = split[0];
-                String nom = split[1];
-                String ville = split[2];
-                String critere = (split.length >= 4) ? split[3] : null;
+                final String prenom = split[0];
+                final String nom = split[1];
+                final String ville = split[2];
+                final String critere = (split.length >= 4) ? split[3] : null;
         
                 // verif si aucune des données est null
                 if (prenom != null && nom != null && ville != null && (critere == null || Verification.estCritereValide(critere))) {
-                    TypeCout critUser = (critere != null) ? TypeCout.valueOf(critere.toUpperCase()) : Voyageur.getCritereDefaut();
+                    final TypeCout critUser = (critere != null) ? TypeCout.valueOf(critere.toUpperCase()) : Voyageur.getCritereDefaut();
                     
                     if (split.length == 4) {
                         users.add(new Voyageur(prenom, nom, ville, critUser)); 
@@ -120,7 +129,7 @@ public class Plateforme {
                     } else if (split.length == 2) {
                         users.add(new Voyageur(prenom, nom)); 
                     } else if (split.length == 5) {
-                        TypeCout crit = TypeCout.valueOf(split[4].toUpperCase());
+                        final TypeCout crit = TypeCout.valueOf(split[4].toUpperCase());
                         users.add(new Voyageur(prenom, nom, ville, crit));
                     }
                 } // else {
@@ -129,6 +138,7 @@ public class Plateforme {
             } // else {
                 // System.out.println("Le fichier d'utilisateurs contient des données compromises ligne : " + cpt );
             // }
+            // Faut faire un try catch ??
         }
         
     }
@@ -136,15 +146,22 @@ public class Plateforme {
     // GETTERS :
 
 
+    /**
+     * @param struct1
+     * @param struct2
+     * @return renvoie l'arete entre struct1 et struct2
+     */
     public Arete getArete(Structure struct1, Structure struct2){
-
+        Arete areteReturned = null;
         if(isLinked(struct1, struct2)){
-            for (Arete arete : aretes) {
-                if(arete.getArrivee().equals(struct2) && arete.getDepart().equals(struct1))return arete;
+            for (final Arete arete : aretes) {
+                if(arete.getArrivee().equals(struct2) && arete.getDepart().equals(struct1)) {
+                    areteReturned = arete;
+                }
             }
             System.out.println("il n'y a pas d'arete associé à ces deux structures");
         }   
-        return null;
+        return areteReturned;
     }
 
     public HashMap<TypeCout, MultiGrapheOrienteValue> getGraphes() {
@@ -274,7 +291,12 @@ public class Plateforme {
     }
 
     // METHODES  :
-    public void add(MultiGrapheOrienteValue g, TypeCout crit ) {
+    /**
+     * @param g Le graphe.
+     * @param crit Le critère.
+     * Ajoute a graphes le couple TypeCout crit / graphe g
+     */
+    public void addGrapheCritere(MultiGrapheOrienteValue g, TypeCout crit ) {
         graphes.put(crit, g);
     }
 
@@ -310,7 +332,8 @@ public class Plateforme {
     }
 
     /**
-     * Ajoute une arête à la liste des arêtes de la plateforme, ainsi que son arête retour.
+     * Ajoute une arête à la liste des arêtes
+     * de la plateforme, ainsi que son arête retour.
      * 
      * @param arete L'arête à ajouter.
      */
@@ -319,7 +342,7 @@ public class Plateforme {
         add1Arete(arete);
         
         // arête retour avec les villes inversées
-        Arete retour = new Arete(arete.getArrivee(), arete.getDepart(), arete.getModalite(), arete.getCouts());
+        final Arete retour = new Arete(arete.getArrivee(), arete.getDepart(), arete.getModalite(), arete.getCouts());
         
         // ajoute l'arête retour
         add1Arete(retour);
@@ -342,12 +365,13 @@ public class Plateforme {
      * @return true si la ville est présente dans la plateforme, sinon false.
      */
     public boolean containsVille( String ville) {
-        for (String v : villes) {
+        boolean result = false;
+        for (final String v : villes) {
             if (v.toUpperCase().equals(ville.toUpperCase())) {
-                return true;
+                result = true;
             }
         }
-        return false;
+        return result;
     }
 
     /**
@@ -356,23 +380,25 @@ public class Plateforme {
      * @return true si la structure existe, false sinon.
      */
     public boolean containsStructure(String structureNom) {
-        for (Structure structure : structures) {
+        boolean result = false;
+        for (final Structure structure : structures) {
             if (structure.getNom().equalsIgnoreCase(structureNom)) {
-                return true;
+                result = true;
             }
         }
-        return false;
+        return result;
     }
 
     /**
      * Vérifie si une structure associée à une ville donnée existe dans la plateforme.
      * 
      * @param ville Le nom de la ville à rechercher dans les structures.
-     * @return true si une structure associée à la ville existe dans la plateforme, sinon false.
+     * @return true si une structure associée à la
+     * ville existe dans la plateforme, sinon false.
      */
     public boolean existVilleStructureVersion(final String ville) {
         boolean bool = false;
-        for (Structure structure : structures) {
+        for (final Structure structure : structures) {
             if (structure.getVille().equals(ville)) {
                 bool = true;
             }
@@ -389,26 +415,27 @@ public class Plateforme {
     }
 
     /**
-     * Crée une nouvelle structure associée à une ville et à une modalité de transport spécifiques s'il n'existe pas déjà, sinon renvoie la structure existante.
-     * 
+     * Crée une nouvelle structure associée à une ville et à une
+     * modalité de transport spécifiques s'il n'existe pas déjà,
+     * sinon renvoie la structure existante.
      * @param ville La ville associée à la structure.
      * @param modalite La modalité de transport associée à la structure.
      * @return La structure créée ou existante.
      */
     public Structure createOrGetStructure(final String ville, final ModaliteTransport modalite) {
         Structure struct;
-        boolean exist = contains(Structure.nom(ville, modalite));
-        if (!exist) {
+        final boolean exist = contains(Structure.nom(ville, modalite));
+        if (exist) {
+            if (!containsVille(ville)) {
+                addVille(ville);
+            }
+            struct = getStructure(Structure.nom(ville, modalite));
+        } else {
             if (!containsVille(ville)) {
                 addVille(ville);
             }
             struct = new Structure(ville, modalite);
             addStructure(struct);
-        } else {
-            if (!containsVille(ville)) {
-                addVille(ville);
-            }
-            struct = getStructure(Structure.nom(ville, modalite));
         }
         return struct;
     }
@@ -419,12 +446,13 @@ public class Plateforme {
      * @return La structure correspondante, ou null si elle n'est pas trouvée.
      */
     public Structure getStructure(final String nom) {
-        for (Structure structure : structures) {
+        Structure structureResult = null;
+        for (final Structure structure : structures) {
             if (structure.getNom().equals(nom)) {
-                return structure;
+                structureResult = structure;
             }
         }
-        return null;
+        return structureResult;
     }
 
     /**
@@ -438,7 +466,8 @@ public class Plateforme {
     }
 
     /**
-     * Retourne l'index de la structure spécifiée dans la liste des structures de la plateforme.
+     * Retourne l'index de la structure spécifiée
+     * dans la liste des structures de la plateforme.
      * 
      * @param structure La structure dont on souhaite obtenir l'index.
      * @return L'index de la structure dans la liste, ou -1 si elle n'est pas présente.
@@ -448,8 +477,8 @@ public class Plateforme {
     }
 
     /**
-     * Retourne l'index de l'arête spécifiée par ses structures de départ et d'arrivée ainsi que la modalité de transport dans la liste des arêtes de la plateforme.
-     * 
+     * Retourne l'index de l'arête spécifiée par ses structures de départ et d'arrivée
+     * ainsi que la modalité de transport dans la liste des arêtes de la plateforme.
      * @param depart La structure de départ de l'arête.
      * @param arrivee La structure d'arrivée de l'arête.
      * @param modalite La modalité de transport de l'arête.
@@ -457,7 +486,7 @@ public class Plateforme {
      */
     public int indexOf(final Structure depart,final Structure arrivee,final ModaliteTransport modalite) {
         int res = -1;
-        for (Arete arete : aretes) {
+        for (final Arete arete : aretes) {
             if (arete.getDepart() == depart && arete.getArrivee() == arrivee && arete.getModalite() == modalite) {
                 res = indexOf(arete);
             }
@@ -466,17 +495,17 @@ public class Plateforme {
     }
 
     /**
-     * Retourne l'index de l'arête spécifiée par les noms de ses structures de départ et d'arrivée ainsi que la modalité de transport dans la liste des arêtes de la plateforme.
-     * 
+     * Retourne l'index de l'arête spécifiée par les noms de ses structures de départ
+     * et arrivée ainsi que la modalité de transport des arêtes de la plateforme.
      * @param depart Le nom de la structure de départ de l'arête.
      * @param arrivee Le nom de la structure d'arrivée de l'arête.
      * @param modalite Le nom de la modalité de transport de l'arête.
      * @return L'index de l'arête dans la liste, ou -1 si elle n'est pas présente.
      */
     public int indexOf(final String depart,final String arrivee,final String modalite) {
-        ModaliteTransport m = ModaliteTransport.valueOf(modalite.toUpperCase());
-        Structure d = getStructure(Structure.nom(depart,m));
-        Structure a = getStructure(Structure.nom(arrivee,m));
+        final ModaliteTransport m = ModaliteTransport.valueOf(modalite.toUpperCase());
+        final Structure d = getStructure(Structure.nom(depart,m));
+        final Structure a = getStructure(Structure.nom(arrivee,m));
         return indexOf(d, a, m);
     }
 
@@ -487,12 +516,13 @@ public class Plateforme {
      * @return true si la structure existe, false sinon.
      */
     public boolean contains(final String nom) {
-        for (Structure structure : structures) {
+        boolean result = false;
+        for (final Structure structure : structures) {
             if (structure.getNom().equals(nom)) {
-                return true;
+                result = true;
             }
         }
-        return false;
+        return result;
     }
 
     /**
@@ -523,7 +553,8 @@ public class Plateforme {
     }
 
     /**
-     * Supprime la structure à l'index spécifié de la liste des structures de la plateforme.
+     * Supprime la structure à l'index spécifié de
+     * la liste des structures de la plateforme.
      * 
      * @param index L'index de la structure à supprimer.
      */
@@ -532,17 +563,18 @@ public class Plateforme {
     }
 
     /**
-     * Construit un graphe à partir des structures et arêtes de la plateforme en utilisant le critère spécifié.
+     * Construit un graphe à partir des structures et arêtes
+     * de la plateforme en utilisant le critère spécifié.
      * 
      * @param critere Le critère à utiliser pour construire le graphe.
      * @return Le graphe construit.
      */
     public MultiGrapheOrienteValue buildGraph(final TypeCout critere) {
-        MultiGrapheOrienteValue g = new MultiGrapheOrienteValue();
-        for (Structure structure : structures) {
+        final MultiGrapheOrienteValue g = new MultiGrapheOrienteValue();
+        for (final Structure structure : structures) {
             g.ajouterSommet(structure);
         }
-        for (Arete arete : aretes) {
+        for (final Arete arete : aretes) {
             g.ajouterArete(arete, arete.getCout(critere));
         }
         currentGraphe = g;
@@ -551,25 +583,30 @@ public class Plateforme {
     }
 
     /**
-     * Construit un graphe à partir des structures et arêtes de la plateforme en utilisant le critère spécifié sous forme de chaîne de caractères.
+     * Construit un graphe à partir des structures et arêtes de la
+     * plateforme en utilisant le critère spécifié sous forme de chaîne de caractères.
      * 
-     * @param critere Le critère à utiliser pour construire le graphe (sous forme de chaîne de caractères).
+     * @param critere Le critère à utiliser pour construire
+     * le graphe (sous forme de chaîne de caractères).
      * @return Le graphe construit.
      */
     public MultiGrapheOrienteValue buildGraph(final String critere) {
-        for (TypeCout value : TypeCout.values()) {
+        MultiGrapheOrienteValue result = null;
+        for (final TypeCout value : TypeCout.values()) {
             if (TypeCout.valueOf(critere.toUpperCase()) == value) {
-                return buildGraph(value);
+                result = buildGraph(value);
             }
         }
-        System.err.println("Le critère n'est pas valide");
-        return null;
+        if (result == null) {
+            System.err.println("Le critère n'est pas valide");
+        }
+        return result;
     }
     
 
     /**
-     * Recherche les k plus courts chemins entre deux structures spécifiées en utilisant le critère spécifié.
-     * 
+     * Recherche les k plus courts chemins entre deux
+     * structures spécifiées en utilisant le critère spécifié.
      * @param depart La structure de départ.
      * @param arrivee La structure d'arrivée.
      * @param crit Le critère à utiliser pour la recherche.
@@ -581,24 +618,27 @@ public class Plateforme {
     }
 
     /**
-     * Vérifie si deux structures sont reliées dans le graphe actuel en utilisant le critère actuel.
+     * Vérifie si deux structures sont reliées dans
+     * le graphe actuel en utilisant le critère actuel.
      * 
      * @param depart La structure de départ.
      * @param arrivee La structure d'arrivée.
      * @return true si les structures sont reliées, false sinon.
      */
     public boolean isLinked(final Structure depart,final Structure arrivee) {
+        boolean result = true;
         if (depart == null || arrivee == null) {
-            return false;
+            result = false;
         }
 
         try {
-            List<Chemin> chemins = simplePCC(currentGraphe, depart, arrivee, 1);
-            return !chemins.isEmpty();
+            final List<Chemin> chemins = simplePCC(currentGraphe, depart, arrivee, 1);
+            result = !chemins.isEmpty();
         } catch (IllegalArgumentException e) {
             System.out.println("Il n'existe pas de lien entre " + depart.getNom() + " et " + arrivee.getNom() + " pour " + currentCrit);
-            return false;
+            result = false;
         }
+        return result;
     }
 
     /**
@@ -610,26 +650,38 @@ public class Plateforme {
      */
     public boolean isInACity(final Structure struct) {
         boolean bool = false;
-        for (String ville : villes) {
-            if(struct.getVille().equals(ville)) bool = true;
+        for (final String ville : villes) {
+            if(struct.getVille().equals(ville)) {
+                bool = true;
+            } 
         }
         return bool;
     }
     
-    // TODO les plus court chemin avec un poid, trier avec un chemin que par un certain transport
+    // TODO les plus court chemin avec un poid,
+    // trier avec un chemin que par un certain transport
     // TODO faire d'une ville à une autre
-    public List<Chemin> KPCC(final Structure depart, final Structure arrivee, final TypeCout crit1, final int k, TypeCout crit2, double p_max) {
+    /**
+     * @param depart La structure de départ.
+     * @param arrivee La structure d'arrivée.
+     * @param crit1 Le critère 1.
+     * @param k Limite k.
+     * @param crit2 Le critère 2.
+     * @param p_max Poid max.
+     * @return Liste des k plus courts chemins.
+     */
+    public List<Chemin> KPlusCourtsChemins(final Structure depart, final Structure arrivee, final TypeCout crit1, final int k, TypeCout crit2, double p_max) {
         // Récupérer les k chemins du premier graphe avec le premier critère
-        List<Chemin> chemins = AlgorithmeKPCC.kpcc(graphes.get(crit1), depart, arrivee, k);
+        final List<Chemin> chemins = AlgorithmeKPCC.kpcc(graphes.get(crit1), depart, arrivee, k);
     
         // Parcourir chaque chemin
-        for (Chemin chemin : chemins) {
-            List<Trancon> trancons = chemin.aretes(); // Obtenir la liste des trançons du chemin
+        for (final Chemin chemin : chemins) {
+            final List<Trancon> trancons = chemin.aretes(); // Obtenir la liste des trançons du chemin
             double poids2 = 0; // Initialiser le poids pour le deuxième critère
     
             // Calculer le poids pour le deuxième critère en parcourant chaque trançon
-            for (Trancon trancon : trancons) {
-                Arete arete = getArete((Structure)trancon.getDepart(), (Structure)trancon.getArrivee()); // Obtenir l'arête correspondante
+            for (final Trancon trancon : trancons) {
+                final Arete arete = getArete((Structure)trancon.getDepart(), (Structure)trancon.getArrivee()); // Obtenir l'arête correspondante
                 poids2 += arete.getCout(crit2); // Ajouter le poids de l'arête pour le deuxième critère
             }
     
@@ -647,8 +699,8 @@ public class Plateforme {
     // METHODES STATIQUE :
 
     /**
-     * Recherche les k plus courts chemins entre deux structures spécifiées dans le graphe donné.
-     * 
+     * Recherche les k plus courts chemins entre
+     * deux structures spécifiées dans le graphe donné.
      * @param graphe Le graphe dans lequel effectuer la recherche.
      * @param depart La structure de départ.
      * @param arrivee La structure d'arrivée.
@@ -659,8 +711,12 @@ public class Plateforme {
         return AlgorithmeKPCC.kpcc(graphe, depart, arrivee, k);
     }
 
+    /**
+     * @param chemin Le chemin.
+     * @return Réduit l'affichage du chemin.
+     */
     public static Chemin reductionAffichageChemin(Chemin chemin) {
-        List<Trancon> delTrancon = new ArrayList<>();
+        final List<Trancon> delTrancon = new ArrayList<>();
         ModaliteTransport nextModalite;
         for (int idx = 1; idx < chemin.aretes().size()-2; idx++) {
             nextModalite = chemin.aretes().get(idx+1).getModalite();
@@ -673,9 +729,13 @@ public class Plateforme {
         return chemin;
     }
 
+    /**
+     * @param chemins La liste des chemin.
+     * @return Réduit l'affiche des chemins d'une liste.
+     */
     public static List<Chemin> reductionAffichageChemins(List<Chemin> chemins) {
-        List<Chemin> cheminsApresReduc = new ArrayList<Chemin>();
-        for (Chemin chemin : chemins) {
+        final List<Chemin> cheminsApresReduc = new ArrayList<Chemin>();
+        for (final Chemin chemin : chemins) {
             cheminsApresReduc.add(reductionAffichageChemin(chemin));
         }
         return cheminsApresReduc;
@@ -691,7 +751,7 @@ public class Plateforme {
      */
     public void showAllStructureOf(String ville) {
         System.out.println("Structures de la ville " + ville + " :");
-        for (Structure structure : structures) {
+        for (final Structure structure : structures) {
             if (structure.getVille().equalsIgnoreCase(ville)) {
                 System.out.println(structure);
             }
@@ -703,10 +763,10 @@ public class Plateforme {
      */
     public void showAllStructures() {
         System.out.println("Toutes les villes de la plateforme :");
-        for (String ville : villes) {
+        for (final String ville : villes) {
             System.out.println("Ville : " + ville);
             System.out.println("Structures associées :");
-            for (Structure structure : structures) {
+            for (final Structure structure : structures) {
                 if (structure.getVille().equalsIgnoreCase(ville)) {
                     System.out.println(structure);
                 }
@@ -720,7 +780,7 @@ public class Plateforme {
      */
     public void showAllVilles() {
         System.out.println("Toutes les villes de la plateforme :");
-        for (String ville : villes) {
+        for (final String ville : villes) {
             System.out.println(ville);
         }
     }
@@ -732,7 +792,7 @@ public class Plateforme {
      */
     public void showAllVillesWithTransport(ModaliteTransport modalite) {
         System.out.println("Villes avec des structures de transport de type " + modalite + " :");
-        for (Structure structure : structures) {
+        for (final Structure structure : structures) {
             if (structure.getModalite() == modalite) {
                 System.out.println(structure.getVille());
             }
@@ -742,11 +802,12 @@ public class Plateforme {
     /**
      * Affiche toutes les structures ayant la modalité de transport spécifiée.
      *
-     * @param modalite La modalité de transport dont on souhaite afficher les structures.
+     * @param modalite La modalité de transport
+     * dont on souhaite afficher les structures.
      */
     public void showAllStructuresWithTransport(ModaliteTransport modalite) {
         System.out.println("Structures avec la modalité de transport de type " + modalite + " :");
-        for (Structure structure : structures) {
+        for (final Structure structure : structures) {
             if (structure.getModalite() == modalite) {
                 System.out.println(structure);
             }
@@ -762,15 +823,16 @@ public class Plateforme {
 
     
     /**
-     * Renvoie une chaîne de caractères contenant toutes les structures de la ville spécifiée.
+     * Renvoie une chaîne de caractères contenant
+     * toutes les structures de la ville spécifiée.
      *
      * @param ville Le nom de la ville dont on souhaite obtenir les structures.
      * @return Une chaîne de caractères contenant les structures de la ville.
      */
     public String toStringAllStructuresOf(String ville) {
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
         result.append("Structures de la ville ").append(ville).append(" :\n");
-        for (Structure structure : structures) {
+        for (final Structure structure : structures) {
             if (structure.getVille().equalsIgnoreCase(ville)) {
                 result.append(structure).append("\n");
             }
@@ -779,17 +841,18 @@ public class Plateforme {
     }
 
     /**
-     * Renvoie une chaîne de caractères contenant toutes les structures de chaque ville de la plateforme.
+     * Renvoie une chaîne de caractères contenant
+     * toutes les structures de chaque ville de la plateforme.
      *
      * @return Une chaîne de caractères contenant les structures de chaque ville.
      */
     public String toStringAllStructures() {
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
         result.append("Toutes les structures de chaque ville de la plateforme :\n");
-        for (String ville : villes) {
+        for (final String ville : villes) {
             result.append("Ville : ").append(ville).append("\n");
             result.append("Structures associées :\n");
-            for (Structure structure : structures) {
+            for (final Structure structure : structures) {
                 if (structure.getVille().equalsIgnoreCase(ville)) {
                     result.append(structure).append("\n");
                 }
@@ -805,24 +868,26 @@ public class Plateforme {
      * @return Une chaîne de caractères contenant toutes les villes.
      */
     public String toStringAllVilles() {
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
         result.append("Toutes les villes de la plateforme :\n");
-        for (String ville : villes) {
+        for (final String ville : villes) {
             result.append(ville).append("\n");
         }
         return result.toString();
     }
 
     /**
-     * Renvoie une chaîne de caractères contenant toutes les villes ayant des structures de transport de la modalité spécifiée.
+     * Renvoie une chaîne de caractères contenant toutes
+     * les villes ayant des structures de transport de la modalité spécifiée.
      *
      * @param modalite La modalité de transport dont on souhaite obtenir les villes.
-     * @return Une chaîne de caractères contenant les villes avec la modalité de transport spécifiée.
+     * @return Une chaîne de caractères contenant les villes
+     * avec la modalité de transport spécifiée.
      */
     public String toStringVillesWithTransport(ModaliteTransport modalite) {
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
         result.append("Villes avec des structures de transport de type ").append(modalite).append(" :\n");
-        for (Structure structure : structures) {
+        for (final Structure structure : structures) {
             if (structure.getModalite() == modalite) {
                 result.append(structure.getVille()).append("\n");
             }
@@ -831,15 +896,17 @@ public class Plateforme {
     }
 
     /**
-     * Renvoie une chaîne de caractères contenant toutes les structures ayant la modalité de transport spécifiée.
-     *
-     * @param modalite La modalité de transport dont on souhaite obtenir les structures.
-     * @return Une chaîne de caractères contenant les structures avec la modalité de transport spécifiée.
+     * Renvoie une chaîne de caractères contenant toutes
+     * les structures ayant la modalité de transport spécifiée.
+     * @param modalite La modalité de transport
+     * dont on souhaite obtenir les structures.
+     * @return Une chaîne de caractères contenant les structures
+     * avec la modalité de transport spécifiée.
      */
     public String toStringStructuresWithTransport(ModaliteTransport modalite) {
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
         result.append("Structures avec la modalité de transport de type ").append(modalite).append(" :\n");
-        for (Structure structure : structures) {
+        for (final Structure structure : structures) {
             if (structure.getModalite() == modalite) {
                 result.append(structure).append("\n");
             }
@@ -849,24 +916,25 @@ public class Plateforme {
 
 
     /**
-     * Renvoie une représentation textuelle de la plateforme sous forme de chaîne de caractères.
+     * Renvoie une représentation textuelle de
+     * la plateforme sous forme de chaîne de caractères.
      * @return Une représentation textuelle de la plateforme.
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("Structures:\n");
-        for (String ville : villes) {
+        for (final String ville : villes) {
             sb.append(ville).append("\n");
         }
     
         sb.append("Structures:\n");
-        for (Structure structure : structures) {
+        for (final Structure structure : structures) {
             sb.append(structure).append("\n");
         }
     
         sb.append("\nAretes:\n");
-        for (Arete arete : aretes) {
+        for (final Arete arete : aretes) {
             sb.append(arete).append("\n");
         }
     
