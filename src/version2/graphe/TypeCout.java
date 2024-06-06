@@ -11,12 +11,12 @@ public enum TypeCout {
     CO2(" kg"),
     
     /**
-     * Coût en temps.
+     * Coût en minutes.
      */
     TEMPS(" min"),
     
     /**
-     * Coût en prix.
+     * Coût en €.
      */
     PRIX(" €");
 

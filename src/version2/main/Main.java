@@ -1,8 +1,14 @@
-package version2;
+package version2.main;
 
 import java.util.List;
 import java.util.Scanner;
 import fr.ulille.but.sae_s2_2024.Chemin;
+import version2.utils.Verification;
+import version2.user.Voyageur;
+import version2.graphe.Plateforme;
+import version2.graphe.Structure;
+import version2.graphe.TypeCout;
+import version2.utils.DataExtractor;
 
 public class Main {
     

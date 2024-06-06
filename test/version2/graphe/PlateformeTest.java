@@ -1,9 +1,13 @@
-package version2;
+package version2.graphe;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.ulille.but.sae_s2_2024.*;
+import version2.graphe.Arete;
+import version2.graphe.Plateforme;
+import version2.graphe.Structure;
+import version2.graphe.TypeCout;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class PlateformeTest {
@@ -92,8 +96,8 @@ public class PlateformeTest {
     void testChercherPlusCourtsChemins() {
         Structure lille = plateforme.getStructure("Gare_Lille");
         Structure paris = plateforme.getStructure("Gare_Paris");
-        assertEquals(1, plateforme.chercherPlusCourtsChemins(lille, paris, TypeCout.TEMPS, 1).size());
-        assertEquals(1, plateforme.chercherPlusCourtsChemins(lille, paris, TypeCout.TEMPS, 2).size());
+        assertEquals(1, plateforme.simplePCC(lille, paris, TypeCout.TEMPS, 1).size());
+        assertEquals(1, plateforme.simplePCC(lille, paris, TypeCout.TEMPS, 2).size());
     }
 
     @Test

@@ -1,7 +1,10 @@
-package version2;
+package user.version2;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import version2.graphe.TypeCout;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
