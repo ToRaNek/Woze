@@ -125,10 +125,10 @@ Dans cette version, en plus des fonctionnalités fournies par les versions préc
 ⇒ commits étiquetés POO-v2 GRAPHE-v2 IHM-V1 à faire avant le 8/06
 
 #### java 
-- gas poo [-] exclure des alternatives qui excèdent les bornes définies par l’utilisateur. Par exemple, le critère le plus important est l’impact environnemental (qu’il convient alors de minimiser), à condition que la durée du voyage n’excède pas 180 minutes. Tout voyage possible dépassant cette limite doit alors être écarté.
+- gas poo [~] exclure des alternatives qui excèdent les bornes définies par l’utilisateur. Par exemple, le critère le plus important est l’impact environnemental (qu’il convient alors de minimiser), à condition que la durée du voyage n’excède pas 180 minutes. Tout voyage possible dépassant cette limite doit alors être écarté.
 - gas poo [x] gestion de l’existence d’un voyage possible via un mécanisme d’exception (méthode isLinked)
 - gas poo [x] import des données issues de fichiers CSV 
-- gab poo [-] affichage d’un voyage par ses points d’intérêt uniquement (lors des changements de modalités
+- gab poo [x] affichage d’un voyage par ses points d’intérêt uniquement (lors des changements de modalités
 de transport)
 - gor poo [] verification du fichier user ( csv à ajouter dans [verif](./src/version2/Verification.java))
 
@@ -138,8 +138,8 @@ de transport)
 
 ### Autres
 - gor poo [] réalisation d’un diagramme UML
-- gor ihm [] maquettage et prototype basse fidélité
-- gab poo [] PMD
+- gor ihm [x] maquettage et prototype basse fidélité
+- gab poo [-] PMD
 
 ## Version 3
 ---
@@ -163,39 +163,16 @@ Dans cette dernière version, l’application doit, en plus des fonctionnalités
 
 ### TODO
 Semaines 7 (du 10/06) et 8 (du 17/06)
-- poo [] gestion de l’historique par sérialisation binaire
-- poo [] exploitation de l’historique pour afficher des informations pertinentes
-- poo graphes[]expression des préférences multi-critères
-- poo graphes [] implémentation d’un jeu de données et d’un scénario pour illustrer le bon fonc-
-tionnement de votre application
-- ihm [] prototype haute fidélité
-- ihm [] développement en JavaFX
 ⇒ commits étiquetés POO-v3 GRAPHE-v3 IHM-v2, à faire avant le 21/06. . .
 #### java
--
--
--
--
--
+- gas poo [] gestion des chemins par transport ( toutes les possibilités)
+- gas poo [] gestion de l’historique par sérialisation binaire
+- gas poo [] exploitation de l’historique pour afficher des informations pertinentes
 
 #### Graphe
-
--
--
--
--
--
+- ? poo graphes[]expression des préférences multi-critères
+- ? poo graphes [] implémentation d’un jeu de données et d’un scénario pour illustrer le bon fonctionnement de votre application
 
 #### Interface
--
--
--
--
--
-
-### Autres
--
--
--
--
--
+- gor ihm [] prototype haute fidélité
+- gor ihm [] développement en JavaFX
