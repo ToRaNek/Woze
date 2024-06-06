@@ -4,10 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.ulille.but.sae_s2_2024.*;
-import version2.graphe.Arete;
-import version2.graphe.Plateforme;
-import version2.graphe.Structure;
-import version2.graphe.TypeCout;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class PlateformeTest {

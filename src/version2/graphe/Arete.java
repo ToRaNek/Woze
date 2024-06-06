@@ -1,4 +1,4 @@
-package version2;
+package version2.graphe;
 
 import java.util.EnumMap;
 import java.util.Map;

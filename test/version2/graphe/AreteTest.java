@@ -1,10 +1,9 @@
-package version2;
+package version2.graphe;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.ulille.but.sae_s2_2024.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.EnumMap;

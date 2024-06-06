@@ -1,4 +1,4 @@
-package version2;
+package version2.graphe;
 
 /**
  * Cette énumération définit les différents types de coûts possibles.

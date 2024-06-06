@@ -1,4 +1,4 @@
-package user.version2;
+package version2.user;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
