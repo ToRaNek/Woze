@@ -313,10 +313,10 @@ public class Main {
      * @param datac Données des correspondances.
      * @return Méthode qui verifie les données .
      */
-    public static boolean verifVilleEtCorespondances(String [] datav, String [] datac) {
+    public static boolean verifVilleEtCorespondances(String [] datav) {
         final Verification verificationData = new Verification();
         // Vérifier la validité des données
-        final boolean isValid = verificationData.dataIsValid(datav ) &&  verificationData.correspondanceIsValid(datac);
+        final boolean isValid = verificationData.dataIsValid(datav );
         System.out.println("Toutes les données sont valides : " + isValid + '\n');
         return isValid;
     }
@@ -367,7 +367,7 @@ public class Main {
      * @param args args main
      */
     public static void main(String[] args) {
-        if (verifVilleEtCorespondances(DataExtractor.data_villes, DataExtractor.data_correspondances)) {
+        if (verifVilleEtCorespondances(DataExtractor.data_villes)) {
             // Création de la plateforme
             createPlateforme();
             chooseUser();

@@ -48,35 +48,35 @@ public class Plateforme {
         graphes = new HashMap<>();
 
         
-        for (final String data : DataExtractor.data_correspondances) {
-            final String[] split = data.split(";");
-            // ville
-            final String ville = split[0];
+        // for (final String data : DataExtractor.data_correspondances) {
+        //     final String[] split = data.split(";");
+        //     // ville
+        //     final String ville = split[0];
 
-            // ajoute la ville si elle existe pas 
-            if (!containsVille(ville)) {
-                villes.add(ville);
-            }
+        //     // ajoute la ville si elle existe pas 
+        //     if (!containsVille(ville)) {
+        //         villes.add(ville);
+        //     }
 
-            // modalité 1
-            final ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
-            // creation de structure si elle existe pas
-            final Structure struct1 = createOrGetStructure(ville, modalite1);
+        //     // modalité 1
+        //     final ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
+        //     // creation de structure si elle existe pas
+        //     final Structure struct1 = createOrGetStructure(ville, modalite1);
 
-            // modalité 2
-            final ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
-            // creation de structure si elle existe pas
-            final Structure struct2 = createOrGetStructure(ville, modalite2);
+        //     // modalité 2
+        //     final ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
+        //     // creation de structure si elle existe pas
+        //     final Structure struct2 = createOrGetStructure(ville, modalite2);
 
-            // COUTS
-            final double prix = Math.round(Double.parseDouble(split[5])*100)/100;
-            final double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
-            final double temps = Math.round(Double.parseDouble(split[3])*100)/100;
+        //     // COUTS
+        //     final double prix = Math.round(Double.parseDouble(split[5])*100)/100;
+        //     final double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
+        //     final double temps = Math.round(Double.parseDouble(split[3])*100)/100;
 
-            // ARETES ALLEE - RETOUR
-            final Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
-            add2Arete(correspondace);
-        }
+        //     // ARETES ALLEE - RETOUR
+        //     final Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
+        //     add2Arete(correspondace);
+        // }
 
         for (final String data : DataExtractor.data_villes) {
             final String[] split = data.split(";");
