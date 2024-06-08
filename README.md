@@ -130,16 +130,16 @@ Dans cette version, en plus des fonctionnalités fournies par les versions préc
 - gas poo [x] import des données issues de fichiers CSV 
 - gab poo [x] affichage d’un voyage par ses points d’intérêt uniquement (lors des changements de modalités
 de transport)
-- gor poo [] verification du fichier user ( csv à ajouter dans [verif](./src/version2/Verification.java))
+- gor poo [x] verification du fichier user ( csv à ajouter dans [verif](./src/version2/Verification.java))
 
 ### Graphe
 - graphes [x] prise en compte des coûts de correspondance (Version 2)
 - gas graphes [x] implémentation d’un scénario illustrant le bon fonctionnement du système
 
 ### Autres
-- gor poo [] réalisation d’un diagramme UML
+- gor poo [x] réalisation d’un diagramme UML
 - gor ihm [x] maquettage et prototype basse fidélité
-- gab poo [-] PMD
+- gab poo [~] PMD
 
 ## Version 3
 ---
