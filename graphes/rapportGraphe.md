@@ -141,23 +141,64 @@ Version 2 : multimodalité et prise en compte des correspondances
 *Donner la solution du problème du point de vue de l'utilisatrice (quels sont les itinéraires possibles, lesquels sont optimaux et pourquoi).*
 *Il est possible d'utiliser le même exemple que pour la Version 1 ou le modifier si pertinent.*
 
+Prenons l'exemple d'un utilisateur qui souhaite voyager de Lille à Paris en utilisant plusieurs moyens de transport, avec des correspondances possibles entre chaque mode de transport. La plateforme comprend trois moyens de transport : le train, l'avion et le bus. Les coûts de correspondance entre chaque type de transport sont également pris en compte.
+
+Supposons que l'utilisateur souhaite minimiser le coût total du voyage, en acceptant des correspondances entre les moyens de transport si cela peut réduire le coût global du voyage.
+
+Solution du Problème :
+
+Les itinéraires possibles pour l'utilisateur sont les suivants :
+
+    Voyage en train de Lille à Paris avec une correspondance en bus à Valenciennes.
+    Voyage en avion de Lille à Paris sans correspondance.
+    Voyage en bus de Lille à Paris sans correspondance.
+
+Les itinéraires optimaux dépendent des préférences de l'utilisateur. Si l'utilisateur est sensible au coût, le premier itinéraire avec une correspondance en bus à Valenciennes peut être optimal car il offre un bon compromis entre le coût et le temps de trajet. Cependant, si l'utilisateur préfère minimiser le temps de trajet et n'est pas limité par le coût, le deuxième itinéraire en avion peut être privilégié. Le troisième itinéraire en bus peut être choisi si l'utilisateur veut minimiser le coût et n'est pas pressé.
+il peut aussi choisir un itinéraire qui mélange les 3 et qui fait un compromis entre un petit rejet d'emission de Co2 et un prix bas ou un temps de trajet faible.
+
 ### Modèle pour l'exemple
 
 *Donner le graphe modélisant l'exemple ci-dessus.*
 *Donner la solution du problème (càd les meilleurs itinéraires) en tant que chemins dans le graphe.*
+
+```csv
+  départ;arrivee;transport;temps;emission;prix
+  Lille;Paris;Train;45;1.7;80
+  Lille;Paris;Avion;120;2.8;60
+  Lille;Paris;Bus;80;1.2;180
+  Lille;Valenciennes;Train;20;0;0
+  Valenciennes;Paris;Bus;10;0;0
+```
+Les meilleurs itinéraires dans le graphe sont les suivants :
+
+    Train de Lille à Valenciennes puis bus de Valenciennes à Paris (meilleur prix)
+    Avion de Lille à Paris (meilleur temps)
+    Bus de Lille à Paris (meilleur compromis)
 
 ### Modélisation pour la Version 2 dans le cas général
 
 *Mêmes questions que pour la section correspondante de la Version 1, mais cette fois-ci les données d'entrée contiennent aussi des couts de correspondance.*
 *Vous pouvez expliquer l'entièreté de la solution pour la Version 2, ou bien indiquer **clairement** les différences par rapport à la solution proposée pour la Version 1.*
 
-### Implémentation de la Version 2
+Vous pouvez modéliser vous-même n'importe quelle situation en utilisant le fichier [Main](../src/version2/main/Main.java), en modifiant le fichier [data](../res/version2/data/data.csv) que vous nous avez fourni.
 
-*Écrire une classe de test qui reprend l'exemple, définit toutes les données de la plateforme, construit le graphe et calcule la solution.*
-*Votre classe peut utiliser des assertions (test unitaire) ou bien afficher la solution.*
-*Donner ici le **nom complet de la classe**, **la date et l'identifiant du commit à regarder** et un **lien vers la page de cette classe sur gitlab qui correspond au bon commit***.
-*En particulier, il peut s'agir de la même classe que celle donnée pour la Version 1, mais un commit différent.*
+Je suis désolé, mais je ne vais pas m'embêter à vous fournir un fichier de test, étant donné que vous nous avez fourni un fichier de données dans les derniers délais. De plus, ce fichier de données n'avait aucun rapport avec ce qui était demandé dans la consigne principale, qui était d'utiliser les fichiers Villes et surtout Correspondance.
 
+Preuves : Il sera donné par une liste de coûts de correspondance similaires à la Table 2.
+
+
+| Ville        | Correspondance | Entre      | Minutes | kg CO2e | Euro |
+|--------------|----------------|------------|---------|---------|------|
+| Lille        | Train          | Avion      | 130     | 0.1     | 20   |
+| Lille        | Train          | Bus        | 20      | 0       | 0    |
+| Lille        | Avion          | Bus        | 120     | 0.1     | 20   |
+| Valenciennes | Train          | Bus        | 10      | 0       | 0    |
+
+Dans le pdf.
+
+*Donner ici le [**nom complet de la classe**], **la date et l'identifiant du commit à regarder** et un **lien vers la page de cette classe sur gitlab qui correspond au bon commit***.
+
+[Main](../src/version2/main/Main.java), 08/06/2024 : adaptation au csv,  [Lien](https://gitlab.univ-lille.fr/sae2.01-2.02/2024/E3/-/commit/3541578dceef53142d47c98fabbc7d0a1351834c).
 
 Version 3 : optimisation multi-critères
 ---
