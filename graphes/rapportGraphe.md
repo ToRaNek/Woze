@@ -13,7 +13,7 @@ Contraintes à respecter pour le rapport
 Idéalement, le rapport est rédigé au fur et à mesure avec le calendrier donné dans le sujet:
 
 - section Version 1 faite avant le 20/05/2024 (1pt/20 si c'est le cas) ( date modifié en amphi)
-- section Version 2 faite avant le 08/06/2024 (1pt/20 si c'est le cas)
+- section Version 2 faite avant le 08/06/2024 (1pt/20 si c'est le cas) ( on nous à préciser que le rendre le 08 été "ok")
 
 Finalement, l'utilisation d'un outils de génération de langage est autorisées, à condition de le faire intelligemment. En particulier, veillez à:
 - avoir un rapport cohérent avec un style cohérent sur la totalité du document (niveau de langage, richesse du vocabulaire, termes utilisés, verbosité, ...)
