@@ -1,4 +1,4 @@
-package version2.graphe;
+package version3.graphe;
 
 import fr.ulille.but.sae_s2_2024.*;
 import java.util.ArrayList;

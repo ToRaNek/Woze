@@ -1,9 +1,9 @@
-package version2.user;
+package version3.user;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import version2.graphe.TypeCout;
+import version3.graphe.TypeCout;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;

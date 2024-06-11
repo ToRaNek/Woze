@@ -1,9 +1,9 @@
-package version2.user;
+package version3.user;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import version2.graphe.TypeCout;
+import version3.graphe.TypeCout;
 
 /**
  * La classe Voyageur représente un utilisateur du système.
