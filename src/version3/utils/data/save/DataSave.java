@@ -1,10 +1,10 @@
-package version3.utils;
+package version3.utils.data.save;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataExtractor {
+public class DataSave {
 
     public static List<String> lireData(String cheminFichier) {
         List<String> data = new ArrayList<>();
@@ -37,7 +37,6 @@ public class DataExtractor {
         return data;
     }
 
-
     public static String[] listeData(String cheminFichier) {
         List<String> dataList = lireData(cheminFichier);
         String[] data = new String[dataList.size()];
@@ -46,14 +45,4 @@ public class DataExtractor {
         }
         return data;
     }
-
-    // private static final String path_villes = "res/version3/data/villes.csv";
-    private static final String path_villes = "res/version3/data/data.csv";
-    // private static final String path_cor = "res/version3/data/correspondances.csv";
-    private static final String path_users = "res/version3/user/users.csv";
-
-    public static String[] data_villes = listeData(path_villes);
-    // public static String[] data_correspondances = listeData(path_cor);
-    public static String[] users = listeData(path_users); // users pour la version 3
-
 }

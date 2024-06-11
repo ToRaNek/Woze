@@ -2,6 +2,8 @@ package version3.utils;
 
 import org.junit.Test;
 
+import version3.utils.verifications.Verifications;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -10,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  * Classe test de VerifictionData
  */
 public class VerificationTest {
-    Verification verification = new Verification();
+    Verifications verification = new Verifications();
     
     @Test
     public void testDataIsValid() {

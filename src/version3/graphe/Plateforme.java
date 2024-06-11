@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-// import org.junit.jupiter.params.provider.CsvFileSource;
 import fr.ulille.but.sae_s2_2024.*;
-import version3.utils.Verification;
+import version3.utils.data.extract.UserDataExtractor;
+import version3.utils.data.extract.VilleDataExtractor;
+import version3.utils.verifications.Verifications;
 import version3.user.Voyageur;
-import version3.utils.DataExtractor;
 
 /**
  * La classe Plateforme représente une plateforme de transport.
@@ -47,38 +47,7 @@ public class Plateforme {
         users = new ArrayList<>();
         graphes = new HashMap<>();
 
-        
-        // for (final String data : DataExtractor.data_correspondances) {
-        //     final String[] split = data.split(";");
-        //     // ville
-        //     final String ville = split[0];
-
-        //     // ajoute la ville si elle existe pas 
-        //     if (!containsVille(ville)) {
-        //         villes.add(ville);
-        //     }
-
-        //     // modalité 1
-        //     final ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
-        //     // creation de structure si elle existe pas
-        //     final Structure struct1 = createOrGetStructure(ville, modalite1);
-
-        //     // modalité 2
-        //     final ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
-        //     // creation de structure si elle existe pas
-        //     final Structure struct2 = createOrGetStructure(ville, modalite2);
-
-        //     // COUTS
-        //     final double prix = Math.round(Double.parseDouble(split[5])*100)/100;
-        //     final double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
-        //     final double temps = Math.round(Double.parseDouble(split[3])*100)/100;
-
-        //     // ARETES ALLEE - RETOUR
-        //     final Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
-        //     add2Arete(correspondace);
-        // }
-
-        for (final String data : DataExtractor.data_villes) {
+        for (final String data : VilleDataExtractor.data_villes) {
             final String[] split = data.split(";");
 
             final ModaliteTransport modalite = ModaliteTransport.valueOf(split[2].toUpperCase());
@@ -109,10 +78,9 @@ public class Plateforme {
         }
         currentGraphe = graphes.get(Voyageur.getCritereDefaut());
 
-        for (final String data : DataExtractor.users) {
+        for (final String data : UserDataExtractor.users) {
             final String[] split = data.split(";");
 
-            // TODO demander à gordon de faire ses vérifications aussi dans la classe associé
         
             // verif si toutes les données sont présentes
             if (split.length >= 3 && split.length <= 5) {
@@ -122,7 +90,7 @@ public class Plateforme {
                 final String critere = (split.length >= 4) ? split[3] : null;
         
                 // verif si aucune des données est null
-                if (prenom != null && nom != null && ville != null && (critere == null || Verification.estCritereValide(critere))) {
+                if (prenom != null && nom != null && ville != null && (critere == null || Verifications.estCritereValide(critere))) {
                     final TypeCout critUser = (critere != null) ? TypeCout.valueOf(critere.toUpperCase()) : Voyageur.getCritereDefaut();
                     
                     if (split.length == 4) {

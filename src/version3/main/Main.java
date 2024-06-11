@@ -3,12 +3,12 @@ package version3.main;
 import java.util.List;
 import java.util.Scanner;
 import fr.ulille.but.sae_s2_2024.Chemin;
-import version3.utils.Verification;
+import version3.utils.data.extract.VilleDataExtractor;
+import version3.utils.verifications.Verifications;
 import version3.user.Voyageur;
 import version3.graphe.Plateforme;
 import version3.graphe.Structure;
 import version3.graphe.TypeCout;
-import version3.utils.DataExtractor;
 
 public class Main {
     
@@ -73,7 +73,7 @@ public class Main {
         System.out.println("Quel critère de recherche d'itinéraire vous semble le plus adapté ? (Temps/Co2/Prix)");
         String critere = scanner.nextLine().toUpperCase();
         System.out.println(critere);
-        while(!Verification.estCritereValide(critere)){
+        while(!Verifications.estCritereValide(critere)){
             System.out.println("Critère invalide. (Temps/Co2/Prix)");
             critere = scanner.nextLine().toUpperCase();
         };
@@ -100,7 +100,7 @@ public class Main {
             System.out.println("4. Changer d'utilisateur");
             System.out.println("5. Quitter");
             System.out.print("Votre choix: ");
-            choix = Verification.getValidIntInput(scanner);
+            choix = Verifications.getValidIntInput(scanner);
             clearTerminal();
     
             switch (choix) {
@@ -165,7 +165,7 @@ public class Main {
         for (int i = 0; i < p.getStructures().size(); i++) {
             System.out.println((i + 1) + ". " + p.getStructures().get(i));
         }
-        final int choixStructureDepart = Verification.getValidIntInput(scanner) - 1;
+        final int choixStructureDepart = Verifications.getValidIntInput(scanner) - 1;
         final String structureDepart = p.getStructures().get(choixStructureDepart).getNom();
     
         // Arrivée
@@ -173,17 +173,17 @@ public class Main {
         for (int i = 0; i < p.getStructures().size(); i++) {
             System.out.println((i + 1) + ". " + p.getStructures().get(i));
         }
-        final int choixStructureArrivee = Verification.getValidIntInput(scanner) - 1;
+        final int choixStructureArrivee = Verifications.getValidIntInput(scanner) - 1;
         final String structureArrivee = p.getStructures().get(choixStructureArrivee).getNom();
     
         final Structure depart = p.getStructure(structureDepart);
         final Structure arrivee = p.getStructure(structureArrivee);
     
         System.out.println("Combien de chemins souhaitez-vous trouver ?");
-        final int k = Verification.getValidIntInput(scanner);
+        final int k = Verifications.getValidIntInput(scanner);
     
         System.out.println("Quel poids ne doit pas excéder le trajet ?");
-        final double poidsMax = Verification.getValidDoubleInput(scanner);
+        final double poidsMax = Verifications.getValidDoubleInput(scanner);
     
         System.out.println("Quel est le deuxième critère (temps, prix ou CO2) ?");
         final String critere2 = scanner.next();
@@ -248,7 +248,7 @@ public class Main {
             System.out.println("6. Retour au menu principal");
             System.out.print("Choisissez une option: ");
             
-            final int choix = Verification.getValidIntInput(scanner);
+            final int choix = Verifications.getValidIntInput(scanner);
     
             switch (choix) {
                 case 1:
@@ -313,10 +313,10 @@ public class Main {
      * @param datac Données des correspondances.
      * @return Méthode qui verifie les données .
      */
-    public static boolean verifVilleEtCorespondances(String [] datav) {
-        final Verification verificationData = new Verification();
+    public static boolean verifData(String [] datav) {
+        final Verifications verificationsData = new Verifications();
         // Vérifier la validité des données
-        final boolean isValid = verificationData.dataIsValid(datav );
+        final boolean isValid = verificationsData.dataIsValid(datav );
         System.out.println("Toutes les données sont valides : " + isValid + '\n');
         return isValid;
     }
@@ -334,10 +334,10 @@ public class Main {
             System.out.println("1. Choisir un utilisateur existant");
             System.out.println("2. Créer un nouvel utilisateur");
             
-            int choix = Verification.getValidIntInput(scanner);
+            int choix = Verifications.getValidIntInput(scanner);
             while (choix < 1 || choix > 2) {
                 System.out.println("Choix invalide, veuillez réessayer.");
-                choix = Verification.getValidIntInput(scanner);
+                choix = Verifications.getValidIntInput(scanner);
             }
             
             if (choix == 1) {
@@ -346,10 +346,10 @@ public class Main {
                     System.out.println((i + 1) + ". " + p.getUsers().get(i).getNom() + " " + p.getUsers().get(i).getPrenom());
                 }
         
-                int choixUser = Verification.getValidIntInput(scanner);
+                int choixUser = Verifications.getValidIntInput(scanner);
                 while (choixUser < 1 || choixUser > p.getUsers().size()) {
                     System.out.println("Choix invalide, veuillez réessayer.");
-                    choixUser = Verification.getValidIntInput(scanner);
+                    choixUser = Verifications.getValidIntInput(scanner);
                 }
         
                 user = p.getUsers().get(choixUser - 1);
@@ -367,7 +367,7 @@ public class Main {
      * @param args args main
      */
     public static void main(String[] args) {
-        if (verifVilleEtCorespondances(DataExtractor.data_villes)) {
+        if (verifData(VilleDataExtractor.data_villes)) {
             // Création de la plateforme
             createPlateforme();
             chooseUser();

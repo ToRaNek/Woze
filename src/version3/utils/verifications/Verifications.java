@@ -1,4 +1,4 @@
-package version3.utils;
+package version3.utils.verifications;
 
 import java.util.Scanner;
 
@@ -9,7 +9,7 @@ import fr.ulille.but.sae_s2_2024.ModaliteTransport;
  * Chaque ligne de données doit respecter un format spécifique :
  * `&lt;ville de départ&gt;;&lt;ville d'arrivée&gt;;&lt;mode de transport&gt;;&lt;distance&gt;;&lt;durée&gt;;&lt;prix&gt;`
  */
-public class Verification {
+public class Verifications {
 
 
     /**

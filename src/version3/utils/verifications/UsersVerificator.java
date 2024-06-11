@@ -1,4 +1,4 @@
-package version3.utils;
+package version3.utils.verifications;
 
 /**
  * Classe utilitaire pour la validation des données utilisateur, potentiellement issues d'un fichier CSV.

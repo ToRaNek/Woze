@@ -2,6 +2,8 @@ package version3.utils;
 
 import org.junit.Test;
 
+import version3.utils.verifications.UsersVerificator;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
