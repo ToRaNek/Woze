@@ -4,14 +4,59 @@ import version3.graphe.TypeCout;
 import version3.user.Voyageur;
 import version3.utils.verifications.Verifications;
 import version3.utils.data.extract.UserDataExtractor;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserManagement {
+    public static UserManagement loadFromFile(String fileName) throws IOException, ClassNotFoundException {
+        return loadFromFile(fileName);
+    }
+
     private ArrayList<Voyageur> users;
 
     public UserManagement() {
         users = new ArrayList<>();
         initializeUsers();
+    }
+
+    public ArrayList<Voyageur> getUsers() {
+        return users;
+    }
+
+    public void addUser(final Voyageur user) {
+        users.add(user);
+        
+    }
+
+    public void removeUser(final Voyageur user) {
+        Voyageur.getIdTrash().add(user.getId());
+        // TODO save
+        users.remove(user);
+    }
+
+    public Voyageur getUserById(int userId) {
+        for (Voyageur user : users) {
+            if (user.getId() == userId) {
+                return user;
+            }
+        }
+        return null; 
+    }
+
+    public Voyageur getUserByNomPrenom(String nom, String prenom) {
+        for (Voyageur user : users) {
+            if (user.getNom().equalsIgnoreCase(nom) && user.getPrenom().equalsIgnoreCase(prenom)) {
+                return user;
+            }
+        }
+        return null; 
+    }
+
+    // TODO
+    // Méthodes de sérialisation et de désérialisation
+    public void saveToFile(String fileName) throws IOException {
+        saveToFile(fileName);
     }
 
     private void initializeUsers() {
@@ -42,37 +87,5 @@ public class UserManagement {
         }
     }
 
-    public ArrayList<Voyageur> getUsers() {
-        return users;
-    }
-
-    public void addUser(final Voyageur user) {
-        users.add(user);
-        // TODO Save
-    }
-
-    public void removeUser(final Voyageur user) {
-        Voyageur.getIdTrash().add(user.getId());
-        // TODO save
-        users.remove(user);
-    }
-
-    public Voyageur getUserById(int userId) {
-        for (Voyageur user : users) {
-            if (user.getId() == userId) {
-                return user;
-            }
-        }
-        return null; 
-    }
-
-    public Voyageur getUserByNomPrenom(String nom, String prenom) {
-        for (Voyageur user : users) {
-            if (user.getNom().equalsIgnoreCase(nom) && user.getPrenom().equalsIgnoreCase(prenom)) {
-                return user;
-            }
-        }
-        return null; 
-    }
     
 }

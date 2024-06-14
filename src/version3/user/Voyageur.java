@@ -3,6 +3,7 @@ package version3.user;
 import java.util.ArrayList;
 import java.util.List;
 
+// import version3.graphe.Trajet;
 import version3.graphe.TypeCout;
 
 /**
@@ -10,32 +11,58 @@ import version3.graphe.TypeCout;
  */
 public class Voyageur {
 
+
+    // TODO 
+    // /** La liste des trajets cliqué */
+    // private List<Trajet> historique;
+
+    // /** La liste des trajets favoris de l'utilisateur */
+    // private List<Trajet> favoris;
+
+
     /** La liste des ID d'utilisateurs supprimés */
     private final static List<Integer> IdTrash = new ArrayList<>();
 
     /** Variables statiques pour gérer les ID */
     private static int prochaineID = 1;
 
-    /** Le critère de l'utilisateur */
-    private TypeCout critere;
-
     /** Le critère de l'utilisateur par défaut */
     private static final TypeCout critere_defaut = TypeCout.TEMPS;
 
-    /** L'ID de l'utilisateur */
-    private final int id;
-
-    /** Le nom de l'utilisateur */
-    private String nom;
-
-    /** Le prénom de l'utilisateur */
-    private String prenom;
-
-    /** La ville de référence de l'utilisateur */
-    private String ville;
-
     /** La ville de référence de l'utilisateur par défaut */
     private static final String ville_defaut = "Aucune";
+
+    /**
+     * Obtient le critère par défaut.
+     * @return Le critère par défaut.
+     */
+    public static TypeCout getCritereDefaut() {
+        return critere_defaut;
+    }
+
+    /**
+     * Obtient la liste des ID des utilisateurs supprimés.
+     * @return La liste des ID des utilisateurs supprimés.
+     */
+    public static List<Integer> getIdTrash() {
+        return IdTrash;
+    }
+
+    /**
+     * Obtient le prochain ID disponible pour un nouvel utilisateur.
+     * @return Le prochain ID disponible.
+     */
+    public static int getProchaineID() {
+        return prochaineID;
+    }
+
+    /**
+     * Définit le prochain ID disponible pour un nouvel utilisateur.
+     * @param prochaineID Le prochain ID disponible.
+     */
+    public static void setProchaineID(final int prochaineID) {
+        Voyageur.prochaineID = prochaineID;
+    }
 
     /**
      * Génère un ID unique pour le voyageur.
@@ -48,6 +75,21 @@ public class Voyageur {
             return prochaineID++;
         }
     }
+
+    /** Le critère de l'utilisateur */
+    private TypeCout critere;
+
+    /** L'ID de l'utilisateur */
+    private final int id;
+
+    /** Le nom de l'utilisateur */
+    private String nom;
+
+    /** Le prénom de l'utilisateur */
+    private String prenom;
+
+    /** La ville de référence de l'utilisateur */
+    private String ville;
 
     /**
      * Constructeur de la classe Voyageur.
@@ -121,27 +163,11 @@ public class Voyageur {
     }
 
     /**
-     * Obtient le critère par défaut.
-     * @return Le critère par défaut.
-     */
-    public static TypeCout getCritereDefaut() {
-        return critere_defaut;
-    }
-
-    /**
      * Obtient l'ID de l'utilisateur.
      * @return L'ID de l'utilisateur.
      */
     public int getId() {
         return id;
-    }
-
-    /**
-     * Obtient la liste des ID des utilisateurs supprimés.
-     * @return La liste des ID des utilisateurs supprimés.
-     */
-    public static List<Integer> getIdTrash() {
-        return IdTrash;
     }
 
     /**
@@ -158,14 +184,6 @@ public class Voyageur {
      */
     public String getPrenom() {
         return prenom;
-    }
-
-    /**
-     * Obtient le prochain ID disponible pour un nouvel utilisateur.
-     * @return Le prochain ID disponible.
-     */
-    public static int getProchaineID() {
-        return prochaineID;
     }
 
     /**
@@ -201,14 +219,6 @@ public class Voyageur {
     }
 
     /**
-     * Définit le prochain ID disponible pour un nouvel utilisateur.
-     * @param prochaineID Le prochain ID disponible.
-     */
-    public static void setProchaineID(final int prochaineID) {
-        Voyageur.prochaineID = prochaineID;
-    }
-
-    /**
      * Définit la ville de référence de l'utilisateur.
      * @param ville La nouvelle ville de référence de l'utilisateur.
      */
@@ -225,4 +235,5 @@ public class Voyageur {
         return "Voyageur [critere=" + critere + ", id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", ville="
                 + ville + "]";
     }
+    
 }
