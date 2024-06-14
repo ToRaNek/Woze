@@ -165,16 +165,16 @@ Dans cette dernière version, l’application doit, en plus des fonctionnalités
 Semaines 7 (du 10/06) et 8 (du 17/06)
 ⇒ commits étiquetés POO-v3 GRAPHE-v3 IHM-v2, à faire avant le 21/06. . .
 #### java
-- gas poo [] gestion des chemins par transport ( toutes les possibilités)
-- gas poo [-] réorganisation des fichiers logiques et externalisation
-- gas poo [] gestion par triple critère (toutes les possibilités)
+- gas poo [x] gestion des chemins par transport ( toutes les possibilités)
+- gas poo [~] réorganisation des fichiers logiques et externalisation
+- gas poo [x] gestion par triple critère (toutes les possibilités)
 - gas poo [] gestion de l’historique par sérialisation binaire
 - gas poo [] exploitation de l’historique pour afficher des informations pertinentes
 
 #### Graphe
-- gas poo graphes []expression des préférences multi-critères
-- gas poo graphes [] implémentation d’un jeu de données et d’un scénario pour illustrer le bon fonctionnement de votre application
+- gas poo graphes [x]expression des préférences multi-critères
+- gas poo graphes [x] implémentation d’un jeu de données et d’un scénario pour illustrer le bon fonctionnement de votre application
 
 #### Interface
-- gor gab ihm [] prototype haute fidélité
-- gor gab ihm [] développement en JavaFX
+- gor gab ihm [-] prototype haute fidélité
+- gor gab ihm [-] développement en JavaFX
