@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "FxmlWoze",
+            "request": "launch",
+            "mainClass": "version3.interfaces.FxmlWoze",
+            "vmArgs": "--module-path /home/public/javafx-sdk-17.0.2/lib --add-modules=javafx.controls,javafx.fxml"
+        },
+    ]
+}
