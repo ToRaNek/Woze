@@ -1,5 +1,6 @@
 package version3.graphe;
 
+import version3.utils.data.extract.CorrespondanceDataExtractor;
 import version3.utils.data.extract.VilleDataExtractor;
 import version3.graphe.management.*;
 import version3.user.management.UserManagement;
@@ -19,13 +20,48 @@ import fr.ulille.but.sae_s2_2024.Trancon;
  */
 public class Plateforme {
 
+
+
+    // mérhodes statique
+    /**
+     * @param chemin Le chemin.
+     * @return Réduit l'affichage du chemin.
+     */
+    public static Chemin reductionAffichageChemin(Chemin chemin) {
+        final List<Trancon> delTrancon = new ArrayList<>();
+        ModaliteTransport nextModalite;
+        for (int idx = 1; idx < chemin.aretes().size()-2; idx++) {
+            nextModalite = chemin.aretes().get(idx+1).getModalite();
+            if (chemin.aretes().get(idx).getModalite() == nextModalite) {
+                delTrancon.add(chemin.aretes().get(idx));
+            } 
+        }
+        chemin.aretes().removeAll(delTrancon);
+        System.out.println(delTrancon);
+        return chemin;
+    }
+    /**
+     * @param chemins La liste des chemin.
+     * @return Réduit l'affiche des chemins d'une liste.
+     */
+    public static List<Chemin> reductionAffichageChemins(List<Chemin> chemins) {
+        final List<Chemin> cheminsApresReduc = new ArrayList<Chemin>();
+        for (final Chemin chemin : chemins) {
+            cheminsApresReduc.add(reductionAffichageChemin(chemin));
+        }
+        return cheminsApresReduc;
+    }
+
+    // attributs
     private Voyageur currentUser;
     private UserManagement users;
     private AreteManagement aretes;
     private VilleManagement villes;
     private StructureManagement structures;
     private TypeCout currentCrit = Voyageur.getCritereDefaut();
+
     private MultiGrapheOrienteValue currentGraphe;
+
     private HashMap<TypeCout, MultiGrapheOrienteValue> graphes;
 
     public Plateforme() {
@@ -36,38 +72,44 @@ public class Plateforme {
         graphes = new HashMap<>();
 
         initializeVilleData();
+        initializeCorrespondance();
         initializeGraphs();
     }
 
-    private void initializeVilleData() {
-        for (final String data : VilleDataExtractor.data_villes) {
-            final String[] split = data.split(";");
-            final ModaliteTransport modalite = ModaliteTransport.valueOf(split[2].toUpperCase());
-            final String villeDepart = split[0];
-            final String villeArrivee = split[1];
+    private void initializeCorrespondance() {
+    for (final String data : CorrespondanceDataExtractor.data_cor) {
+                final String[] split = data.split(";");
+                // ville
+                final String ville = split[0];
 
-            Structure depart = createOrGetStructure(villeDepart, modalite);
-            Structure arrivee = createOrGetStructure(villeArrivee, modalite);
+                // ajoute la ville si elle existe pas 
+                if (!containsVille(ville)) {
+                    villes.addVille(ville);
+                }
 
-            final double prix = Math.round(Double.parseDouble(split[5]) * 100) / 100.0;
-            final double co2 = Math.round(Double.parseDouble(split[4]) * 100) / 100.0;
-            final double temps = Math.round(Double.parseDouble(split[3]) * 100) / 100.0;
+                // modalité 1
+                final ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
+                // creation de structure si elle existe pas
+                final Structure struct1 = createOrGetStructure(ville, modalite1);
 
-            final Arete allee = new Arete(depart, arrivee, modalite, temps, co2, prix);
-            aretes.addAreteWithReturn(allee);
-        }
+                // modalité 2
+                final ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
+                // creation de structure si elle existe pas
+                final Structure struct2 = createOrGetStructure(ville, modalite2);
+
+                // COUTS
+                final double prix = Math.round(Double.parseDouble(split[5])*100)/100;
+                final double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
+                final double temps = Math.round(Double.parseDouble(split[3])*100)/100;
+
+                // ARETES ALLEE - RETOUR
+                final Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
+                add2Arete(correspondace);
+            }
     }
-
+    
     public Structure createOrGetStructure( String ville,  ModaliteTransport modalite) {
         return structures.createOrGetStructure(villes, ville, modalite);
-    }
-
-    private void initializeGraphs() {
-        for (final TypeCout crit : TypeCout.values()) {
-            final MultiGrapheOrienteValue g = buildGraph(crit.name());
-            graphes.put(crit, g);
-        }
-        currentGraphe = graphes.get(Voyageur.getCritereDefaut());
     }
 
     public MultiGrapheOrienteValue buildGraph(final String critere) {
@@ -282,34 +324,42 @@ public class Plateforme {
         return sb.toString();
     }
 
-    /**
-     * @param chemin Le chemin.
-     * @return Réduit l'affichage du chemin.
-     */
-    public static Chemin reductionAffichageChemin(Chemin chemin) {
-        final List<Trancon> delTrancon = new ArrayList<>();
-        ModaliteTransport nextModalite;
-        for (int idx = 1; idx < chemin.aretes().size()-2; idx++) {
-            nextModalite = chemin.aretes().get(idx+1).getModalite();
-            if (chemin.aretes().get(idx).getModalite() == nextModalite) {
-                delTrancon.add(chemin.aretes().get(idx));
-            } 
+    private void initializeVilleData() {
+        for (final String data : VilleDataExtractor.data_villes) {
+            final String[] split = data.split(";");
+            final ModaliteTransport modalite = ModaliteTransport.valueOf(split[2].toUpperCase());
+            final String villeDepart = split[0];
+            final String villeArrivee = split[1];
+
+            Structure depart = createOrGetStructure(villeDepart, modalite);
+            Structure arrivee = createOrGetStructure(villeArrivee, modalite);
+
+            final double prix = Math.round(Double.parseDouble(split[5]) * 100) / 100.0;
+            final double co2 = Math.round(Double.parseDouble(split[4]) * 100) / 100.0;
+            final double temps = Math.round(Double.parseDouble(split[3]) * 100) / 100.0;
+
+            final Arete allee = new Arete(depart, arrivee, modalite, temps, co2, prix);
+            aretes.addAreteWithReturn(allee);
         }
-        chemin.aretes().removeAll(delTrancon);
-        System.out.println(delTrancon);
-        return chemin;
     }
 
-    /**
-     * @param chemins La liste des chemin.
-     * @return Réduit l'affiche des chemins d'une liste.
-     */
-    public static List<Chemin> reductionAffichageChemins(List<Chemin> chemins) {
-        final List<Chemin> cheminsApresReduc = new ArrayList<Chemin>();
-        for (final Chemin chemin : chemins) {
-            cheminsApresReduc.add(reductionAffichageChemin(chemin));
+    private void initializeGraphs() {
+        for (final TypeCout crit : TypeCout.values()) {
+            final MultiGrapheOrienteValue g = buildGraph(crit.name());
+            graphes.put(crit, g);
         }
-        return cheminsApresReduc;
+        currentGraphe = graphes.get(Voyageur.getCritereDefaut());
     }
 
+    public ArrayList<Structure> getStructuresFrom(String Ville) {
+        return structures.getStructuresFrom(Ville);
+    }
+
+    public ArrayList<Structure> getStructuresFor(ModaliteTransport modaliteTransport) {
+        return structures.getStructuresFor(modaliteTransport);
+    }
+
+    public ArrayList<Structure> getStructuresFromAndFor(String Ville, ModaliteTransport modaliteTransport) {
+     return structures.getStructuresFromAndFor(Ville, modaliteTransport);
+    }
 }

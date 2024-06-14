@@ -16,6 +16,32 @@ public class StructureManagement {
         return structures;
     }
 
+    public ArrayList<Structure> getStructuresFrom(String Ville) {
+        ArrayList<Structure> struct = new ArrayList<>();
+        for (Structure structure : structures) {
+            if (structure.getVille().equals(Ville)) struct.add(structure);
+        }
+        return struct;
+    }
+
+    public ArrayList<Structure> getStructuresFor(ModaliteTransport modaliteTransport) {
+        ArrayList<Structure> struct = new ArrayList<>();
+        for (Structure structure : structures) {
+            if (structure.getModalite().equals(modaliteTransport)) struct.add(structure);
+        }
+        return struct;
+    }
+
+    public ArrayList<Structure> getStructuresFromAndFor(String ville, ModaliteTransport modaliteTransport) {
+        ArrayList<Structure> result = new ArrayList<>();
+        for (Structure structure : structures) {
+            if (structure.getVille().equals(ville) && structure.getModalite() == modaliteTransport) {
+                result.add(structure);
+            }
+        }
+        return result;
+    }
+
     public void addStructure(final Structure structure) {
         structures.add(structure);
     }
