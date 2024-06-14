@@ -1,5 +1,9 @@
 package version3.interfaces;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
@@ -8,8 +12,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
 public class ConnexionController {
-    ObservableSet<String> villes = FXCollections.observableSet("Lille", "Lens", "Paris", "Lyon", "Nice", "Nimes", "Toulouse", "Tours");
+    Set<String> villes;
 
+    public ConnexionController(){
+        villes = new HashSet();
+        villes.addAll(FxmlWoze.plateforme.getVilles());
+    }
 
     @FXML
     ComboBox<String> villesCB;
@@ -21,7 +29,9 @@ public class ConnexionController {
         villesCB.setItems(FXCollections.observableArrayList(villes));
         villesCB.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
             villesCB.show();
-            filterCities(newValue);
+            if (newValue != null && !villes.contains(newValue)) {
+                filterCities(newValue);
+            }
             System.out.println("Nouvelle valeur : " + newValue);
         });
     }
@@ -37,7 +47,7 @@ public class ConnexionController {
 
     @FXML
     public void CBVilles(ActionEvent event) {
-        System.out.println("test...");
+        // villesCB.getEditor().textProperty().set(villesCB.getSelectionModel().getSelectedItem());
     }
 
 }
