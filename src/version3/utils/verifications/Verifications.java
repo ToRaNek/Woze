@@ -127,31 +127,49 @@ public class Verifications {
     
     // Vérifie si le critère est valide
     public static boolean estCritereValide(String critere) {
+        critere = critere.toUpperCase();
         return critere.equals("TEMPS") || critere.equals("CO2") || critere.equals("PRIX");
     }
+
     // TODO : dans les futur version à supprimer ou a modifier pour ihm
     // fonction qui permet de ne pas avoir d'exception à cause du scanner pour les double( désolé si on avait pas le droit j'en pouvais plus ) 
     public static double getValidDoubleInput(Scanner scanner) {
-            while (true) {
-                try {
-                    double input = Double.parseDouble(scanner.nextLine());
-                    return input;
-                } catch (NumberFormatException e) {
-                    System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
-                }
-            }
-
-        }
-
-        // fonction qui permet de ne pas avoir d'exception à cause du scanner pour les int ( désolé si on avait pas le droit j'en pouvais plus ) 
-        public static int getValidIntInput(Scanner scanner) {
-            while (true) {
-                try {
-                    int input = Integer.parseInt(scanner.nextLine());
-                    return input;
-                } catch (NumberFormatException e) {
-                    System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
-                }
+        while (true) {
+            try {
+                double input = Double.parseDouble(scanner.nextLine());
+                return input;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
             }
         }
+
+    }
+
+    // fonction qui permet de ne pas avoir d'exception à cause du scanner pour les int ( désolé si on avait pas le droit j'en pouvais plus ) 
+    public static int getValidIntInput(Scanner scanner) {
+        while (true) {
+            try {
+                int input = Integer.parseInt(scanner.nextLine());
+                return input;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
+            }
+        }
+    }
+
+    // Fonction qui permet de vérifier que l'entrée est un nombre entier et qu'elle ne dépasse pas une valeur maximale
+    public static int getValidIntInput(Scanner scanner, int maxInput) {
+        while (true) {
+            try {
+                int input = Integer.parseInt(scanner.nextLine());
+                if (input <= maxInput && input > 0) {
+                    return input;
+                } else {
+                    System.out.println("Entrée invalide, le nombre doit être inférieur ou égal à " + maxInput + ". Veuillez réessayer.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrée invalide, veuillez saisir un nombre entier.");
+            }
+        }
+    } 
 }
