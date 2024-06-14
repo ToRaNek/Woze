@@ -43,7 +43,7 @@ public class AreteManagement {
                     areteReturned = arete;
                 }
             }
-            System.out.println("il n'y a pas d'arete associé à ces deux structures");
+            // System.out.println("il n'y a pas d'arete associé à ces deux structures");
         }   
         return areteReturned;
     }

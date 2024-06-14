@@ -2,221 +2,223 @@ package version3.main;
 
 import java.util.List;
 import java.util.Scanner;
+
 import fr.ulille.but.sae_s2_2024.Chemin;
-import version3.utils.data.extract.VilleDataExtractor;
-import version3.utils.verifications.Verifications;
 import version3.user.Voyageur;
+import version3.graphe.Algorithme;
 import version3.graphe.Plateforme;
 import version3.graphe.Structure;
+import version3.utils.data.extract.VilleDataExtractor;
+import version3.utils.verifications.Verifications;
 import version3.graphe.TypeCout;
 
 public class Main {
     
     private static Plateforme p;
-    
-    // TODO csv avec les infos users (version 3)
     private static Voyageur user;
     private static Scanner scanner = new Scanner(System.in);
 
-    /**
-    méthode pour "effacer" ce qu'il y a sur le terminale ( plus beau pour les yeux)
-     */
     public static void clearTerminal(){
-        // Code pour effacer le terminal
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    
-
-    /**
-     * M éthode qui crée la plateforme.
-     */
     public static void createPlateforme() {
-        // Création de la plateforme p
         p = new Plateforme();
-        // System.out.println(p); 
     }
 
-    /**
-     * Créer utilisateur.
-     */
     public static void createUser() {
         System.out.println("Bonjour et bienvenue sur Woze, votre Plateforme de Comparaison d’itinéraires de transport.\n");
 
-        // prenom
         System.out.println("Quel est votre Prénom ?");
         final String prenom = scanner.nextLine();
 
-        // nom
         System.out.println("Quel est votre Nom ?");
         final String nom = scanner.nextLine();
 
-
-
-        // // ville ( supprimer pour le moment)
-        // clear();
-        // System.out.println("De quelle ville venez-vous ?");
-        // System.out.println(p.getVilles());
-        // String ville = scanner.nextLine();
-        // String villeDepart;
-        // while(!p.containsVille(ville)) {
-        //     System.out.println("Cette ville n'existe pas. Aucune ville ne vous sera associé.");
-        //     System.out.println(p.getVilles());
-        //      ville = scanner.nextLine();
-        // }
-        // villeDepart = ville;
         final String villeDepart = "Aucune";
 
-        // critere
         clearTerminal();
         System.out.println("Quel critère de recherche d'itinéraire vous semble le plus adapté ? (Temps/Co2/Prix)");
         String critere = scanner.nextLine().toUpperCase();
-        System.out.println(critere);
         while(!Verifications.estCritereValide(critere)){
             System.out.println("Critère invalide. (Temps/Co2/Prix)");
             critere = scanner.nextLine().toUpperCase();
         };
         final TypeCout crit = TypeCout.valueOf(critere);
     
-        // user
         clearTerminal();
         user = new Voyageur(prenom, nom, villeDepart, crit);
-        p.addUser(user); // graph creer par la meme occasion
+        p.addUser(user);
         p.setCurrentUser(user);
-
     }
 
-    /**
-     * Affichacge du menu.
-     */
-    public static void AffichacgeMenu() {
-        int choix;
+    public static void displayMenu() {
+        int choice;
         do {
             System.out.println("\nMenu:");
-            System.out.println("1. Voir le graph");
+            System.out.println("1. Voir le graphe");
             System.out.println("2. Chercher un chemin");
-            System.out.println("3. Mes informations");
-            System.out.println("4. Changer d'utilisateur");
-            System.out.println("5. Quitter");
+            System.out.println("3. Chercher un chemin avec un poids");
+            System.out.println("4. Mes informations");
+            System.out.println("5. Changer d'utilisateur");
+            System.out.println("6. Quitter");
             System.out.print("Votre choix: ");
-            choix = Verifications.getValidIntInput(scanner);
+            choice = Verifications.getValidIntInput(scanner);
             clearTerminal();
     
-            switch (choix) {
+            switch (choice) {
                 case 1:
-                    // affichage du graphe 
-                    voirGraph();
+                    displayGraph();
                     break;
                 case 2:
-                    // algo kpcc
-                    chercherChemin();
+                    searchPath();
                     break;
                 case 3:
-                    // info user 
-                    afficherInfosUtilisateur();
+                    searchPathWithWeight();
                     break;
                 case 4:
-                    // Changer d'utilisateur
-                    changerUtilisateur();
+                    displayUserInfo();
                     break;
                 case 5:
-                    // quitter 
+                    changeUser();
+                    break;
+                case 6:
                     scanner.close();
                     System.out.println("Au revoir !");
                     break;
                 default:
-                    // choix invalide 
                     System.out.println("Choix invalide, veuillez réessayer.");
             }
-        } while (choix != 5);
+        } while (choice != 6);
     }
+    
 
-    /**
-     * Changer d'utilisateur.
-     */
-    public static void changerUtilisateur() {
+    public static void changeUser() {
         System.out.println("Êtes-vous sûr de vouloir changer d'utilisateur ? (Oui/Non)");
         final String confirmation = scanner.nextLine().toUpperCase();
         if ("OUI".equals(confirmation) || "O".equals(confirmation)) {
-            chooseUser(); // Si l'utilisateur confirme, appelle
-            // la méthode chooseUser() pour changer d'utilisateur
+            chooseUser();
         } else if ("NON".equals(confirmation) || "N".equals(confirmation)) {
-            // Si l'utilisateur ne confirme pas, retourne simplement au menu
             System.out.println("Changement d'utilisateur annulé.");
         } else {
             System.out.println("Choix invalide. Retour au menu principal.");
         }
     }
 
-    /**
-     * affiche le graphe 
-     */
-    public static void voirGraph() {
+    public static void displayGraph() {
         System.out.println(p.getCurrentGraphe());
     }
 
-    /**
-     * Chercher un chemin
-     */
-    public static void chercherChemin() {
+    public static void searchPath() {
+        if (p == null || user == null) {
+            System.out.println("Veuillez d'abord créer une plateforme et un utilisateur.");
+            return;
+        }
+
+        clearTerminal();
+
         // Départ
         System.out.println("De quelle structure souhaitez-vous partir ?");
         for (int i = 0; i < p.getStructures().size(); i++) {
-            System.out.println((i + 1) + ". " + p.getStructures().get(i));
+            System.out.println((i + 1) + ". " + p.getStructures().get(i).getNom());
         }
         final int choixStructureDepart = Verifications.getValidIntInput(scanner) - 1;
-        final String structureDepart = p.getStructures().get(choixStructureDepart).getNom();
+        final Structure depart = p.getStructures().get(choixStructureDepart);
+
+        // Arrivée
+        System.out.println("À quelle structure souhaitez-vous arriver ?");
+        for (int i = 0; i < p.getStructures().size(); i++) {
+            System.out.println((i + 1) + ". " + p.getStructures().get(i).getNom());
+        }
+        final int choixStructureArrivee = Verifications.getValidIntInput(scanner) - 1;
+        final Structure arrivee = p.getStructures().get(choixStructureArrivee);
+
+        // Nombre de chemins à trouver
+        System.out.println("Combien de chemins souhaitez-vous trouver ?");
+        final int k = Verifications.getValidIntInput(scanner);
+
+
+        // Recherche des chemins
+        List<Chemin> chemins = Algorithme.simplePCC(p.getCurrentGraphe(), depart, arrivee, k);
+        chemins = Plateforme.reductionAffichageChemins(chemins);
+
+        // Affichage des résultats
+        if (chemins.isEmpty()) {
+            System.out.println("Aucun chemin trouvé de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + ".");
+        } else if (chemins.size() == 1) {
+            System.out.println("Chemin le plus court trouvé de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + ":");
+            for (final Chemin chemin : chemins) {
+                System.out.println(chemin.toString());
+            }
+        } else {
+            System.out.println("Les " + chemins.size() + " plus courts chemins trouvés de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + " sont :");
+            for (final Chemin chemin : chemins) {
+                System.out.println(chemin.toString());
+            }
+        }
+    }
+
+    public static void searchPathWithWeight() {
+        if (p == null || user == null) {
+            System.out.println("Veuillez d'abord créer une plateforme et un utilisateur.");
+            return;
+        }
+    
+        clearTerminal();
+    
+        // Départ
+        System.out.println("De quelle structure souhaitez-vous partir ?");
+        for (int i = 0; i < p.getStructures().size(); i++) {
+            System.out.println((i + 1) + ". " + p.getStructures().get(i).getNom());
+        }
+        final int choixStructureDepart = Verifications.getValidIntInput(scanner) - 1;
+        final Structure depart = p.getStructures().get(choixStructureDepart);
     
         // Arrivée
         System.out.println("À quelle structure souhaitez-vous arriver ?");
         for (int i = 0; i < p.getStructures().size(); i++) {
-            System.out.println((i + 1) + ". " + p.getStructures().get(i));
+            System.out.println((i + 1) + ". " + p.getStructures().get(i).getNom());
         }
         final int choixStructureArrivee = Verifications.getValidIntInput(scanner) - 1;
-        final String structureArrivee = p.getStructures().get(choixStructureArrivee).getNom();
-    
-        final Structure depart = p.getStructure(structureDepart);
-        final Structure arrivee = p.getStructure(structureArrivee);
-    
+        final Structure arrivee = p.getStructures().get(choixStructureArrivee);
+
+        // Nombre de chemins à trouver
         System.out.println("Combien de chemins souhaitez-vous trouver ?");
         final int k = Verifications.getValidIntInput(scanner);
+        
     
+        // Poids spécifique du trajet
         System.out.println("Quel poids ne doit pas excéder le trajet ?");
         final double poidsMax = Verifications.getValidDoubleInput(scanner);
     
+        // Deuxième critère
         System.out.println("Quel est le deuxième critère (temps, prix ou CO2) ?");
         final String critere2 = scanner.next();
-    
-        final TypeCout critere1 = user.getCritere();
         final TypeCout critere2Enum = TypeCout.valueOf(critere2.toUpperCase());
-    
-        // Chemin
         clearTerminal();
-        List<Chemin> chemins = p.KPlusCourtsChemins(depart, arrivee, critere1, k, critere2Enum, poidsMax);
+
+    
+        // Recherche des chemins
+        List<Chemin> chemins = Algorithme.KPlusCourtsChemins(p, depart, arrivee, user.getCritere(), k, critere2Enum, poidsMax);
+        clearTerminal();
         chemins = Plateforme.reductionAffichageChemins(chemins);
     
+        // Affichage des résultats
         if (chemins.isEmpty()) {
-            System.out.println("Aucun chemin trouvé de " + structureDepart + " à " + structureArrivee + " selon le critère " + critere1 + ".");
-        } else if (chemins.size() == 1) {
-            System.out.println("Chemin le plus court trouvé de " + structureDepart + " à " + structureArrivee + " selon le critère " + critere1 + ":");
-            for (final Chemin chemin : chemins) {
-                System.out.println(chemin.toString()); // tous les chemins trouvé 
-            }
+            clearTerminal();
+            System.out.println("Aucun chemin trouvé de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + " et le poids spécifié.");
         } else {
-            System.out.println("Les " + chemins.size() + " plus courts chemins trouvés de " + structureDepart + " à " + structureArrivee + " selon le critère " + critere1 + " sont :");
+            clearTerminal();
+            System.out.println("Chemin trouvé de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + " et le poids spécifié:");
             for (final Chemin chemin : chemins) {
-                System.out.println(chemin.toString()); // tous les chemins trouvé 
+                System.out.println(chemin.toString());
             }
         }
-    
-
     }
     
-    /**
-     * Supprimer les donnees d'un utilisateur.
-     */
-    public static void supprimerDonneesUtilisateur() {
+
+    public static void deleteUserData() {
         System.out.println("Êtes-vous sûr de vouloir supprimer vos données ? (Tapez 'CONFIRMATION' pour confirmer)");
         final String confirmation = scanner.nextLine().toUpperCase();
     
@@ -229,12 +231,8 @@ public class Main {
             System.out.println("Suppression annulée.");
         }
     }
-    
 
-    /**
-     * Afficher les informations de l'utilisateur
-     */
-    public static void afficherInfosUtilisateur() {
+    public static void displayUserInfo() {
         System.out.println("Informations utilisateur:");
         System.out.println(user);
         
@@ -249,7 +247,7 @@ public class Main {
             System.out.print("Choisissez une option: ");
             
             final int choix = Verifications.getValidIntInput(scanner);
-    
+            boolean verif = true;
             switch (choix) {
                 case 1:
                     // Nom
@@ -269,29 +267,37 @@ public class Main {
                     // ville de référence note : supprimé au lancement
                     // donc initialement c'est établit à : "Aucune"
                     clearTerminal();
-                    System.out.print("Entrez la nouvelle ville: ");
-                    final String nouvelleVille = scanner.nextLine().toUpperCase();
-                    if (p.containsVille(nouvelleVille)) {
-                        user.setVille(nouvelleVille);
-                    } else {
-                        System.out.println("Cette ville n'existe pas. Modification annulée.");
+                    while (verif) {
+                        System.out.print("Entrez la nouvelle ville: ");
+                        final String nouvelleVille = scanner.nextLine().toUpperCase();
+                        if (p.containsVille(nouvelleVille)) {
+                            user.setVille(nouvelleVille);
+                            verif = false;
+                        } else {
+                            System.out.println("Cette ville n'existe pas.");
+                        }
                     }
+
                     break;
                 case 4:
                     // Critère (TEMPS, PRIX, CO2)
                     clearTerminal();
-                    System.out.print("Entrez le nouveau critère (TEMPS, PRIX, CO2): ");
-                    final String nouveauCritere = scanner.nextLine().toUpperCase();
-                    try {
-                        user.setCritere(TypeCout.valueOf(nouveauCritere));
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Critère invalide. Modification annulée.");
+                    while (verif) {
+                        System.out.print("Entrez le nouveau critère (TEMPS, PRIX, CO2): ");
+                        final String nouveauCritere = scanner.nextLine().toUpperCase();
+                        try {
+                            user.setCritere(TypeCout.valueOf(nouveauCritere));
+                            verif = false;
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Critère invalide.");
+                        }
                     }
+                   
                     break;
                 case 5:
                     // Supprimer les données utilisateur
                     clearTerminal();
-                    supprimerDonneesUtilisateur();
+                    deleteUserData();
                     break;
                 case 6:
                     clearTerminal();
@@ -304,27 +310,16 @@ public class Main {
             // Affichage des informations mises à jour
             System.out.println("\nInformations mises à jour:");
             System.out.println(user);
-        }
-    }
-    
+        }    }
 
-    /**
-     * @param datav Données des villes.
-     * @param datac Données des correspondances.
-     * @return Méthode qui verifie les données .
-     */
-    public static boolean verifData(String [] datav) {
+    public static boolean verifyData(String [] datav) {
         final Verifications verificationsData = new Verifications();
         // Vérifier la validité des données
         final boolean isValid = verificationsData.dataIsValid(datav );
         System.out.println("Toutes les données sont valides : " + isValid + '\n');
         return isValid;
-    }
+       }
 
-
-    /**
-     * Choix de l'utilisateur. 
-     */
     public static void chooseUser() {
         if (p.getUsers().isEmpty()) {
             System.out.println("Aucun utilisateur trouvé. Création d'un nouvel utilisateur.");
@@ -358,22 +353,19 @@ public class Main {
             } else if (choix == 2) {
                 createUser();
             }
-        }
-    }
-    
-    
+        }    }
 
-    /**
-     * @param args args main
-     */
     public static void main(String[] args) {
-        if (verifData(VilleDataExtractor.data_villes)) {
+        if (verifyData(VilleDataExtractor.data_villes)) {
             // Création de la plateforme
             createPlateforme();
-            chooseUser();
-            AffichacgeMenu();
-        }
-    }
-        
 
+            // Choix de l'utilisateur
+            chooseUser();
+
+            displayMenu();
+        }
+
+        
+    }
 }

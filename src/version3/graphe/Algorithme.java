@@ -9,7 +9,7 @@ import fr.ulille.but.sae_s2_2024.Trancon;
 
 public class Algorithme {
 
-   public static List<Chemin> KPlusCourtsChemins(Plateforme2 p, final Structure depart, final Structure arrivee, final TypeCout crit1, final int k, TypeCout crit2, double p_max) {
+   public static List<Chemin> KPlusCourtsChemins(Plateforme p, final Structure depart, final Structure arrivee, final TypeCout crit1, final int k, TypeCout crit2, double p_max) {
         // Récupérer les k chemins du premier graphe avec le premier critère
         final List<Chemin> chemins = AlgorithmeKPCC.kpcc(p.getGraphes().get(crit1), depart, arrivee, k);
     
