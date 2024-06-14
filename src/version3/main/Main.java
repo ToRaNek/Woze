@@ -1,13 +1,17 @@
 package version3.main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import fr.ulille.but.sae_s2_2024.Chemin;
+import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import version3.user.Voyageur;
 import version3.graphe.Algorithme;
 import version3.graphe.Plateforme;
-import version3.graphe.Structure;
 import version3.utils.data.extract.VilleDataExtractor;
 import version3.utils.verifications.Verifications;
 import version3.graphe.TypeCout;
@@ -59,10 +63,9 @@ public class Main {
             System.out.println("\nMenu:");
             System.out.println("1. Voir le graphe");
             System.out.println("2. Chercher un chemin");
-            System.out.println("3. Chercher un chemin avec un poids");
-            System.out.println("4. Mes informations");
-            System.out.println("5. Changer d'utilisateur");
-            System.out.println("6. Quitter");
+            System.out.println("3. Mes informations");
+            System.out.println("4. Changer d'utilisateur");
+            System.out.println("5. Quitter");
             System.out.print("Votre choix: ");
             choice = Verifications.getValidIntInput(scanner);
             clearTerminal();
@@ -75,15 +78,12 @@ public class Main {
                     searchPath();
                     break;
                 case 3:
-                    searchPathWithWeight();
-                    break;
-                case 4:
                     displayUserInfo();
                     break;
-                case 5:
+                case 4:
                     changeUser();
                     break;
-                case 6:
+                case 5:
                     scanner.close();
                     System.out.println("Au revoir !");
                     break;
@@ -92,7 +92,143 @@ public class Main {
             }
         } while (choice != 6);
     }
-    
+
+
+    public static void searchPath() {
+        clearTerminal();
+
+        // Affichage et sélection de la ville de départ
+        System.out.println("De quelle ville souhaitez-vous partir ?");
+        List<String> villes = p.getVilles();
+        for (int i = 0; i < villes.size(); i++) {
+            System.out.println((i + 1) + ". " + villes.get(i));
+        }
+        int choixVilleDepart = Verifications.getValidIntInput(scanner) - 1;
+        String villeDepart = villes.get(choixVilleDepart);
+
+        // Affichage et sélection de la ville d'arrivée
+        System.out.println("À quelle ville souhaitez-vous arriver ?");
+        for (int i = 0; i < villes.size(); i++) {
+            System.out.println((i + 1) + ". " + villes.get(i));
+        }
+        int choixVilleArrivee = Verifications.getValidIntInput(scanner) - 1;
+        String villeArrivee = villes.get(choixVilleArrivee);
+
+
+        // Nombre de chemins à trouver
+        System.out.println("Combien de chemins souhaitez-vous trouver ?");
+        int k = Verifications.getValidIntInput(scanner);
+
+        // Nombre de critères à utiliser
+        System.out.println("Combien de critères souhaitez-vous utiliser (1, 2 ou 3) ?");
+        int nombreDeCriteres = Verifications.getValidIntInput(scanner);
+
+        // Critères et poids
+        Map<TypeCout, Double> poidsMaximaux = new HashMap<>();
+        for (int i = 1; i <= nombreDeCriteres; i++) {
+            TypeCout critere = null;
+            double poids = Double.MAX_VALUE;
+
+            switch (i) {
+                case 1:
+                    critere = user.getCritere(); // À adapter selon votre logique
+                    System.out.println("Entrez le poids maximal pour le critère " + critere + ": ");
+                    poids = Verifications.getValidDoubleInput(scanner);
+                    poidsMaximaux.put(critere, poids);
+                    break;
+
+                case 2:
+                    System.out.println("Choisissez un deuxième critère (temps, prix, CO2): ");
+                    for (TypeCout tc : TypeCout.values()) {
+                        if (!poidsMaximaux.containsKey(tc)) {
+                            System.out.println(tc);
+                        }
+                    }
+                    String choixCritere2 = scanner.next().toUpperCase();
+                    critere = TypeCout.valueOf(choixCritere2);
+                    System.out.println("Entrez le poids maximal pour le critère " + critere + ": ");
+                    poids = Verifications.getValidDoubleInput(scanner);
+                    poidsMaximaux.put(critere, poids);
+                    break;
+
+                case 3:
+                    System.out.println("Choisissez un troisième critère (temps, prix, CO2): ");
+                    for (TypeCout tc : TypeCout.values()) {
+                        if (!poidsMaximaux.containsKey(tc)) {
+                            System.out.println(tc);
+                        }
+                    }
+                    String choixCritere3 = scanner.next().toUpperCase();
+                    critere = TypeCout.valueOf(choixCritere3);
+                    System.out.println("Entrez le poids maximal pour le critère " + critere + ": ");
+                    poids = Verifications.getValidDoubleInput(scanner);
+                    poidsMaximaux.put(critere, poids);
+                    break;
+            }
+        }
+
+        // Demander le nombre de modalités de transport souhaitées
+        System.out.println("Combien de modalités de transport souhaitez-vous utiliser (1, 2 ou 3) ?");
+        int nombreDeModalites = Verifications.getValidIntInput(scanner);
+
+        // Modalités de transport
+        List<ModaliteTransport> modalitesChoisies = new ArrayList<>(nombreDeModalites);
+        List<ModaliteTransport> modalitesDisponibles = Arrays.asList(ModaliteTransport.values());
+
+        switch (nombreDeModalites) {
+            case 1:
+                System.out.println("Choisissez une modalité de transport (train, bus, avion): ");
+                afficherModalitesDisponibles(modalitesDisponibles);
+                int choixModalite1 = Verifications.getValidIntInput(scanner) - 1;
+                modalitesChoisies.add(modalitesDisponibles.get(choixModalite1));
+                break;
+
+            case 2:
+                System.out.println("Choisissez deux modalités de transport (train, bus, avion): ");
+                afficherModalitesDisponibles(modalitesDisponibles);
+                int choixModalite2a = Verifications.getValidIntInput(scanner) - 1;
+                modalitesChoisies.add(modalitesDisponibles.get(choixModalite2a));
+                modalitesDisponibles.remove(choixModalite2a);
+                afficherModalitesDisponibles(modalitesDisponibles);
+                int choixModalite2b = Verifications.getValidIntInput(scanner) - 1;
+                modalitesChoisies.add(modalitesDisponibles.get(choixModalite2b));
+                break;
+
+            case 3:
+                modalitesChoisies.addAll(modalitesDisponibles);
+                break;
+        }
+
+        // Recherche des chemins en utilisant kpccUltime avec les noms de villes et les paramètres choisis
+        List<Chemin> chemins = Algorithme.kpccUltime(p, villeDepart, villeArrivee, poidsMaximaux, modalitesChoisies, k);
+        // chemins = Plateforme.reductionAffichageChemins(chemins);
+
+        // Affichage des résultats
+        afficherResultats(chemins, villeDepart, villeArrivee, user.getCritere(), modalitesChoisies);
+    }
+
+    private static void afficherModalitesDisponibles(List<ModaliteTransport> modalitesDisponibles) {
+        for (int i = 0; i < modalitesDisponibles.size(); i++) {
+            System.out.println((i + 1) + ". " + modalitesDisponibles.get(i));
+        }
+    }
+
+    private static void afficherResultats(List<Chemin> chemins, String villeDepart, String villeArrivee, TypeCout critere, List<ModaliteTransport> modalites) {
+        if (chemins.isEmpty()) {
+            System.out.println("Aucun chemin trouvé de " + villeDepart + " à " + villeArrivee + " selon le critère " + critere + " avec les modalités spécifiées.");
+        } else if (chemins.size() == 1) {
+            System.out.println("Chemin le plus court trouvé de " + villeDepart + " à " + villeArrivee + " selon le critère " + critere + " avec les modalités spécifiées:");
+            for (final Chemin chemin : chemins) {
+                System.out.println(chemin.toString());
+            }
+        } else {
+            System.out.println("Les " + chemins.size() + " plus courts chemins trouvés de " + villeDepart + " à " + villeArrivee + " selon le critère " + critere + " avec les modalités spécifiées sont :");
+            for (final Chemin chemin : chemins) {
+                System.out.println(chemin.toString());
+            }
+        }
+    }
+
 
     public static void changeUser() {
         System.out.println("Êtes-vous sûr de vouloir changer d'utilisateur ? (Oui/Non)");
@@ -110,112 +246,7 @@ public class Main {
         System.out.println(p.getCurrentGraphe());
     }
 
-    public static void searchPath() {
-        if (p == null || user == null) {
-            System.out.println("Veuillez d'abord créer une plateforme et un utilisateur.");
-            return;
-        }
-
-        clearTerminal();
-
-        // Départ
-        System.out.println("De quelle structure souhaitez-vous partir ?");
-        for (int i = 0; i < p.getStructures().size(); i++) {
-            System.out.println((i + 1) + ". " + p.getStructures().get(i).getNom());
-        }
-        final int choixStructureDepart = Verifications.getValidIntInput(scanner) - 1;
-        final Structure depart = p.getStructures().get(choixStructureDepart);
-
-        // Arrivée
-        System.out.println("À quelle structure souhaitez-vous arriver ?");
-        for (int i = 0; i < p.getStructures().size(); i++) {
-            System.out.println((i + 1) + ". " + p.getStructures().get(i).getNom());
-        }
-        final int choixStructureArrivee = Verifications.getValidIntInput(scanner) - 1;
-        final Structure arrivee = p.getStructures().get(choixStructureArrivee);
-
-        // Nombre de chemins à trouver
-        System.out.println("Combien de chemins souhaitez-vous trouver ?");
-        final int k = Verifications.getValidIntInput(scanner);
-
-
-        // Recherche des chemins
-        List<Chemin> chemins = Algorithme.simplePCC(p.getCurrentGraphe(), depart, arrivee, k);
-        chemins = Plateforme.reductionAffichageChemins(chemins);
-
-        // Affichage des résultats
-        if (chemins.isEmpty()) {
-            System.out.println("Aucun chemin trouvé de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + ".");
-        } else if (chemins.size() == 1) {
-            System.out.println("Chemin le plus court trouvé de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + ":");
-            for (final Chemin chemin : chemins) {
-                System.out.println(chemin.toString());
-            }
-        } else {
-            System.out.println("Les " + chemins.size() + " plus courts chemins trouvés de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + " sont :");
-            for (final Chemin chemin : chemins) {
-                System.out.println(chemin.toString());
-            }
-        }
-    }
-
-    public static void searchPathWithWeight() {
-        if (p == null || user == null) {
-            System.out.println("Veuillez d'abord créer une plateforme et un utilisateur.");
-            return;
-        }
-    
-        clearTerminal();
-    
-        // Départ
-        System.out.println("De quelle structure souhaitez-vous partir ?");
-        for (int i = 0; i < p.getStructures().size(); i++) {
-            System.out.println((i + 1) + ". " + p.getStructures().get(i).getNom());
-        }
-        final int choixStructureDepart = Verifications.getValidIntInput(scanner) - 1;
-        final Structure depart = p.getStructures().get(choixStructureDepart);
-    
-        // Arrivée
-        System.out.println("À quelle structure souhaitez-vous arriver ?");
-        for (int i = 0; i < p.getStructures().size(); i++) {
-            System.out.println((i + 1) + ". " + p.getStructures().get(i).getNom());
-        }
-        final int choixStructureArrivee = Verifications.getValidIntInput(scanner) - 1;
-        final Structure arrivee = p.getStructures().get(choixStructureArrivee);
-
-        // Nombre de chemins à trouver
-        System.out.println("Combien de chemins souhaitez-vous trouver ?");
-        final int k = Verifications.getValidIntInput(scanner);
-        
-    
-        // Poids spécifique du trajet
-        System.out.println("Quel poids ne doit pas excéder le trajet ?");
-        final double poidsMax = Verifications.getValidDoubleInput(scanner);
-    
-        // Deuxième critère
-        System.out.println("Quel est le deuxième critère (temps, prix ou CO2) ?");
-        final String critere2 = scanner.next();
-        final TypeCout critere2Enum = TypeCout.valueOf(critere2.toUpperCase());
-        clearTerminal();
-
-    
-        // Recherche des chemins
-        List<Chemin> chemins = Algorithme.KPlusCourtsChemins(p, depart, arrivee, user.getCritere(), k, critere2Enum, poidsMax);
-        clearTerminal();
-        chemins = Plateforme.reductionAffichageChemins(chemins);
-    
-        // Affichage des résultats
-        if (chemins.isEmpty()) {
-            clearTerminal();
-            System.out.println("Aucun chemin trouvé de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + " et le poids spécifié.");
-        } else {
-            clearTerminal();
-            System.out.println("Chemin trouvé de " + depart.getNom() + " à " + arrivee.getNom() + " selon le critère " + user.getCritere() + " et le poids spécifié:");
-            for (final Chemin chemin : chemins) {
-                System.out.println(chemin.toString());
-            }
-        }
-    }
+   
     
 
     public static void deleteUserData() {
@@ -366,6 +397,5 @@ public class Main {
             displayMenu();
         }
 
-        
     }
 }
