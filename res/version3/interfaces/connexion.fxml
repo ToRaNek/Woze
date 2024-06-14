@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="version3.interfaces.ConnexionController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="version3.interfaces.ConnexionController">
    <children>
       <HBox alignment="TOP_CENTER" prefHeight="166.0" prefWidth="600.0">
          <children>
@@ -22,17 +22,17 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="64.0" prefWidth="600.0">
          <children>
-            <ComboBox fx:id="villeCB" prefHeight="25.0" prefWidth="253.0" promptText="ville" />
+            <ComboBox fx:id="villesCB" prefHeight="25.0" prefWidth="253.0" promptText="ville" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="prenom" alignment="CENTER" prefHeight="25.0" prefWidth="255.0" promptText="Prénom" />
+            <TextField fx:id="prenom" alignment="CENTER" onAction="#setPrenom" prefHeight="25.0" prefWidth="255.0" promptText="Prénom" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="nom" alignment="CENTER" prefHeight="25.0" prefWidth="254.0" promptText="Nom" />
+            <TextField fx:id="nom" alignment="CENTER" onAction="#setNom" prefHeight="25.0" prefWidth="254.0" promptText="Nom" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0">

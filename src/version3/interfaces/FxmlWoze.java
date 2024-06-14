@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import version1.Plateforme;
+import version1.Voyageur;
 import version3.utils.data.extract.VilleDataExtractor;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.net.URL;
 public class FxmlWoze extends Application {
         
         static Plateforme plateforme = new Plateforme(VilleDataExtractor.data_villes);
+        static Voyageur voyageur;
 
         public void start(Stage stage) throws IOException {
                 FXMLLoader loader = new FXMLLoader();
