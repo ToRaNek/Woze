@@ -1,48 +1,64 @@
 package version3.utils.data.save;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import version3.user.management.UserManagement;
 
 public class DataSave {
 
-    public static List<String> lireData(String cheminFichier) {
-        List<String> data = new ArrayList<>();
-        File fichier = new File(cheminFichier);
 
-        try {
-            if (!fichier.exists()) {
-                fichier.createNewFile();
-                return data; // Retourne une liste vide si le fichier n'existe pas et a été créé
-            }
+    // TODO
+    public static boolean csvDeleteLine(String filePath, int lineNumber) {
+        File inputFile = new File(filePath);
+        File tempFile = new File(inputFile.getAbsolutePath() + ".tmp");
 
-            try (BufferedReader br = new BufferedReader(new FileReader(cheminFichier))) {
-                String ligne;
-                boolean premiereLigne = true;
+        try (
+            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))
+        ) {
+            String currentLine;
+            int currentLineNumber = 0;
 
-                while ((ligne = br.readLine()) != null) {
-                    if (premiereLigne) {
-                        premiereLigne = false;
-                        continue; // Ignore la première ligne parce qu'elle n'a pas de données utilisables (départ;arrivee;transport;prix;emission;temps)
-                    }
-                    String elements = ligne;
-                    data.add(elements);
+            while ((currentLine = reader.readLine()) != null) {
+                // Skip the line to be deleted
+                if (currentLineNumber != lineNumber) {
+                    writer.write(currentLine);
+                    writer.newLine();
                 }
+                currentLineNumber++;
             }
         } catch (IOException e) {
-            System.out.println("Reading Error : "+e.getMessage());
             e.printStackTrace();
+            return false;
         }
 
-        return data;
+        // Supprime le fichier original
+        if (!inputFile.delete()) {
+            System.out.println("Could not delete original file");
+            return false;
+        }
+
+        // Rename the new file to the original file
+        if (!tempFile.renameTo(inputFile)) {
+            System.out.println("Could not rename temporary file");
+            return false;
+        }
+
+        return true;
     }
 
-    public static String[] listeData(String cheminFichier) {
-        List<String> dataList = lireData(cheminFichier);
-        String[] data = new String[dataList.size()];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = dataList.get(i);
+    public static UserManagement loadFromFile(String fileName) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (UserManagement) in.readObject();
         }
-        return data;
     }
+
+    // Méthodes de sérialisation et de désérialisation
+    public void saveToFile(String fileName) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            out.writeObject(this);
+        }
+    }
+
+    
 }
