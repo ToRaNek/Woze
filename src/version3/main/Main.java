@@ -67,7 +67,7 @@ public class Main {
             System.out.println("4. Changer d'utilisateur");
             System.out.println("5. Quitter");
             System.out.print("Votre choix: ");
-            choice = Verifications.getValidIntInput(scanner);
+            choice = Verifications.getValidIntInput(scanner, 5);
             clearTerminal();
     
             switch (choice) {
@@ -103,7 +103,7 @@ public class Main {
         for (int i = 0; i < villes.size(); i++) {
             System.out.println((i + 1) + ". " + villes.get(i));
         }
-        int choixVilleDepart = Verifications.getValidIntInput(scanner) - 1;
+        int choixVilleDepart = Verifications.getValidIntInput(scanner, p.getVilles().size()) - 1;
         String villeDepart = villes.get(choixVilleDepart);
 
         // Affichage et sélection de la ville d'arrivée
@@ -111,7 +111,7 @@ public class Main {
         for (int i = 0; i < villes.size(); i++) {
             System.out.println((i + 1) + ". " + villes.get(i));
         }
-        int choixVilleArrivee = Verifications.getValidIntInput(scanner) - 1;
+        int choixVilleArrivee = Verifications.getValidIntInput(scanner, p.getVilles().size()) - 1;
         String villeArrivee = villes.get(choixVilleArrivee);
 
 
@@ -121,7 +121,7 @@ public class Main {
 
         // Nombre de critères à utiliser
         System.out.println("Combien de critères souhaitez-vous utiliser (1, 2 ou 3) ?");
-        int nombreDeCriteres = Verifications.getValidIntInput(scanner);
+        int nombreDeCriteres = Verifications.getValidIntInput(scanner, 3);
 
         // Critères et poids
         Map<TypeCout, Double> poidsMaximaux = new HashMap<>();
@@ -138,13 +138,21 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("Choisissez un deuxième critère (temps, prix, CO2): ");
-                    for (TypeCout tc : TypeCout.values()) {
-                        if (!poidsMaximaux.containsKey(tc)) {
-                            System.out.println(tc);
+                    // Vérification et choix du deuxième critère
+                    String choixCritere2 = "";
+                    do {
+                        System.out.println("Choisissez un deuxième critère (temps, prix, CO2): ");
+                        for (TypeCout tc : TypeCout.values()) {
+                            if (!poidsMaximaux.containsKey(tc)) {
+                                System.out.println(tc);
+                            }
                         }
-                    }
-                    String choixCritere2 = scanner.next().toUpperCase();
+                        choixCritere2 = scanner.next().toUpperCase();
+                        if (!Verifications.estCritereValide(choixCritere2)) {
+                            System.out.println("Critère invalide, veuillez saisir un critère valide (temps, prix, CO2).");
+                        }
+                    } while (!Verifications.estCritereValide(choixCritere2));
+
                     critere = TypeCout.valueOf(choixCritere2);
                     System.out.println("Entrez le poids maximal pour le critère " + critere + ": ");
                     poids = Verifications.getValidDoubleInput(scanner);
@@ -152,24 +160,35 @@ public class Main {
                     break;
 
                 case 3:
+                // Vérification et choix du troisième critère
+                String choixCritere3;
+                do {
                     System.out.println("Choisissez un troisième critère (temps, prix, CO2): ");
                     for (TypeCout tc : TypeCout.values()) {
                         if (!poidsMaximaux.containsKey(tc)) {
                             System.out.println(tc);
                         }
                     }
-                    String choixCritere3 = scanner.next().toUpperCase();
-                    critere = TypeCout.valueOf(choixCritere3);
-                    System.out.println("Entrez le poids maximal pour le critère " + critere + ": ");
-                    poids = Verifications.getValidDoubleInput(scanner);
-                    poidsMaximaux.put(critere, poids);
-                    break;
+                    choixCritere3 = scanner.next().toUpperCase();
+
+                    // Vérification que le critère saisi est valide
+                    if (Verifications.estCritereValide(choixCritere3)) {
+                        break;
+                    } else {
+                        System.out.println("Critère invalide, veuillez choisir parmi temps, prix ou CO2.");
+                    }
+                } while (true);
+
+                critere = TypeCout.valueOf(choixCritere3);
+                System.out.println("Entrez le poids maximal pour le critère " + critere + ": ");
+                poids = Verifications.getValidDoubleInput(scanner);
+                poidsMaximaux.put(critere, poids);
             }
         }
 
         // Demander le nombre de modalités de transport souhaitées
         System.out.println("Combien de modalités de transport souhaitez-vous utiliser (1, 2 ou 3) ?");
-        int nombreDeModalites = Verifications.getValidIntInput(scanner);
+        int nombreDeModalites = Verifications.getValidIntInput(scanner, 3);
 
         // Modalités de transport
         List<ModaliteTransport> modalitesChoisies = new ArrayList<>(nombreDeModalites);
@@ -179,18 +198,18 @@ public class Main {
             case 1:
                 System.out.println("Choisissez une modalité de transport (train, bus, avion): ");
                 afficherModalitesDisponibles(modalitesDisponibles);
-                int choixModalite1 = Verifications.getValidIntInput(scanner) - 1;
+                int choixModalite1 = Verifications.getValidIntInput(scanner,3) - 1;
                 modalitesChoisies.add(modalitesDisponibles.get(choixModalite1));
                 break;
 
             case 2:
                 System.out.println("Choisissez deux modalités de transport (train, bus, avion): ");
                 afficherModalitesDisponibles(modalitesDisponibles);
-                int choixModalite2a = Verifications.getValidIntInput(scanner) - 1;
+                int choixModalite2a = Verifications.getValidIntInput(scanner, 3) - 1;
                 modalitesChoisies.add(modalitesDisponibles.get(choixModalite2a));
                 modalitesDisponibles.remove(choixModalite2a);
                 afficherModalitesDisponibles(modalitesDisponibles);
-                int choixModalite2b = Verifications.getValidIntInput(scanner) - 1;
+                int choixModalite2b = Verifications.getValidIntInput(scanner, 2) - 1;
                 modalitesChoisies.add(modalitesDisponibles.get(choixModalite2b));
                 break;
 
@@ -201,7 +220,7 @@ public class Main {
 
         // Recherche des chemins en utilisant kpccUltime avec les noms de villes et les paramètres choisis
         List<Chemin> chemins = Algorithme.kpccUltime(p, villeDepart, villeArrivee, poidsMaximaux, modalitesChoisies, k);
-        // chemins = Plateforme.reductionAffichageChemins(chemins);
+        chemins = Plateforme.reductionAffichageChemins(chemins);
 
         // Affichage des résultats
         afficherResultats(chemins, villeDepart, villeArrivee, user.getCritere(), modalitesChoisies);
@@ -277,7 +296,7 @@ public class Main {
             System.out.println("6. Retour au menu principal");
             System.out.print("Choisissez une option: ");
             
-            final int choix = Verifications.getValidIntInput(scanner);
+            final int choix = Verifications.getValidIntInput(scanner, 6);
             boolean verif = true;
             switch (choix) {
                 case 1:
@@ -360,10 +379,10 @@ public class Main {
             System.out.println("1. Choisir un utilisateur existant");
             System.out.println("2. Créer un nouvel utilisateur");
             
-            int choix = Verifications.getValidIntInput(scanner);
+            int choix = Verifications.getValidIntInput(scanner, 2);
             while (choix < 1 || choix > 2) {
                 System.out.println("Choix invalide, veuillez réessayer.");
-                choix = Verifications.getValidIntInput(scanner);
+                choix = Verifications.getValidIntInput(scanner, 2);
             }
             
             if (choix == 1) {
@@ -372,10 +391,10 @@ public class Main {
                     System.out.println((i + 1) + ". " + p.getUsers().get(i).getNom() + " " + p.getUsers().get(i).getPrenom());
                 }
         
-                int choixUser = Verifications.getValidIntInput(scanner);
+                int choixUser = Verifications.getValidIntInput(scanner, p.getUsers().size());
                 while (choixUser < 1 || choixUser > p.getUsers().size()) {
                     System.out.println("Choix invalide, veuillez réessayer.");
-                    choixUser = Verifications.getValidIntInput(scanner);
+                    choixUser = Verifications.getValidIntInput(scanner, p.getUsers().size());
                 }
         
                 user = p.getUsers().get(choixUser - 1);
