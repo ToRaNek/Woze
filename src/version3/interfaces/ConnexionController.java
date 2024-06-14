@@ -50,4 +50,9 @@ public class ConnexionController {
         // villesCB.getEditor().textProperty().set(villesCB.getSelectionModel().getSelectedItem());
     }
 
+    @FXML
+    public void buttonSeConnecter(ActionEvent e) {
+        int i = 0;
+    }
+
 }

@@ -1,8 +1,5 @@
 package version3.interfaces;
 
-import java.io.IOException;
-import java.net.URL;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import version1.Plateforme;
 import version3.utils.data.extract.VilleDataExtractor;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class FxmlWoze extends Application {
         
