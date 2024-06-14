@@ -1,15 +1,12 @@
 package version3.interfaces;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+;
 
 public class ConnexionController {
     Set<String> villes;
