@@ -1,5 +1,6 @@
 package version3.user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,9 @@ import version3.graphe.Trajet;
 import version3.graphe.TypeCout;
 
 /**
- * La classe User représente un utilisateur du système.
+ * La classe User ²représente un utilisateur du système.
  */
-public class User {
+public class User implements Serializable {
 
     /** La liste des ID d'utilisateurs supprimés */
     private final static List<Integer> IdTrash = new ArrayList<>();
@@ -70,9 +71,6 @@ public class User {
     /** La liste des trajets cliqués */
     private List<Trajet> historique;
 
-    /** La liste des trajets favoris de l'utilisateur */
-    private List<Trajet> favoris;
-
     /** Le critère de l'utilisateur */
     private TypeCout critere;
 
@@ -102,7 +100,6 @@ public class User {
         this.ville = ville;
         this.critere = critere;
         this.historique = new ArrayList<>();
-        this.favoris = new ArrayList<>();
     }
 
     /**
@@ -260,29 +257,6 @@ public class User {
         this.historique.remove(index);
     }
 
-    /**
-     * Obtient la liste des trajets favoris de l'utilisateur.
-     * @return La liste des trajets favoris.
-     */
-    public List<Trajet> getFavoris() {
-        return favoris;
-    }
-
-    /**
-     * Définit la liste des trajets favoris de l'utilisateur.
-     * @param favoris La nouvelle liste des trajets favoris.
-     */
-    public void setFavoris(List<Trajet> favoris) {
-        this.favoris = favoris;
-    }
-
-    /**
-     * Ajoute un trajet aux favoris de l'utilisateur.
-     * @param trajet Le trajet à ajouter.
-     */
-    public void addFavoris(Trajet trajet) {
-        this.favoris.add(trajet);
-    }
 
     /**
      * Renvoie une représentation textuelle de l'utilisateur sous forme de chaîne de caractères.
