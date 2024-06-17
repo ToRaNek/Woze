@@ -172,9 +172,6 @@ public class Algorithme {
         return chemins;
     }
 
-
-
-   
     /** Méthode pour vérifier si un chemin satisfait au moins l'une des modalités spécifiées ou la modalité null.
      * @param chemin Le chemin à vérifier.
      * @param modalites Liste des modalités de transport à vérifier.
