@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="version3.interfaces.AccueilController">
+   <children>
+      <ImageView fitHeight="28.0" fitWidth="29.0" layoutX="401.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../Downloads/parametre.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="buttonAvion" graphicTextGap="5.0" layoutX="377.0" layoutY="134.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#buttonAvionAction" prefHeight="51.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-font-weight: bold;" text="Avion">
+         <graphic>
+            <ImageView fx:id="imageAvionLogo" fitHeight="37.0" fitWidth="161.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/Avion_noir.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Cascadia Code Regular" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="buttonTrain" graphicTextGap="5.0" layoutX="251.0" layoutY="134.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#buttonTrainAction" prefHeight="51.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-font-weight: bold;" text="Train">
+         <graphic>
+            <ImageView fx:id="imageTrainLogo" fitHeight="37.0" fitWidth="40.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/Train_noir.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Cascadia Code Regular" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="buttonBus" graphicTextGap="5.0" layoutX="124.0" layoutY="134.0" lineSpacing="5.0" mnemonicParsing="false" onAction="#buttonBusAction" prefHeight="51.0" prefWidth="100.0" style="-fx-border-radius: 10; -fx-border-color: black; -fx-background-color: white; -fx-font-weight: bold;" text="Bus">
+         <graphic>
+            <ImageView fx:id="imageBusLogo" fitHeight="47.0" fitWidth="37.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: -6;">
+               <image>
+                  <Image url="@images/bus_noir.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Cascadia Code Regular" size="12.0" />
+         </font>
+      </Button>
+      <Text fx:id="nomVilleDepart" fill="#b9b3b3" layoutX="37.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ma ville" wrappingWidth="71.13671875">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <Text fx:id="villeDepart" layoutX="62.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="162.13671875">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="parametreLogo" fitHeight="26.0" fitWidth="25.0" layoutX="402.0" layoutY="53.0" onMouseClicked="#openPopupCritere" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../Downloads/parametre.png" />
+         </image>
+      </ImageView>
+      <VBox fx:id="partieTrajet" layoutY="188.0" prefHeight="222.0" prefWidth="600.0" />
+      <ImageView fx:id="parametreLogo1" fitHeight="21.0" fitWidth="18.0" layoutX="37.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../Downloads/VilleDepart.png" />
+         </image>
+      </ImageView>
+      <ComboBox fx:id="villesArriveeCB" editable="true" layoutX="211.0" layoutY="54.0" prefHeight="22.0" prefWidth="179.0" promptText="Quel est votre ville d'arrivé" />
+      <Pane fx:id="popupParametre" layoutX="433.0" layoutY="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="113.0" prefWidth="153.0" style="-fx-border-color: black; -fx-border-radius: 10;" visible="false">
+         <children>
+            <ImageView fx:id="buttonCO2" fitHeight="26.0" fitWidth="33.0" layoutX="54.0" layoutY="11.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/untoggle_button.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CO2" wrappingWidth="32.9453125" />
+            <Text layoutX="14.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix" wrappingWidth="46.9453125" />
+            <Text layoutX="14.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temps" wrappingWidth="46.9453125" />
+            <ToggleButton layoutX="54.0" layoutY="12.0" mnemonicParsing="false" onAction="#toggleButtonCO2" opacity="0.0" prefHeight="22.0" prefWidth="33.0" />
+            <ImageView fx:id="buttonPrix" fitHeight="26.0" fitWidth="33.0" layoutX="54.0" layoutY="45.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/untoggle_button.png" />
+               </image>
+            </ImageView>
+            <ToggleButton layoutX="54.0" layoutY="46.0" mnemonicParsing="false" onAction="#toggleButtonPrix" opacity="0.0" prefHeight="22.0" prefWidth="33.0" />
+            <ImageView fx:id="buttonTemps" fitHeight="26.0" fitWidth="33.0" layoutX="54.0" layoutY="79.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/untoggle_button.png" />
+               </image>
+            </ImageView>
+            <ToggleButton layoutX="54.0" layoutY="80.0" mnemonicParsing="false" onAction="#toggleButtonTemps" opacity="0.0" prefHeight="22.0" prefWidth="33.0" />
+            <TextField fx:id="critereCO2" alignment="CENTER_RIGHT" disable="true" layoutX="93.0" layoutY="11.0" prefHeight="23.0" prefWidth="54.0" promptText="1.26 kg/CO2" visible="false">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="criterePrix" alignment="CENTER_RIGHT" disable="true" layoutX="93.0" layoutY="45.0" prefHeight="23.0" prefWidth="54.0" promptText="45€" visible="false" />
+            <TextField fx:id="critereTemps" alignment="CENTER_RIGHT" disable="true" layoutX="93.0" layoutY="79.0" prefHeight="23.0" prefWidth="54.0" promptText="5 min" visible="false" />
+         </children></Pane>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Rectangle fx:id="separateur1" arcHeight="5.0" arcWidth="5.0" height="2.0" layoutX="-3.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" width="609.0" />
+      <Rectangle fx:id="separateur11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="222.0" layoutX="-3.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" width="609.0" />
+      <Button layoutX="401.0" layoutY="52.0" mnemonicParsing="false" onAction="#openPopupCritere" opacity="0.0" prefHeight="28.0" prefWidth="28.0" />
+      <ListView fx:id="listeTrajets" layoutX="8.0" layoutY="194.0" prefHeight="203.0" prefWidth="584.0" />
+   </children>
+</Pane>
