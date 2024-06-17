@@ -91,7 +91,7 @@
          <children>
             <VBox fx:id="VBCouts" prefHeight="113.0" prefWidth="179.0">
                <children>
-                  <HBox fx:id="co2" prefHeight="100.0" prefWidth="119.0" spacing="10.0">
+                  <HBox fx:id="co2" prefHeight="100.0" prefWidth="119.0" spacing="2.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CO2" wrappingWidth="38.9453125" />
                         <ToggleButton mnemonicParsing="false" onAction="#toggleButtonCO2" prefHeight="20.0" prefWidth="66.0" style="-fx-background-color: none;">
@@ -103,7 +103,7 @@
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="critereCO2" alignment="CENTER_RIGHT" disable="true" prefHeight="24.0" prefWidth="79.0" promptText="1.26 kg/CO2" visible="false">
+                        <TextField fx:id="critereCO2" alignment="CENTER_RIGHT" disable="true" prefHeight="24.0" prefWidth="79.0" promptText="1.26 kg/CO2" visible="false" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="11.0" />
                            </font>
@@ -125,7 +125,7 @@
                         <Insets left="5.0" right="5.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox fx:id="prix" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <HBox fx:id="prix" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prix" wrappingWidth="38.9453125" />
                         <ToggleButton mnemonicParsing="false" onAction="#toggleButtonPrix" prefHeight="26.0" prefWidth="41.0" style="-fx-background-color: none;">
@@ -137,7 +137,7 @@
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="criterePrix" alignment="CENTER_RIGHT" disable="true" prefHeight="25.0" prefWidth="29.0" promptText="45€" visible="false" />
+                        <TextField fx:id="criterePrix" alignment="CENTER_RIGHT" disable="true" prefHeight="25.0" prefWidth="29.0" promptText="45€" visible="false" HBox.hgrow="ALWAYS" />
                         <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#prixPrio" prefHeight="24.0" prefWidth="32.0" style="-fx-background-color: none;">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -152,7 +152,7 @@
                         <Insets left="5.0" right="6.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox fx:id="temps" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <HBox fx:id="temps" prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temps" wrappingWidth="38.9453125" />
                         <ToggleButton mnemonicParsing="false" onAction="#toggleButtonTemps" prefHeight="26.0" prefWidth="41.0" style="-fx-background-color: none;">
@@ -164,7 +164,7 @@
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="critereTemps" alignment="CENTER_RIGHT" disable="true" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="25.0" promptText="5 min" visible="false" />
+                        <TextField fx:id="critereTemps" alignment="CENTER_RIGHT" disable="true" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="25.0" promptText="5 min" visible="false" HBox.hgrow="ALWAYS" />
                         <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#tempsPrio" prefHeight="24.0" prefWidth="33.0" style="-fx-background-color: none;">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
