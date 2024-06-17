@@ -56,6 +56,17 @@ public class StructureManagement {
         return structureResult;
     }
 
+    public Structure getStructure(final String ville, ModaliteTransport modalite) {
+        Structure structureResult = null;
+        String nom = Structure.nom(ville, modalite);
+        for (final Structure structure : structures) {
+            if (structure.getNom().equals(nom)) {
+                structureResult = structure;
+            }
+        }
+        return structureResult;
+    }
+
     public boolean contains(final String nom) {
         boolean result = false;
         for (final Structure structure : structures) {
@@ -86,6 +97,10 @@ public class StructureManagement {
 
     public int indexOf(final Structure structure) {
         return structures.indexOf(structure);
+    }
+
+    public int indexOf(String ville, ModaliteTransport modalite) {
+        return structures.indexOf(getStructure(ville, modalite));
     }
 
     public void removeStructure(final Structure structure) {

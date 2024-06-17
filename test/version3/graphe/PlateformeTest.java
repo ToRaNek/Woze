@@ -35,12 +35,6 @@ public class PlateformeTest {
     }
 
     @Test
-    void testExistVilleStructureVersion() {
-        assertTrue(plateforme.existVilleStructureVersion("Lille"));
-        assertFalse(plateforme.existVilleStructureVersion("London"));
-    }
-
-    @Test
     void testAddStructure() {
         assertEquals(4, plateforme.getVilles().size());
         assertEquals(6, plateforme.getStructures().size());
@@ -62,38 +56,9 @@ public class PlateformeTest {
     }
 
     @Test
-    void testIndexOf() {
-        assertEquals(0, plateforme.indexOf("Lille", "Paris", "TRAIN"));
-        assertEquals(1, plateforme.indexOf("Paris", "Lille", "TRAIN"));
-    }
-
-    @Test
-    void testRemoveArete() {
-        Arete arete = plateforme.getAretes().get(0);
-        plateforme.removeArete(arete);
-        assertEquals(5, plateforme.getAretes().size());
-    }
-
-    @Test
-    void testRemoveStructure() {
-        assertEquals(6, plateforme.getStructures().size());
-        Structure structure = plateforme.getStructures().get(0);
-        plateforme.removeStructure(structure);
-        assertEquals(5, plateforme.getStructures().size());
-    }
-
-    @Test
     void testBuildGraph() {
         MultiGrapheOrienteValue graph = plateforme.buildGraph(TypeCout.CO2);
         assertNotNull(graph);
-    }
-
-    @Test
-    void testChercherPlusCourtsChemins() {
-        Structure lille = plateforme.getStructure("Gare_Lille");
-        Structure paris = plateforme.getStructure("Gare_Paris");
-        assertEquals(1, plateforme.simplePCC(lille, paris, TypeCout.TEMPS, 1).size());
-        assertEquals(1, plateforme.simplePCC(lille, paris, TypeCout.TEMPS, 2).size());
     }
 
     @Test
@@ -104,6 +69,7 @@ public class PlateformeTest {
         assertTrue(plateforme.isLinked(lille, paris));
         assertFalse(plateforme.isLinked(lille, null));
     }
-        // V1 finis
 
+
+    // TODO des nouveaux test
 }

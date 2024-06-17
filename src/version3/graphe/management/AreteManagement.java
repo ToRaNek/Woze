@@ -6,7 +6,7 @@ import java.util.List;
 import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import fr.ulille.but.sae_s2_2024.MultiGrapheOrienteValue;
-import version3.graphe.Algorithme;
+import version3.utils.algorithm.Algorithme;
 import version3.graphe.Arete;
 import version3.graphe.Structure;
 

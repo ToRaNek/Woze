@@ -1,5 +1,6 @@
 package version3.graphe;
 
+import version3.utils.algorithm.Algorithme;
 import version3.utils.data.extract.CorrespondanceDataExtractor;
 import version3.utils.data.extract.VilleDataExtractor;
 import version3.graphe.management.*;
@@ -222,6 +223,10 @@ public class Plateforme {
         return structures.getStructures();
     }
 
+    public StructureManagement getStructuresM() {
+        return structures;
+    }
+
     public void setStructures(StructureManagement structures) {
         this.structures = structures;
     }
@@ -303,6 +308,10 @@ public class Plateforme {
         return indexOf(depart, arrivee, modalite);
     }
 
+    public int indexOf(final String ville, final ModaliteTransport modalite) {
+        return structures.indexOf(ville, modalite);
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -357,6 +366,10 @@ public class Plateforme {
 
     public ArrayList<Structure> getStructuresFor(ModaliteTransport modaliteTransport) {
         return structures.getStructuresFor(modaliteTransport);
+    }
+
+    public Structure getStructure(String nom){
+        return structures.getStructure(nom);
     }
 
     public ArrayList<Structure> getStructuresFromAndFor(String Ville, ModaliteTransport modaliteTransport) {

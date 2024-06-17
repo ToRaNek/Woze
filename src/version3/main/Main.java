@@ -10,7 +10,7 @@ import java.util.Scanner;
 import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import version3.user.Voyageur;
-import version3.graphe.Algorithme;
+import version3.utils.algorithm.Algorithme;
 import version3.graphe.Plateforme;
 import version3.utils.data.extract.VilleDataExtractor;
 import version3.utils.verifications.Verifications;
