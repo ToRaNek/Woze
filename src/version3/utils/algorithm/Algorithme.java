@@ -1,4 +1,4 @@
-package version3.graphe;
+package version3.utils.algorithm;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,6 +10,11 @@ import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import fr.ulille.but.sae_s2_2024.MultiGrapheOrienteValue;
 import fr.ulille.but.sae_s2_2024.Trancon;
+import version3.graphe.Plateforme;
+import version3.graphe.Arete;
+import version3.graphe.Structure;
+import version3.graphe.Trajet;
+import version3.graphe.TypeCout;
 
 public class Algorithme {
 

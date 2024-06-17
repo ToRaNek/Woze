@@ -1,5 +1,6 @@
 package version3.graphe;
 
+import version3.utils.algorithm.Algorithme;
 import version3.utils.data.extract.CorrespondanceDataExtractor;
 import version3.utils.data.extract.VilleDataExtractor;
 import version3.graphe.management.*;
