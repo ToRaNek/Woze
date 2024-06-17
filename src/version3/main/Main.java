@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
-import version3.user.Voyageur;
+import version3.user.User;
 import version3.utils.algorithm.Algorithme;
 import version3.graphe.Plateforme;
 import version3.utils.data.extract.VilleDataExtractor;
@@ -19,7 +19,7 @@ import version3.graphe.TypeCout;
 public class Main {
     
     private static Plateforme p;
-    private static Voyageur user;
+    private static User user;
     private static Scanner scanner = new Scanner(System.in);
 
     public static void clearTerminal(){
@@ -52,7 +52,7 @@ public class Main {
         final TypeCout crit = TypeCout.valueOf(critere);
     
         clearTerminal();
-        user = new Voyageur(prenom, nom, villeDepart, crit);
+        user = new User(prenom, nom, villeDepart, crit);
         p.addUser(user);
         p.setCurrentUser(user);
     }

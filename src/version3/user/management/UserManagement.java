@@ -1,91 +1,106 @@
 package version3.user.management;
 
-import version3.graphe.TypeCout;
-import version3.user.Voyageur;
-import version3.utils.verifications.Verifications;
-import version3.utils.data.extract.UserDataExtractor;
+import version3.user.User;
+import version3.utils.data.save.DataSave;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class UserManagement {
-    public static UserManagement loadFromFile(String fileName) throws IOException, ClassNotFoundException {
-        return loadFromFile(fileName);
-    }
 
-    private ArrayList<Voyageur> users;
+    private ArrayList<User> users;
+    private DataSave dataSave;
 
     public UserManagement() {
         users = new ArrayList<>();
-        initializeUsers();
+        dataSave = new DataSave();
+        initializeUsersDat();
     }
 
-    public ArrayList<Voyageur> getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
     }
 
-    public void addUser(final Voyageur user) {
+    public void addUser(final User user) {
         users.add(user);
-        
+        try {
+            dataSave.saveUserToFile(user);
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la sauvegarde de l'utilisateur : " + e.getMessage());
+        }
     }
 
-    public void removeUser(final Voyageur user) {
-        Voyageur.getIdTrash().add(user.getId());
-        // TODO save
+    public void removeUser(final User user) {
+        User.getIdTrash().add(user.getId());
         users.remove(user);
+        dataSave.deleteUserFile(user);
     }
 
-    public Voyageur getUserById(int userId) {
-        for (Voyageur user : users) {
+    public User getUserById(int userId) {
+        for (User user : users) {
             if (user.getId() == userId) {
                 return user;
             }
         }
-        return null; 
+        return null;
     }
 
-    public Voyageur getUserByNomPrenom(String nom, String prenom) {
-        for (Voyageur user : users) {
+    public User getUserByNomPrenom(String nom, String prenom) {
+        for (User user : users) {
             if (user.getNom().equalsIgnoreCase(nom) && user.getPrenom().equalsIgnoreCase(prenom)) {
                 return user;
             }
         }
-        return null; 
+        return null;
     }
 
-    // TODO
-    // Méthodes de sérialisation et de désérialisation
-    public void saveToFile(String fileName) throws IOException {
-        saveToFile(fileName);
-    }
+    // private void initializeUsersCSV() {
+    //     for (final String data : UserDataExtractor.users) {
+    //         final String[] split = data.split(";");
 
-    private void initializeUsers() {
-        for (final String data : UserDataExtractor.users) {
-            final String[] split = data.split(";");
+    //         if (split.length >= 3 && split.length <= 5) {
+    //             final String prenom = split[0];
+    //             final String nom = split[1];
+    //             final String ville = split[2];
+    //             final String critere = (split.length >= 4) ? split[3] : null;
 
-            if (split.length >= 3 && split.length <= 5) {
-                final String prenom = split[0];
-                final String nom = split[1];
-                final String ville = split[2];
-                final String critere = (split.length >= 4) ? split[3] : null;
+    //             if (prenom != null && nom != null && ville != null && (critere == null || Verifications.estCritereValide(critere))) {
+    //                 final TypeCout critUser = (critere != null) ? TypeCout.valueOf(critere.toUpperCase()) : User.getCritereDefaut();
 
-                if (prenom != null && nom != null && ville != null && (critere == null || Verifications.estCritereValide(critere))) {
-                    final TypeCout critUser = (critere != null) ? TypeCout.valueOf(critere.toUpperCase()) : Voyageur.getCritereDefaut();
+    //                 if (split.length == 4) {
+    //                     users.add(new User(prenom, nom, ville, critUser));
+    //                 } else if (split.length == 3) {
+    //                     users.add(new User(prenom, nom, ville));
+    //                 } else if (split.length == 2) {
+    //                     users.add(new User(prenom, nom));
+    //                 } else if (split.length == 5) {
+    //                     final TypeCout crit = TypeCout.valueOf(split[4].toUpperCase());
+    //                     users.add(new User(prenom, nom, ville, crit));
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
-                    if (split.length == 4) {
-                        users.add(new Voyageur(prenom, nom, ville, critUser));
-                    } else if (split.length == 3) {
-                        users.add(new Voyageur(prenom, nom, ville));
-                    } else if (split.length == 2) {
-                        users.add(new Voyageur(prenom, nom));
-                    } else if (split.length == 5) {
-                        final TypeCout crit = TypeCout.valueOf(split[4].toUpperCase());
-                        users.add(new Voyageur(prenom, nom, ville, crit));
-                    }
+    private void initializeUsersDat() {
+    File userDirectory = new File(DataSave.getUserDirectory());
+    File[] userFiles = userDirectory.listFiles();
+
+    if (userFiles != null) {
+        for (File file : userFiles) {
+            if (file.isFile() && file.getName().endsWith(".dat")) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                    User user = (User) ois.readObject();
+                    users.add(user);
+                } catch (IOException | ClassNotFoundException e) {
+                    System.err.println("Erreur lors de la lecture du fichier utilisateur " + file.getName() + ": " + e.getMessage());
                 }
             }
         }
     }
+}
 
-    
 }

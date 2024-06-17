@@ -5,7 +5,7 @@ import version3.utils.data.extract.CorrespondanceDataExtractor;
 import version3.utils.data.extract.VilleDataExtractor;
 import version3.graphe.management.*;
 import version3.user.management.UserManagement;
-import version3.user.Voyageur;
+import version3.user.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,12 +54,12 @@ public class Plateforme {
     }
 
     // attributs
-    private Voyageur currentUser;
+    private User currentUser;
     private UserManagement users;
     private AreteManagement aretes;
     private VilleManagement villes;
     private StructureManagement structures;
-    private TypeCout currentCrit = Voyageur.getCritereDefaut();
+    private TypeCout currentCrit = User.getCritereDefaut();
 
     private MultiGrapheOrienteValue currentGraphe;
 
@@ -156,26 +156,26 @@ public class Plateforme {
     }
 
     // Méthode pour ajouter un utilisateur
-    public void addUser(Voyageur user) {
+    public void addUser(User user) {
         users.addUser(user);
     }
 
     // Méthode pour récupérer un utilisateur par son identifiant
-    public Voyageur getUserById(int userId) {
+    public User getUserById(int userId) {
         return users.getUserById(userId);
     }
 
-    public Voyageur getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(Voyageur currentUser) {
+    public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
         this.currentCrit = currentUser.getCritere();
         graphes.get(currentCrit);
     }
 
-    public ArrayList<Voyageur> getUsers() {
+    public ArrayList<User> getUsers() {
         return users.getUsers();
     }
 
@@ -251,8 +251,8 @@ public class Plateforme {
         graphes.put(crit, g);
     }
 
-    public void delUser(final Voyageur user) {
-        Voyageur.getIdTrash().add(user.getId());
+    public void delUser(final User user) {
+        User.getIdTrash().add(user.getId());
         users.removeUser(user);
         currentUser=null;
     }
@@ -357,7 +357,7 @@ public class Plateforme {
             final MultiGrapheOrienteValue g = buildGraph(crit.name());
             graphes.put(crit, g);
         }
-        currentGraphe = graphes.get(Voyageur.getCritereDefaut());
+        currentGraphe = graphes.get(User.getCritereDefaut());
     }
 
     public ArrayList<Structure> getStructuresFrom(String Ville) {
