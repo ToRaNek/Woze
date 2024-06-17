@@ -29,9 +29,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import version3.graphe.TypeCout;
 
 public class AccueilController {
 
@@ -290,5 +292,41 @@ public class AccueilController {
         // Set the new scene on the stage and show it
         currentStage.setScene(newScene);
         currentStage.show();
+    }
+
+    @FXML
+    VBox VBCouts;
+
+    @FXML
+    HBox co2;
+
+    @FXML
+    HBox temps;
+
+    @FXML
+    HBox prix;
+
+    @FXML
+    public void co2Prio() {
+        VBCouts.getChildren().remove(co2);
+        VBCouts.getChildren().add(0, co2);
+        FxmlWoze.ordreCout.remove(TypeCout.CO2);
+        FxmlWoze.ordreCout.add(0, TypeCout.CO2);
+    }
+
+    @FXML
+    public void tempsPrio() {
+        VBCouts.getChildren().remove(temps);
+        VBCouts.getChildren().add(0, temps);
+        FxmlWoze.ordreCout.remove(TypeCout.CO2);
+        FxmlWoze.ordreCout.add(0, TypeCout.TEMPS);
+    }
+
+    @FXML
+    public void prixPrio() {
+        VBCouts.getChildren().remove(prix);
+        VBCouts.getChildren().add(0, prix);
+        FxmlWoze.ordreCout.remove(TypeCout.CO2);
+        FxmlWoze.ordreCout.add(0, TypeCout.PRIX);
     }
 }
