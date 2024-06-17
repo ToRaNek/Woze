@@ -17,7 +17,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="version3.interfaces.AccueilController">
    <children>
-      <ImageView fx:id="imageAccount" fitHeight="28.0" fitWidth="29.0" layoutX="536.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="imageAccount" fitHeight="28.0" fitWidth="29.0" layoutX="536.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Account.png" />
          </image>
@@ -87,7 +87,7 @@
       <Button layoutX="382.0" layoutY="50.0" mnemonicParsing="false" onAction="#openPopupCritere" opacity="0.0" prefHeight="28.0" prefWidth="28.0" />
       <ListView fx:id="listeTrajets" layoutX="8.0" layoutY="194.0" prefHeight="203.0" prefWidth="584.0" />
       <Button fx:id="account" layoutX="536.0" layoutY="27.0" mnemonicParsing="false" onAction="#accountClicked" opacity="0.0" prefHeight="28.0" prefWidth="28.0" />
-      <Pane fx:id="popupParametre" layoutX="416.0" layoutY="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="113.0" prefWidth="179.0" style="-fx-border-color: black; -fx-border-radius: 10;">
+      <Pane fx:id="popupParametre" layoutX="416.0" layoutY="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="113.0" prefWidth="179.0" style="-fx-border-color: black; -fx-border-radius: 10;" visible="false">
          <children>
             <VBox fx:id="VBCouts" prefHeight="113.0" prefWidth="179.0">
                <children>
