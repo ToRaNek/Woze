@@ -2,17 +2,14 @@ package version3.interfaces;
 
 import javafx.scene.control.TextField;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.w3c.dom.Node;
-
-import fr.ulille.but.sae_s2_2024.ModaliteTransport;
-import javafx.beans.Observable;
+import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
@@ -22,8 +19,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import version3.graphe.TypeCout;
 
 public class AccueilController {
 
@@ -93,32 +94,46 @@ public class AccueilController {
         });
     }
 
-    public HBox hboxTrajet(String dep, String arr, String co2, String prix, String temps, boolean bus, boolean train, boolean avion){
-        HBox hb = new HBox();
-        Label depL = new Label(dep + " -> ");
+    public HBox hboxTrajet(String dep, String arr, String co2, String prix, String temps, boolean bus, boolean train, boolean avion) {
+        HBox hb = new HBox(5); 
+        HBox hbCouts = new HBox(3); 
+    
+        Label depL = new Label(dep + " ->");
         Label arrL = new Label(arr);
-        Label co2L = new Label(co2 + " kg      ");
-        Label prixL = new Label(prix + " €    ");
-        Label tempsL = new Label(temps + " min    ");
+        Label co2L = new Label(co2 + " kg");
+        Label prixL = new Label(prix + " €");
+        Label tempsL = new Label(temps + " min");
+    
         hb.getChildren().addAll(depL, arrL);
+    
+        double iconSize = 15;
+    
         if (bus) {
-            ImageView busImgV = new ImageView();
-            busImgV.setImage(new Image(("/version3/interfaces/images/bus_noir.png")));
-            hb.getChildren().add(busImgV);            
+            ImageView busImgV = new ImageView("/version3/interfaces/images/bus_noir.png");
+            busImgV.setFitWidth(iconSize);
+            busImgV.setFitHeight(iconSize);
+            hb.getChildren().add(busImgV);
         }
         if (train) {
-            ImageView trainImgV = new ImageView();
-            trainImgV.setImage(new Image(("/version3/interfaces/images/Avion_noir.png")));
-            hb.getChildren().add(trainImgV);            
+            ImageView trainImgV = new ImageView("/version3/interfaces/images/train_noir.png"); // Corrected image path
+            trainImgV.setFitWidth(iconSize);
+            trainImgV.setFitHeight(iconSize);
+            hb.getChildren().add(trainImgV);
         }
         if (avion) {
-            ImageView avionImgV = new ImageView();
-            avionImgV.setImage(new Image(("/version3/interfaces/images/Train_noir.png")));
-            hb.getChildren().add(avionImgV);            
+            ImageView avionImgV = new ImageView("/version3/interfaces/images/avion_noir.png"); // Corrected image path
+            avionImgV.setFitWidth(iconSize);
+            avionImgV.setFitHeight(iconSize);
+            hb.getChildren().add(avionImgV);
         }
-        hb.getChildren().addAll(co2L, prixL, tempsL);
+    
+        hbCouts.getChildren().addAll(co2L, prixL, tempsL);
+        Pane spacer = new Pane();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        hb.getChildren().addAll(spacer, hbCouts);
         return hb;
     }
+    
 
     public void filterCities(String filter) {
         villesArriveeCB.getItems().clear();
@@ -181,13 +196,23 @@ public class AccueilController {
     }
 
     @FXML
+    ImageView imageAccount;
+
+    @FXML
+    Button account;
+
+    @FXML
     public void openPopupCritere(ActionEvent e){
         if(parametreIsActivated){
             popupParametre.setVisible(false);
             parametreIsActivated = false;
+            imageAccount.setVisible(true);
+            account.setVisible(true);
         }else{
             popupParametre.setVisible(true);
             parametreIsActivated = true;
+            imageAccount.setVisible(false);
+            account.setVisible(false);
         }
         
     }
@@ -244,5 +269,55 @@ public class AccueilController {
             ((Control) critereTemps).setDisable(false);
             critereTemps.setVisible(true);
         }
+    }
+
+    @FXML
+    public void accountClicked(ActionEvent e) throws IOException{
+         Stage currentStage = (Stage) ((Button) e.getSource()).getScene().getWindow();
+
+        // Load the new scene (replace "accueil.fxml" with your desired FXML file)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("account.fxml"));
+        Parent root = loader.load();
+        Scene newScene = new Scene(root);
+
+        // Set the new scene on the stage and show it
+        currentStage.setScene(newScene);
+        currentStage.show();
+    }
+
+    @FXML
+    VBox VBCouts;
+
+    @FXML
+    HBox co2;
+
+    @FXML
+    HBox temps;
+
+    @FXML
+    HBox prix;
+
+    @FXML
+    public void co2Prio() {
+        VBCouts.getChildren().remove(co2);
+        VBCouts.getChildren().add(0, co2);
+        FxmlWoze.ordreCout.remove(TypeCout.CO2);
+        FxmlWoze.ordreCout.add(0, TypeCout.CO2);
+    }
+
+    @FXML
+    public void tempsPrio() {
+        VBCouts.getChildren().remove(temps);
+        VBCouts.getChildren().add(0, temps);
+        FxmlWoze.ordreCout.remove(TypeCout.CO2);
+        FxmlWoze.ordreCout.add(0, TypeCout.TEMPS);
+    }
+
+    @FXML
+    public void prixPrio() {
+        VBCouts.getChildren().remove(prix);
+        VBCouts.getChildren().add(0, prix);
+        FxmlWoze.ordreCout.remove(TypeCout.CO2);
+        FxmlWoze.ordreCout.add(0, TypeCout.PRIX);
     }
 }

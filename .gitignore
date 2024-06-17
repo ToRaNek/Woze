@@ -10,3 +10,4 @@ E3.iml
 *.code-workspace
 /res/version3/users/*.dat
 /res/version3/users/history/*.dat
+*.json
