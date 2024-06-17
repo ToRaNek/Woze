@@ -87,14 +87,14 @@
       <Button layoutX="382.0" layoutY="50.0" mnemonicParsing="false" onAction="#openPopupCritere" opacity="0.0" prefHeight="28.0" prefWidth="28.0" />
       <ListView fx:id="listeTrajets" layoutX="8.0" layoutY="194.0" prefHeight="203.0" prefWidth="584.0" />
       <Button fx:id="account" layoutX="536.0" layoutY="27.0" mnemonicParsing="false" onAction="#accountClicked" opacity="0.0" prefHeight="28.0" prefWidth="28.0" />
-      <Pane fx:id="popupParametre" layoutX="416.0" layoutY="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="113.0" prefWidth="179.0" style="-fx-border-color: black; -fx-border-radius: 10;" visible="false">
+      <Pane fx:id="popupParametre" layoutX="416.0" layoutY="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="113.0" prefWidth="179.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
             <VBox fx:id="VBCouts" prefHeight="113.0" prefWidth="179.0">
                <children>
                   <HBox fx:id="co2" prefHeight="100.0" prefWidth="119.0" spacing="10.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CO2" wrappingWidth="38.9453125" />
-                        <ToggleButton mnemonicParsing="false" onAction="#toggleButtonCO2" prefHeight="20.0" prefWidth="66.0">
+                        <ToggleButton mnemonicParsing="false" onAction="#toggleButtonCO2" prefHeight="20.0" prefWidth="66.0" style="-fx-background-color: none;">
                            <graphic>
                               <ImageView fx:id="buttonCO2" fitHeight="20.0" fitWidth="24.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -103,7 +103,7 @@
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="critereCO2" alignment="CENTER_RIGHT" disable="true" prefHeight="24.0" prefWidth="55.0" promptText="1.26 kg/CO2">
+                        <TextField fx:id="critereCO2" alignment="CENTER_RIGHT" disable="true" prefHeight="24.0" prefWidth="79.0" promptText="1.26 kg/CO2" visible="false">
                            <font>
                               <Font size="11.0" />
                            </font>
@@ -111,9 +111,9 @@
                               <Insets />
                            </HBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" onAction="#co2Prio" prefHeight="24.0" prefWidth="10.0">
+                        <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#co2Prio" prefHeight="24.0" prefWidth="35.0" style="-fx-background-color: none;">
                            <graphic>
-                              <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="12.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: white;">
                                  <image>
                                     <Image url="@images/flecheHaut.png" />
                                  </image>
@@ -128,17 +128,17 @@
                   <HBox fx:id="prix" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prix" wrappingWidth="38.9453125" />
-                        <ToggleButton mnemonicParsing="false" onAction="#toggleButtonPrix" prefHeight="26.0" prefWidth="41.0">
+                        <ToggleButton mnemonicParsing="false" onAction="#toggleButtonPrix" prefHeight="26.0" prefWidth="41.0" style="-fx-background-color: none;">
                            <graphic>
-                              <ImageView fx:id="buttonPrix" fitHeight="19.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="buttonPrix" accessibleRole="BUTTON" fitHeight="19.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/untoggle_button.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="criterePrix" alignment="CENTER_RIGHT" disable="true" prefHeight="25.0" prefWidth="39.0" promptText="45€" />
-                        <Button mnemonicParsing="false" onAction="#prixPrio" prefHeight="24.0" prefWidth="10.0">
+                        <TextField fx:id="criterePrix" alignment="CENTER_RIGHT" disable="true" prefHeight="25.0" prefWidth="29.0" promptText="45€" visible="false" />
+                        <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#prixPrio" prefHeight="24.0" prefWidth="32.0" style="-fx-background-color: none;">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -155,7 +155,7 @@
                   <HBox fx:id="temps" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temps" wrappingWidth="38.9453125" />
-                        <ToggleButton mnemonicParsing="false" onAction="#toggleButtonTemps" prefHeight="26.0" prefWidth="41.0">
+                        <ToggleButton mnemonicParsing="false" onAction="#toggleButtonTemps" prefHeight="26.0" prefWidth="41.0" style="-fx-background-color: none;">
                            <graphic>
                               <ImageView fx:id="buttonTemps" fitHeight="23.0" fitWidth="25.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -164,8 +164,8 @@
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="critereTemps" alignment="CENTER_RIGHT" disable="true" prefHeight="23.0" prefWidth="54.0" promptText="5 min" />
-                        <Button mnemonicParsing="false" onAction="#tempsPrio" prefHeight="0.0" prefWidth="0.0">
+                        <TextField fx:id="critereTemps" alignment="CENTER_RIGHT" disable="true" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="25.0" promptText="5 min" visible="false" />
+                        <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#tempsPrio" prefHeight="24.0" prefWidth="33.0" style="-fx-background-color: none;">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
