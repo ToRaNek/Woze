@@ -168,13 +168,13 @@ Semaines 7 (du 10/06) et 8 (du 17/06)
 - gas poo [x] gestion des chemins par transport ( toutes les possibilités)
 - gas poo [~] réorganisation des fichiers logiques et externalisation
 - gas poo [x] gestion par triple critère (toutes les possibilités)
-- gas poo [] gestion de l’historique par sérialisation binaire
-- gas poo [] exploitation de l’historique pour afficher des informations pertinentes
+- gas poo [-] gestion de l’historique par sérialisation binaire
 
 #### Graphe
 - gas poo graphes [x]expression des préférences multi-critères
 - gas poo graphes [x] implémentation d’un jeu de données et d’un scénario pour illustrer le bon fonctionnement de votre application
 
 #### Interface
-- gor gab ihm [-] prototype haute fidélité
+- gor gab ihm [x] prototype haute fidélité
 - gor gab ihm [-] développement en JavaFX
+- gor gab gas poo ihm [-] exploitation de l’historique pour afficher des informations pertinentes
