@@ -15,7 +15,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="version3.interfaces.AccueilController">
    <children>
-      <ImageView fitHeight="28.0" fitWidth="29.0" layoutX="401.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imageAccount" fitHeight="28.0" fitWidth="29.0" layoutX="536.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Account.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="28.0" fitWidth="29.0" layoutX="382.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../Downloads/parametre.png" />
          </image>
@@ -66,26 +71,28 @@
             <Font size="16.0" />
          </font>
       </Text>
-      <ImageView fx:id="parametreLogo" fitHeight="26.0" fitWidth="25.0" layoutX="402.0" layoutY="53.0" onMouseClicked="#openPopupCritere" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../Downloads/parametre.png" />
-         </image>
-      </ImageView>
       <VBox fx:id="partieTrajet" layoutY="188.0" prefHeight="222.0" prefWidth="600.0" />
       <ImageView fx:id="parametreLogo1" fitHeight="21.0" fitWidth="18.0" layoutX="37.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../Downloads/VilleDepart.png" />
          </image>
       </ImageView>
-      <ComboBox fx:id="villesArriveeCB" editable="true" layoutX="211.0" layoutY="54.0" prefHeight="22.0" prefWidth="179.0" promptText="Quel est votre ville d'arrivé" />
-      <Pane fx:id="popupParametre" layoutX="433.0" layoutY="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="113.0" prefWidth="153.0" style="-fx-border-color: black; -fx-border-radius: 10;" visible="false">
+      <ComboBox fx:id="villesArriveeCB" editable="true" layoutX="198.0" layoutY="54.0" prefHeight="22.0" prefWidth="179.0" promptText="Quel est votre ville d'arrivé" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Rectangle fx:id="separateur1" arcHeight="5.0" arcWidth="5.0" height="2.0" layoutX="-3.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" width="609.0" />
+      <Rectangle fx:id="separateur11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="222.0" layoutX="-3.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" width="609.0" />
+      <Button layoutX="382.0" layoutY="50.0" mnemonicParsing="false" onAction="#openPopupCritere" opacity="0.0" prefHeight="28.0" prefWidth="28.0" />
+      <ListView fx:id="listeTrajets" layoutX="8.0" layoutY="194.0" prefHeight="203.0" prefWidth="584.0" />
+      <Button fx:id="account" layoutX="536.0" layoutY="27.0" mnemonicParsing="false" onAction="#accountClicked" opacity="0.0" prefHeight="28.0" prefWidth="28.0" />
+      <Pane fx:id="popupParametre" layoutX="416.0" layoutY="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="113.0" prefWidth="179.0" style="-fx-border-color: black; -fx-border-radius: 10;" visible="false">
          <children>
             <ImageView fx:id="buttonCO2" fitHeight="26.0" fitWidth="33.0" layoutX="54.0" layoutY="11.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/untoggle_button.png" />
                </image>
             </ImageView>
-            <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CO2" wrappingWidth="32.9453125" />
+            <Text layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CO2" wrappingWidth="32.9453125" />
             <Text layoutX="14.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prix" wrappingWidth="46.9453125" />
             <Text layoutX="14.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temps" wrappingWidth="46.9453125" />
             <ToggleButton layoutX="54.0" layoutY="12.0" mnemonicParsing="false" onAction="#toggleButtonCO2" opacity="0.0" prefHeight="22.0" prefWidth="33.0" />
@@ -109,11 +116,5 @@
             <TextField fx:id="criterePrix" alignment="CENTER_RIGHT" disable="true" layoutX="93.0" layoutY="45.0" prefHeight="23.0" prefWidth="54.0" promptText="45€" visible="false" />
             <TextField fx:id="critereTemps" alignment="CENTER_RIGHT" disable="true" layoutX="93.0" layoutY="79.0" prefHeight="23.0" prefWidth="54.0" promptText="5 min" visible="false" />
          </children></Pane>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Rectangle fx:id="separateur1" arcHeight="5.0" arcWidth="5.0" height="2.0" layoutX="-3.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" width="609.0" />
-      <Rectangle fx:id="separateur11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="222.0" layoutX="-3.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" width="609.0" />
-      <Button layoutX="401.0" layoutY="52.0" mnemonicParsing="false" onAction="#openPopupCritere" opacity="0.0" prefHeight="28.0" prefWidth="28.0" />
-      <ListView fx:id="listeTrajets" layoutX="8.0" layoutY="194.0" prefHeight="203.0" prefWidth="584.0" />
    </children>
 </Pane>

@@ -6,7 +6,7 @@
             "name": "FxmlWoze",
             "request": "launch",
             "mainClass": "version3.interfaces.FxmlWoze",
-            "vmArgs": "--module-path /home/public/javafx-sdk-17.0.2/lib --add-modules=javafx.controls,javafx.fxml"
+            "vmArgs": "--module-path C:\\Users\\Admin\\Desktop\\dev\\javafx-sdk-17.0.11\\lib --add-modules=javafx.controls,javafx.fxml"
         },
     ]
 }

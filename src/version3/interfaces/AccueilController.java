@@ -2,6 +2,7 @@ package version3.interfaces;
 
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
@@ -27,6 +31,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class AccueilController {
 
@@ -198,13 +203,23 @@ public class AccueilController {
     }
 
     @FXML
+    ImageView imageAccount;
+
+    @FXML
+    Button account;
+
+    @FXML
     public void openPopupCritere(ActionEvent e){
         if(parametreIsActivated){
             popupParametre.setVisible(false);
             parametreIsActivated = false;
+            imageAccount.setVisible(true);
+            account.setVisible(true);
         }else{
             popupParametre.setVisible(true);
             parametreIsActivated = true;
+            imageAccount.setVisible(false);
+            account.setVisible(false);
         }
         
     }
@@ -261,5 +276,19 @@ public class AccueilController {
             ((Control) critereTemps).setDisable(false);
             critereTemps.setVisible(true);
         }
+    }
+
+    @FXML
+    public void accountClicked(ActionEvent e) throws IOException{
+         Stage currentStage = (Stage) ((Button) e.getSource()).getScene().getWindow();
+
+        // Load the new scene (replace "accueil.fxml" with your desired FXML file)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("account.fxml"));
+        Parent root = loader.load();
+        Scene newScene = new Scene(root);
+
+        // Set the new scene on the stage and show it
+        currentStage.setScene(newScene);
+        currentStage.show();
     }
 }
