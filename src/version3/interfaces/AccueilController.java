@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
@@ -22,6 +23,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
@@ -93,32 +96,46 @@ public class AccueilController {
         });
     }
 
-    public HBox hboxTrajet(String dep, String arr, String co2, String prix, String temps, boolean bus, boolean train, boolean avion){
-        HBox hb = new HBox();
-        Label depL = new Label(dep + " -> ");
+    public HBox hboxTrajet(String dep, String arr, String co2, String prix, String temps, boolean bus, boolean train, boolean avion) {
+        HBox hb = new HBox(5); 
+        HBox hbCouts = new HBox(3); 
+    
+        Label depL = new Label(dep + " ->");
         Label arrL = new Label(arr);
-        Label co2L = new Label(co2 + " kg      ");
-        Label prixL = new Label(prix + " €    ");
-        Label tempsL = new Label(temps + " min    ");
+        Label co2L = new Label(co2 + " kg");
+        Label prixL = new Label(prix + " €");
+        Label tempsL = new Label(temps + " min");
+    
         hb.getChildren().addAll(depL, arrL);
+    
+        double iconSize = 15;
+    
         if (bus) {
-            ImageView busImgV = new ImageView();
-            busImgV.setImage(new Image(("/version3/interfaces/images/bus_noir.png")));
-            hb.getChildren().add(busImgV);            
+            ImageView busImgV = new ImageView("/version3/interfaces/images/bus_noir.png");
+            busImgV.setFitWidth(iconSize);
+            busImgV.setFitHeight(iconSize);
+            hb.getChildren().add(busImgV);
         }
         if (train) {
-            ImageView trainImgV = new ImageView();
-            trainImgV.setImage(new Image(("/version3/interfaces/images/Avion_noir.png")));
-            hb.getChildren().add(trainImgV);            
+            ImageView trainImgV = new ImageView("/version3/interfaces/images/train_noir.png"); // Corrected image path
+            trainImgV.setFitWidth(iconSize);
+            trainImgV.setFitHeight(iconSize);
+            hb.getChildren().add(trainImgV);
         }
         if (avion) {
-            ImageView avionImgV = new ImageView();
-            avionImgV.setImage(new Image(("/version3/interfaces/images/Train_noir.png")));
-            hb.getChildren().add(avionImgV);            
+            ImageView avionImgV = new ImageView("/version3/interfaces/images/avion_noir.png"); // Corrected image path
+            avionImgV.setFitWidth(iconSize);
+            avionImgV.setFitHeight(iconSize);
+            hb.getChildren().add(avionImgV);
         }
-        hb.getChildren().addAll(co2L, prixL, tempsL);
+    
+        hbCouts.getChildren().addAll(co2L, prixL, tempsL);
+        Pane spacer = new Pane();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        hb.getChildren().addAll(spacer, hbCouts);
         return hb;
     }
+    
 
     public void filterCities(String filter) {
         villesArriveeCB.getItems().clear();
