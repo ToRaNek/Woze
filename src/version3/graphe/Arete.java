@@ -1,5 +1,6 @@
 package version3.graphe;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ import fr.ulille.but.sae_s2_2024.*;
 /**
  * La classe Arete représente une liaison entre deux structures.
  */
-public class Arete implements Trancon {
+public class Arete implements Trancon, Serializable{
     /** La structure de départ de l'arête */
     private Structure depart;
 
@@ -16,7 +17,7 @@ public class Arete implements Trancon {
     private Structure arrivee;
 
     /** La modalité de transport associée à l'arête */
-    private ModaliteTransport modalite;
+    private final ModaliteTransport modalite;
 
     /** Les différents types de coûts associés à l'arête */
     private final Map<TypeCout, Double> couts;
@@ -107,19 +108,30 @@ public class Arete implements Trancon {
     }
 
     /**
-     * Définit la modalité de transport associée à l'arête.
-     * @param modalite La nouvelle modalité de transport.
-     */
-    public void setModalite(final ModaliteTransport modalite) {
-        this.modalite = modalite;
-    }
-
-    /**
      * Obtient les différents coûts associés à l'arête.
      * @return Une map contenant les différents coûts.
      */
     public Map<TypeCout, Double> getCouts() {
         return this.couts;
+    }
+
+    /**
+     * Méthode pour vérifier l'égalité avec un autre objet.
+     * Deux arêtes sont considérées égales si elles ont les mêmes structures de départ et d'arrivée,
+     * ainsi que la même modalité de transport.
+     * @param obj L'objet à comparer.
+     * @return true si les arêtes sont égales, false sinon.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Arete other = (Arete) obj;
+        return depart.equals(other.depart) && arrivee.equals(other.arrivee) && modalite.equals(other.modalite);
     }
 
     /**
@@ -129,7 +141,13 @@ public class Arete implements Trancon {
      */
     @Override
     public String toString() {
-        return depart + " -> " + arrivee + " [" + modalite + "]";
+        String mod ;
+        if (modalite == null) {
+            mod = "A PIED";
+        }else{
+            mod = modalite.toString();
+        }
+        return depart + " -> " + arrivee + " [" + mod + "]";
     }
 
     
