@@ -18,10 +18,12 @@ import version1.Voyageur;
 ;
 
 public class ConnexionController {
-    Set<String> villes;
+    static Set<String> villes;
+    boolean buttonBusActionisActivated = false;
+    
 
     public ConnexionController(){
-        villes = new HashSet();
+        villes = new HashSet<>();
         villes.addAll(FxmlWoze.plateforme.getVilles());
     }
 
@@ -48,7 +50,7 @@ public class ConnexionController {
         });
     }
 
-    private void filterCities(String filter) {
+    public void filterCities(String filter) {
         villesCB.getItems().clear();
         for (String city : villes) {
             if (city.toLowerCase().contains(filter.toLowerCase())) {
@@ -77,6 +79,5 @@ public class ConnexionController {
         currentStage.setScene(newScene);
         currentStage.show();
     }
-
 
 }
