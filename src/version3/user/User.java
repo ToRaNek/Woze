@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.layout.HBox;
-import version3.graphe.Trajet;
 import version3.graphe.TypeCout;
 
 /**
