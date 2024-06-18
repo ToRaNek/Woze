@@ -78,7 +78,7 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
      * @return La ville d'arrivée.
      */
     public String getArrivee(){
-        return ((Arete)trancons.get(0)).getArrivee().getVille();
+        return ((Arete)trancons.get(trancons.size())).getArrivee().getVille();
     } 
 
 
