@@ -23,7 +23,7 @@ public class Plateforme {
 
 
 
-    // mérhodes statique
+    // méthodes statique
     /**
      * @param chemin Le chemin.
      * @return Réduit l'affichage du chemin.
@@ -41,6 +41,7 @@ public class Plateforme {
         System.out.println(delTrancon);
         return chemin;
     }
+    
     /**
      * @param chemins La liste des chemin.
      * @return Réduit l'affiche des chemins d'une liste.
@@ -77,42 +78,10 @@ public class Plateforme {
         initializeGraphs();
     }
 
-    private void initializeCorrespondance() {
-    for (final String data : CorrespondanceDataExtractor.data_cor) {
-                final String[] split = data.split(";");
-                // ville
-                final String ville = split[0];
-
-                // ajoute la ville si elle existe pas 
-                if (!containsVille(ville)) {
-                    villes.addVille(ville);
-                }
-
-                // modalité 1
-                final ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
-                // creation de structure si elle existe pas
-                final Structure struct1 = createOrGetStructure(ville, modalite1);
-
-                // modalité 2
-                final ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
-                // creation de structure si elle existe pas
-                final Structure struct2 = createOrGetStructure(ville, modalite2);
-
-                // COUTS
-                final double prix = Math.round(Double.parseDouble(split[5])*100)/100;
-                final double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
-                final double temps = Math.round(Double.parseDouble(split[3])*100)/100;
-
-                // ARETES ALLEE - RETOUR
-                final Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
-                add2Arete(correspondace);
-            }
-    }
-    
     public Structure createOrGetStructure( String ville,  ModaliteTransport modalite) {
         return structures.createOrGetStructure(villes, ville, modalite);
     }
-
+    
     public MultiGrapheOrienteValue buildGraph(final String critere) {
         MultiGrapheOrienteValue result = null;
         for (final TypeCout value : TypeCout.values()) {
@@ -138,23 +107,23 @@ public class Plateforme {
         graphes.put(critere, g);
         return g;
     }
-       
+
     // Méthode pour changer le critère actuel
     public void setCurrentCrit(TypeCout critere) {
         this.currentCrit = critere;
         // Re-construire le graphe avec le nouveau critère
         currentGraphe = graphes.get(critere);
     }
-
+       
     // Méthode pour récupérer le critère actuel
     public TypeCout getCurrentCrit() {
         return currentCrit;
     }
-    
+
     public void setCurrentGraph(TypeCout critere) {
         setCurrentCrit(critere);
     }
-
+    
     // Méthode pour ajouter un utilisateur
     public void addUser(User user) {
         users.addUser(user);
@@ -275,11 +244,11 @@ public class Plateforme {
     public boolean addVille(final String ville) {
         return villes.addVille(ville);
     }
-    
+
     public boolean containsVille( String ville) {
         return villes.containsVille(ville);
     }
-
+    
     public boolean containsStructure(String structureNom) {
         return structures.contains(structureNom);
     }
@@ -333,6 +302,54 @@ public class Plateforme {
         return sb.toString();
     }
 
+    public ArrayList<Structure> getStructuresFrom(String Ville) {
+        return structures.getStructuresFrom(Ville);
+    }
+
+    public ArrayList<Structure> getStructuresFor(ModaliteTransport modaliteTransport) {
+        return structures.getStructuresFor(modaliteTransport);
+    }
+
+    public Structure getStructure(String nom){
+        return structures.getStructure(nom);
+    }
+
+    public ArrayList<Structure> getStructuresFromAndFor(String Ville, ModaliteTransport modaliteTransport) {
+     return structures.getStructuresFromAndFor(Ville, modaliteTransport);
+    }
+
+    private void initializeCorrespondance() {
+    for (final String data : CorrespondanceDataExtractor.data_cor) {
+                final String[] split = data.split(";");
+                // ville
+                final String ville = split[0];
+
+                // ajoute la ville si elle existe pas 
+                if (!containsVille(ville)) {
+                    villes.addVille(ville);
+                }
+
+                // modalité 1
+                final ModaliteTransport modalite1 = ModaliteTransport.valueOf(split[1].toUpperCase());
+                // creation de structure si elle existe pas
+                final Structure struct1 = createOrGetStructure(ville, modalite1);
+
+                // modalité 2
+                final ModaliteTransport modalite2 = ModaliteTransport.valueOf(split[2].toUpperCase());
+                // creation de structure si elle existe pas
+                final Structure struct2 = createOrGetStructure(ville, modalite2);
+
+                // COUTS
+                final double prix = Math.round(Double.parseDouble(split[5])*100)/100;
+                final double co2 = Math.round(Double.parseDouble(split[4])*100)/100;
+                final double temps = Math.round(Double.parseDouble(split[3])*100)/100;
+
+                // ARETES ALLEE - RETOUR
+                final Arete correspondace = new Arete(struct1, struct2, null,temps, co2, prix); 
+                add2Arete(correspondace);
+            }
+    }
+
     private void initializeVilleData() {
         for (final String data : VilleDataExtractor.data_villes) {
             final String[] split = data.split(";");
@@ -358,21 +375,5 @@ public class Plateforme {
             graphes.put(crit, g);
         }
         currentGraphe = graphes.get(User.getCritereDefaut());
-    }
-
-    public ArrayList<Structure> getStructuresFrom(String Ville) {
-        return structures.getStructuresFrom(Ville);
-    }
-
-    public ArrayList<Structure> getStructuresFor(ModaliteTransport modaliteTransport) {
-        return structures.getStructuresFor(modaliteTransport);
-    }
-
-    public Structure getStructure(String nom){
-        return structures.getStructure(nom);
-    }
-
-    public ArrayList<Structure> getStructuresFromAndFor(String Ville, ModaliteTransport modaliteTransport) {
-     return structures.getStructuresFromAndFor(Ville, modaliteTransport);
     }
 }

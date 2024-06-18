@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import version3.user.User;
 import version3.utils.algorithm.Algorithme;
 import version3.graphe.Plateforme;
+import version3.graphe.Trajet;
 import version3.utils.data.extract.VilleDataExtractor;
 import version3.utils.verifications.Verifications;
 import version3.graphe.TypeCout;
@@ -185,20 +185,22 @@ public class Main {
                 poidsMaximaux.put(critere, poids);
             }
         }
+        
+        // Modalités de transport disponibles
+        List<ModaliteTransport> modalitesDisponibles = new ArrayList<>(Arrays.asList(ModaliteTransport.values()));
 
         // Demander le nombre de modalités de transport souhaitées
         System.out.println("Combien de modalités de transport souhaitez-vous utiliser (1, 2 ou 3) ?");
         int nombreDeModalites = Verifications.getValidIntInput(scanner, 3);
 
-        // Modalités de transport
-        List<ModaliteTransport> modalitesChoisies = new ArrayList<>(nombreDeModalites);
-        List<ModaliteTransport> modalitesDisponibles = Arrays.asList(ModaliteTransport.values());
+        // Modalités choisies par l'utilisateur
+        List<ModaliteTransport> modalitesChoisies = new ArrayList<>();
 
         switch (nombreDeModalites) {
             case 1:
                 System.out.println("Choisissez une modalité de transport (train, bus, avion): ");
                 afficherModalitesDisponibles(modalitesDisponibles);
-                int choixModalite1 = Verifications.getValidIntInput(scanner,3) - 1;
+                int choixModalite1 = Verifications.getValidIntInput(scanner, 3) - 1;
                 modalitesChoisies.add(modalitesDisponibles.get(choixModalite1));
                 break;
 
@@ -207,23 +209,23 @@ public class Main {
                 afficherModalitesDisponibles(modalitesDisponibles);
                 int choixModalite2a = Verifications.getValidIntInput(scanner, 3) - 1;
                 modalitesChoisies.add(modalitesDisponibles.get(choixModalite2a));
-                modalitesDisponibles.remove(choixModalite2a);
+                modalitesDisponibles.remove(choixModalite2a); // Retirez après avoir ajouté
                 afficherModalitesDisponibles(modalitesDisponibles);
                 int choixModalite2b = Verifications.getValidIntInput(scanner, 2) - 1;
                 modalitesChoisies.add(modalitesDisponibles.get(choixModalite2b));
                 break;
 
             case 3:
-                modalitesChoisies.addAll(modalitesDisponibles);
+                modalitesChoisies.addAll(Arrays.asList(ModaliteTransport.values()));
                 break;
         }
 
         // Recherche des chemins en utilisant kpccUltime avec les noms de villes et les paramètres choisis
-        List<Chemin> chemins = Algorithme.kpccUltime(p, villeDepart, villeArrivee, poidsMaximaux, modalitesChoisies, k);
-        chemins = Plateforme.reductionAffichageChemins(chemins);
+        List<Trajet> chemins = Algorithme.kpccUltimeTrajets(p, villeDepart, villeArrivee, poidsMaximaux, modalitesChoisies, k);
+        // chemins = Plateforme.reductionAffichageChemins(chemins);
 
         // Affichage des résultats
-        afficherResultats(chemins, villeDepart, villeArrivee, user.getCritere(), modalitesChoisies);
+        afficherResultats(chemins, villeDepart, villeArrivee, modalitesChoisies);
     }
 
     private static void afficherModalitesDisponibles(List<ModaliteTransport> modalitesDisponibles) {
@@ -232,17 +234,17 @@ public class Main {
         }
     }
 
-    private static void afficherResultats(List<Chemin> chemins, String villeDepart, String villeArrivee, TypeCout critere, List<ModaliteTransport> modalites) {
+    private static void afficherResultats(List<Trajet> chemins, String villeDepart, String villeArrivee, List<ModaliteTransport> modalites) {
         if (chemins.isEmpty()) {
-            System.out.println("Aucun chemin trouvé de " + villeDepart + " à " + villeArrivee + " selon le critère " + critere + " avec les modalités spécifiées.");
+            System.out.println("Aucun chemin trouvé de " + villeDepart + " à " + villeArrivee + " avec les modalités spécifiées.");
         } else if (chemins.size() == 1) {
-            System.out.println("Chemin le plus court trouvé de " + villeDepart + " à " + villeArrivee + " selon le critère " + critere + " avec les modalités spécifiées:");
-            for (final Chemin chemin : chemins) {
+            System.out.println("rajet le plus court trouvé de " + villeDepart + " à " + villeArrivee + " avec les modalités spécifiées:");
+            for (final Trajet chemin : chemins) {
                 System.out.println(chemin.toString());
             }
         } else {
-            System.out.println("Les " + chemins.size() + " plus courts chemins trouvés de " + villeDepart + " à " + villeArrivee + " selon le critère " + critere + " avec les modalités spécifiées sont :");
-            for (final Chemin chemin : chemins) {
+            System.out.println("Les " + chemins.size() + " plus courts chemins trouvés de " + villeDepart + " à " + villeArrivee + " avec les modalités spécifiées sont :");
+            for (final Trajet chemin : chemins) {
                 System.out.println(chemin.toString());
             }
         }

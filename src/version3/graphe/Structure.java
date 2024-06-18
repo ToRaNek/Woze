@@ -1,22 +1,60 @@
 package version3.graphe;
 
 import fr.ulille.but.sae_s2_2024.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * La classe Structure représente une structure liée à une ville (comme une gare, un aéroport, etc.).
  */
-public class Structure implements Lieu {
-    /** Le nom de la structure */
-    private final String nom;
-    private final String ville;
-    private final ModaliteTransport modalite;
-    private final int id;
-
+public class Structure implements Lieu, Serializable {
     /** Static fields for managing IDs */
     private static int nextId = 1;
     private static final List<Integer> deletedIds = new ArrayList<>();
+    /**
+     * Génère un nom de structure en fonction du nom de base de la ville et de la modalité de transport.
+     * @param ville Le nom de base de la ville.
+     * @param modalite La modalité de transport associée.
+     * @return Le nom généré pour la structure.
+     */
+    public static String nom(final String ville,final  ModaliteTransport modalite) {
+        String nom;
+        switch (modalite) {
+            case TRAIN:
+                nom = "Gare_" + ville;
+                break;
+            case AVION:
+                nom = "Aéroport_" + ville;
+                break;
+            case BUS:
+                nom = "Arrêt_de_bus_" + ville;
+                break;
+            default:
+                nom = ville; // Si la modalité de transport n'est pas donnée, ça retourne simplement le nom d'origine.
+        }
+        return nom;
+    }
+    /**
+     * Génère un ID unique pour la structure.
+     * @return Un ID unique.
+     */
+    private static synchronized int generateId() {
+        if (!deletedIds.isEmpty()) {
+            return deletedIds.remove(0);
+        } else {
+            return nextId++;
+        }
+    }
+
+    /** Le nom de la structure */
+    private final String nom;
+    private final String ville;
+
+    private final ModaliteTransport modalite;
+
+    private final int id;
 
     /**
      * Constructeur de la classe Structure.
@@ -28,18 +66,6 @@ public class Structure implements Lieu {
         this.modalite = modalite;
         this.nom = Structure.nom(ville, modalite);
         this.id = generateId();
-    }
-
-    /**
-     * Génère un ID unique pour la structure.
-     * @return Un ID unique.
-     */
-    private static synchronized int generateId() {
-        if (!deletedIds.isEmpty()) {
-            return deletedIds.remove(0);
-        } else {
-            return nextId++;
-        }
     }
 
     /**
@@ -72,30 +98,6 @@ public class Structure implements Lieu {
      */
     public int getId() {
         return id;
-    }
-
-    /**
-     * Génère un nom de structure en fonction du nom de base de la ville et de la modalité de transport.
-     * @param ville Le nom de base de la ville.
-     * @param modalite La modalité de transport associée.
-     * @return Le nom généré pour la structure.
-     */
-    public static String nom(final String ville,final  ModaliteTransport modalite) {
-        String nom;
-        switch (modalite) {
-            case TRAIN:
-                nom = "Gare_" + ville;
-                break;
-            case AVION:
-                nom = "Aéroport_" + ville;
-                break;
-            case BUS:
-                nom = "Arrêt_de_bus_" + ville;
-                break;
-            default:
-                nom = ville; // Si la modalité de transport n'est pas donnée, ça retourne simplement le nom d'origine.
-        }
-        return nom;
     }
 
     /**

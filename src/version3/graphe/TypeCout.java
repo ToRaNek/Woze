@@ -1,9 +1,12 @@
 package version3.graphe;
 
+import java.io.Serializable;
+
 /**
  * Cette énumération définit les différents types de coûts possibles.
  */
-public enum TypeCout {
+@SuppressWarnings("unused") // pour enlever le soulignement
+public enum TypeCout implements Serializable{
     
     /**
      * Coût en émissions de CO2.
@@ -45,8 +48,7 @@ public enum TypeCout {
      */
     @Override
     public String toString() {
-        return name() + SYMBOLE;
+        return name() ;
     }
-        
 
 }

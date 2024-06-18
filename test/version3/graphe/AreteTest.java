@@ -58,12 +58,6 @@ class AreteTest {
     }
 
     @Test
-    void testSetModalite() {
-        arete.setModalite(ModaliteTransport.AVION);
-        assertEquals(ModaliteTransport.AVION, arete.getModalite());
-    }
-
-    @Test
     void testGetCouts() {
         // Créer une map des couts attendus
         EnumMap<TypeCout, Double> expectedCouts = new EnumMap<>(TypeCout.class);

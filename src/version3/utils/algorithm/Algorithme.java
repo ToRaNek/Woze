@@ -2,6 +2,7 @@ package version3.utils.algorithm;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,66 +53,19 @@ public class Algorithme {
     }
 
     //  Afficher les chemins avec une modalité spécifique (ou deux ou trois).
-    public static List<Chemin> cheminsParTransport(Plateforme p, final Structure depart, final Structure arrivee, List<TypeCout> criteres, int k) {
+    public static List<Chemin> cheminsParTransport(Plateforme p, final String depart, final String arrivee, List<ModaliteTransport> modaliteTransports, int k) {
         List<Chemin> tousLesChemins = new ArrayList<>();
-        for (TypeCout critere : criteres) {
-            List<Chemin> chemins = simplePCC(p.getGraphes().get(critere), depart, arrivee, k);
-            tousLesChemins.addAll(chemins);
+        Map<TypeCout, Double> M = new HashMap<>();
+        List<Chemin> chemins = kpccUltime(p, depart, arrivee, M, modaliteTransports, k);
+        tousLesChemins.addAll(chemins);
+
+        // Limiter la liste aux k premiers chemins
+        if (tousLesChemins.size() > k) {
+            tousLesChemins = tousLesChemins.subList(0, k);
         }
+
         return tousLesChemins;
     }
-
-
-    //  /**
-    //      * Méthode pour trouver les chemins les plus courts respectant plusieurs critères et modalités de transport.
-    //      *
-    //      * @param p             La plateforme contenant les graphes pour chaque critère.
-    //      * @param depart        La structure de départ du chemin.
-    //      * @param arrivee       La structure d'arrivée du chemin.
-    //      * @param poidsMaximaux Map associant chaque critère à son poids maximal à respecter.
-    //      * @param modalites     Liste des modalités de transport que les chemins doivent posséder.
-    //      * @param k             Nombre maximum de chemins à retourner.
-    //      * @return Une liste des chemins les plus courts respectant tous les critères et modalités spécifiées.
-    //      */
-    //     public static List<Chemin> kpccUltime(Plateforme p, Structure depart, Structure arrivee, Map<TypeCout, Double> poidsMaximaux, List<ModaliteTransport> modalites, int k) {
-    //         List<Chemin> chemins = new ArrayList<>();
-
-    //         // Utilisation d'un ensemble pour éviter les doublons de chemins
-    //         Set<Chemin> cheminSet = new HashSet<>();
-
-    //         // Parcours de chaque critère avec son poids maximal
-    //         for (TypeCout critere : poidsMaximaux.keySet()) {
-    //             double poidsMax = poidsMaximaux.getOrDefault(critere, Double.MAX_VALUE);
-
-    //             // Récupération des chemins pour ce critère
-    //             List<Chemin> cheminsCritere = KPlusCourtsChemins(p, depart, arrivee, critere, poidsMax, k);
-
-    //             // Filtrer les chemins selon les modalités choisies
-    //             List<Chemin> cheminsFiltres = new ArrayList<>();
-
-    //             for (Chemin chemin : cheminsCritere) {
-    //                 if (verifierModalites(chemin, modalites)) {
-    //                     cheminsFiltres.add(chemin);
-    //                 }
-    //             }
-
-    //             // Ajout des chemins filtrés dans l'ensemble
-    //             cheminSet.addAll(cheminsFiltres);
-    //         }
-
-    //         // Conversion de l'ensemble en liste pour le tri
-    //         chemins.addAll(cheminSet);
-
-    //         // Tri des chemins par ordre croissant de poids total
-    //         chemins.sort(Comparator.comparingDouble(Chemin::poids));
-
-    //         // Limiter la liste aux k premiers chemins si nécessaire
-    //         if (chemins.size() > k) {
-    //             chemins = chemins.subList(0, k);
-    //         }
-
-    //         return chemins;
-    //     }
 
     /**
      * Méthode pour trouver les chemins les plus courts respectant plusieurs critères et modalités de transport.
@@ -164,13 +118,47 @@ public class Algorithme {
         // Trier les chemins par ordre croissant de poids total
         chemins.sort(Comparator.comparingDouble(Chemin::poids));
 
-        // Limiter la liste aux k premiers chemins
-        if (chemins.size() > k) {
-            chemins = chemins.subList(0, k);
-        }
-
         return chemins;
     }
+
+    /**
+     * Méthode pour trouver les trajets les plus courts respectant plusieurs critères et modalités de transport.
+     *
+     * @param p             La plateforme contenant les graphes pour chaque critère.
+     * @param villeDepart   La ville de départ du trajet.
+     * @param villeArrivee  La ville d'arrivée du trajet.
+     * @param poidsMaximaux Map associant chaque critère à son poids maximal à respecter.
+     * @param modalites     Liste des modalités de transport que les trajets doivent posséder.
+     * @param k             Nombre maximum de trajets à retourner.
+     * @return Une liste des trajets les plus courts respectant tous les critères et modalités spécifiées.
+     */
+    public static List<Trajet> kpccUltimeTrajets(Plateforme p, String villeDepart, String villeArrivee, Map<TypeCout, Double> poidsMaximaux, List<ModaliteTransport> modalites, int k) {
+        List<Chemin> chemins = kpccUltime(p, villeDepart, villeArrivee, poidsMaximaux, modalites, k);
+
+        List<Trajet> trajets = new ArrayList<>();
+        for (Chemin chemin : chemins) {
+            List<Trancon> trancons = chemin.aretes();
+            List<Arete> aretes = new ArrayList<>();
+
+            for (Trancon trancon : trancons) {
+                aretes.add((Arete)trancon);
+            }
+            
+            // Créer un Trajet à partir des trançons et du poids
+            if (chemin != null) {
+                Trajet trajet = new Trajet(trancons, chemin);
+                trajets.add(trajet);
+            }
+        }
+
+        // Limiter la liste aux k premiers chemins
+        if (trajets.size() > k) {
+            trajets = trajets.subList(0, k);
+        }
+
+        return trajets;
+    }
+
 
     /** Méthode pour vérifier si un chemin satisfait au moins l'une des modalités spécifiées ou la modalité null.
      * @param chemin Le chemin à vérifier.
@@ -192,12 +180,24 @@ public class Algorithme {
             }
         }
         for (ModaliteTransport modaliteTransport : M) {
-            if (((Trajet)chemin).contains(modaliteTransport)) {
+            boolean found = false;
+            for (Trancon trancon : chemin.aretes()) {
+                Arete arete = (Arete) trancon;
+                if (arete.getModalite() == modaliteTransport || (arete.getModalite() == null)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
                 return false;
             }
         }
 
+        
+
         return true;
     }
+
+
 
 }
