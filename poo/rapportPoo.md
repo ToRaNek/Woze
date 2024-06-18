@@ -15,6 +15,12 @@
 ### Dates de soumission
 - version 1 : 19/05/2024
 - version 2 : 08/06/2024
+- version 3 : 18/06/2024
+---
+
+## Table des Matières
+
+Voici la table des matières mise à jour avec l'ajout de la version 3 :
 
 ---
 
@@ -38,16 +44,19 @@
 2. [Version 2](#version-2)
    1. [Introduction](#introduction-v2)
    2. [Nouveautés et Améliorations](#nouveautés-et-améliorations-v2)
-      1. [Support Multimodal](#support-multimodal)
-      2. [Interface Utilisateur Améliorée](#interface-utilisateur-améliorée)
-      3. [Optimisations de Performance](#optimisations-de-performance)
    3. [Défis et Solutions](#défis-et-solutions-v2)
    4. [Conclusion](#conclusion-v2)
+3. [Version 3](#version-3)
+   1. [Introduction](#introduction-v3)
+   2. [Nouveautés et Améliorations](#nouveautés-et-améliorations-v3)
+   3. [Défis et Solutions](#défis-et-solutions-v3)
+   4. [Conclusion](#conclusion-v3)
+
 ---
 
 ## Version 1
 
-### Introduction
+### Introduction v1
 
 Dans le cadre de notre projet SAÉ 2.01 et 2.02, nous avons développé "un assistant personnel de voyage" qui permet de calculer, visualiser et comparer des itinéraires pour un utilisateur donné. Ce rapport présente la version 1 de notre application, qui se concentre sur la recherche d'un itinéraire optimal entre deux villes en utilisant un seul type de ligne de transport et un critère spécifié.
 
@@ -134,11 +143,11 @@ La version 1 de notre application répond aux exigences de base du projet en per
 
 ## Version 2
 
-### Introduction
+### Introduction v2
 
 Dans cette seconde version de notre projet SAÉ 2.01 et 2.02, notre "assistant personnel de voyage" permet désormais des voyages multi-modaux, incluant des changements de moyens de transport (par exemple, train puis bus). Chaque correspondance ajoute un coût supplémentaire en termes de durée, émissions de CO2, et prix. Le critère d'optimisation n'est pas vraiment unique puisque lorsque mais le [Main](../src/version2/main/Main.java), on vous demandera de choisir une borne et un critère pour cette borne (durée, pollution ou prix) qui fera en sorte que le voyage ne dépasse pas cette borne. Nous avons adapté notre modèle pour intégrer ces coûts de correspondance et ajouté des fonctionnalités pour "éviter" les problèmes de données et filtrer l'affichage des itinéraires pour ne montrer que les points d'intérêt.
 
-### Nouveautés et Améliorations
+### Nouveautés et Améliorations v2
 
 1. **Support Multi-modal** : Inclusion de plusieurs moyens de transport dans un même itinéraire (train, bus, avion, etc.).
 2. **Coûts de Correspondance** : Intégration des coûts de correspondance (durée, émissions de CO2, et prix) pour les changements de moyens de transport.
@@ -150,7 +159,7 @@ Dans cette seconde version de notre projet SAÉ 2.01 et 2.02, notre "assistant p
 8. **Modifications de l'UML** : L'UML a été modifié pour les changements apportés dans la version 2. ![UMLv2](./UMLv2Poo.png)
 9. **Maquette pour Interface Future** : Conception d'une maquette pour une future interface utilisateur sur [Figma](https://www.figma.com/design/Poq6nF5x8RoUqDvQOgSF86/Maquette-SAE-IHM?node-id=0-1&t=DJFxqMvTJXEmOjje-1).
 
-### Défis et Solutions
+### Défis et Solutions v2
 
 - **Lecture des Fichiers CSV** : La mise en place de la lecture des fichiers était initialement complexe, mais une fois que nous avons trouvé la bonne approche, cela s'est déroulé sans problème.
   
@@ -166,7 +175,7 @@ Dans cette seconde version de notre projet SAÉ 2.01 et 2.02, notre "assistant p
 
 - **Utilisation de la Classe Chemin** : Nous avons rencontré des difficultés avec la classe Chemin qui ne disposait ni de constructeur ni de méthodes réelles, mais en travaillant ensemble, nous avons pu trouver des solutions efficaces.
 
-### Conclusion
+### Conclusion v2
 
 En conclusion, cette seconde version de notre projet SAÉ 2.01 et 2.02 représente une avancée  dans le développement de notre "assistant personnel de voyage". Nous avons réussi à surmonter plusieurs défis, notamment en intégrant la multi-modalité, en gérant la lecture des fichiers CSV et en améliorant l'organisation du code.
 
@@ -176,3 +185,43 @@ Nous sommes confiants que les versions futures apporteront encore plus de foncti
 
 En fin de compte, cette expérience nous a permis d'approfondir nos compétences en programmation et de mieux comprendre les défis liés au développement d'une application logicielle complexe.
 
+### Version 3
+
+### Introduction v3
+
+Pour cette troisième itération de notre projet SAÉ 2.01 et 2.02, notre objectif principal était d'améliorer significativement l'expérience utilisateur en intégrant plusieurs nouvelles fonctionnalités et en résolvant des limitations des versions précédentes. Nous avons cherché à rendre notre "assistant personnel de voyage" plus intuitif, personnalisable et capable de gérer des critères multiples pour optimiser les itinéraires proposés.
+
+- Lien vers le fichier **Main.java**  ( main sans interface au cas ou l'ihm ne fonctionnerait pas ) de la version 3 : [Main.java](https://gitlab.univ-lille.fr/gaspard.catry.etu/transport-routes/blob/master/src/version3/main/Main.java)
+
+- Lien vers le launcher de l'interface graphique **FxmlWoze.java** : [FxmlWoze.java](https://gitlab.univ-lille.fr/gaspard.catry.etu/transport-routes/blob/master/src/version3/interfaces/FxmlWoze.java)
+
+
+### Nouveautés et Améliorations v3
+
+#### Interface Utilisateur Graphique Améliorée
+
+Dans cette version, nous avons introduit une interface utilisateur graphique (IHM) développée avec JavaFX. Cette interface remplace le mode console précédent et offre une expérience visuellement plus logique et agréable. Les utilisateurs peuvent maintenant interagir avec l'application en utilisant des boutons et des menus déroulants, facilitant ainsi la navigation et la sélection des critères de recherche.
+
+#### Intégration de la Planification de Voyages Complexes
+
+Nous avons revu l'algorithme de recherche de chemins pour prendre en charge des itinéraires complexes impliquant plusieurs moyens de transport et plusieurs bornes pour plusieurs critère. Cela inclut la gestion des correspondances en optimisant selon les critères tels que la durée, le prix et les émissions de CO2.
+
+#### Gestion Avancée des Utilisateurs et des Profils
+
+Une nouvelle fonctionnalité clé est l'introduction d'un système de gestion des utilisateurs et des profils. Les utilisateurs peuvent désormais créer des profils personnalisés qui conservent leur historique de voyages et leurs préférences. Nous avons implémenté un mécanisme de sérialisation pour enregistrer ces profils localement, permettant ainsi aux utilisateurs de retrouver facilement leurs voyages passés et d'adapter leurs préférences au fil du temps.
+
+#### Optimisations de Performance
+
+Pour améliorer la performance, nous avons optimisé certaines parties du code en utilisant des attributs statiques pour éviter des calculs répétés. Cela a permis d'accélérer le temps de réponse de l'application, bien que des améliorations supplémentaires soient encore envisagées pour gérer des volumes de données plus importants.
+
+#### Documentation 
+
+Nous avons commencé à enrichir la documentation avec des commentaires dans le code et une meilleure structuration des packages. Cela facilite la maintenance et la compréhension du fonctionnement de l'application pour les développeurs et les futurs utilisateurs.
+
+### Défis et Solutions v3
+
+Le développement de cette version n'a pas été sans défis. La gestion du temps et l'organisation des tâches ont été particulièrement critiques, nécessitant une collaboration intensive entre nous pour "respecter" les délais et maintenir la qualité du code. Nous avons dû ajuster notre planification initiale et utiliser des outils de gestion de projet pour suivre les progrès et les tâches restantes.
+
+### Conclusion v3
+
+En conclusion, la version 3 de notre "assistant personnel de voyage" représente une avancée significative par rapport aux versions précédentes. Nous avons réussi à transformer notre application en un outil plus "complet" et "jolie", offrant aux utilisateurs une meilleure expérience qu'avec un terminal. Malgré les défis rencontrés, nous sommes vriament fiers des améliorations apportées et nous restons motivés pour continuer à développer et à améliorer notre projet dans les versions futures.
