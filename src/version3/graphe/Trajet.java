@@ -48,7 +48,7 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
         }
     }
 
-    private double getPoids(TypeCout typeCout) {
+    public double getPoids(TypeCout typeCout) {
         double poids = 0;
         for (Trancon trancon : chemin.aretes()) {
             poids += ((Arete)trancon).getCout(typeCout);

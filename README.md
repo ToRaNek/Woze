@@ -168,7 +168,7 @@ Semaines 7 (du 10/06) et 8 (du 17/06)
 - gas poo [x] gestion des chemins par transport ( toutes les possibilités)
 - gas poo [~] réorganisation des fichiers logiques et externalisation
 - gas poo [x] gestion par triple critère (toutes les possibilités)
-- gas poo [-] gestion de l’historique par sérialisation binaire
+- gas poo [x] gestion de l’historique par sérialisation binaire
 
 #### Graphe
 - gas poo graphes [x]expression des préférences multi-critères
