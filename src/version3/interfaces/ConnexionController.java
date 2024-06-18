@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +32,7 @@ public class ConnexionController {
     public void seConnecter(MouseEvent e) throws IOException {
         System.out.println("clicked");
         FxmlWoze.plateforme.setCurrentUser(FxmlWoze.plateforme.getUserById(usersListV.getSelectionModel().getSelectedIndex()+1));
+        @SuppressWarnings("unchecked")
         Stage currentStage = (Stage) ((ListView<String>) e.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("accueil.fxml"));
             Parent root = loader.load();
