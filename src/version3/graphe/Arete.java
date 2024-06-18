@@ -95,7 +95,7 @@ public class Arete implements Trancon, Serializable{
      * Définit la structure de départ de l'arête.
      * @param depart La nouvelle structure de départ.
      */
-    public void setDepart(final  Structure depart) {
+    public void setDepart(final Structure depart) {
         this.depart = depart;
     }
 
@@ -120,7 +120,7 @@ public class Arete implements Trancon, Serializable{
      * Deux arêtes sont considérées égales si elles ont les mêmes structures de départ et d'arrivée,
      * ainsi que la même modalité de transport.
      * @param obj L'objet à comparer.
-     * @return true si les arêtes sont égales, false sinon.
+     *@return true si les arêtes sont égales, false sinon.
      */
     @Override
     public boolean equals(Object obj) {
@@ -131,20 +131,20 @@ public class Arete implements Trancon, Serializable{
             return false;
         }
         Arete other = (Arete) obj;
-        
+
         // Check for null values of modalite
         if (modalite == null ) {
             if (other.getModalite() == null) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        
+
         // Compare depart, arrivee, and modalite
         return depart.equals(other.depart) && arrivee.equals(other.arrivee) && modalite.equals(other.modalite);
     }
-    
+
 
     /**
      * Renvoie une représentation textuelle
@@ -153,14 +153,14 @@ public class Arete implements Trancon, Serializable{
      */
     @Override
     public String toString() {
-        String mod ;
+        String mod;
         if (modalite == null) {
             mod = "A PIED";
-        }else{
+        } else {
             mod = modalite.toString();
         }
         return depart + " -> " + arrivee + " [" + mod + "]";
     }
 
-    
+
 }
