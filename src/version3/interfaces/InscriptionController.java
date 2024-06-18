@@ -52,9 +52,9 @@ public class InscriptionController {
     @FXML
     public void buttonSeConnecter(ActionEvent e) throws IOException {
         if (isValidInput()) {
-            FxmlWoze.plateforme.setCurrentUser(new User(prenom.getText(), nom.getText(), 
-                                                      villesCB.getSelectionModel().getSelectedItem(), null));
-
+            User user = new User(prenom.getText(), nom.getText(), villesCB.getSelectionModel().getSelectedItem(), null);
+            FxmlWoze.plateforme.addUser(user);
+            FxmlWoze.plateforme.setCurrentUser(user);
             Stage currentStage = (Stage) ((Button) e.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("accueil.fxml"));
             Parent root = loader.load();
@@ -105,7 +105,7 @@ public class InscriptionController {
     @FXML
     public void buttonJaiDejaUnCompte(ActionEvent e) throws IOException {
         Stage currentStage = (Stage) ((Button) e.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("accueil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("connexion.fxml"));
             Parent root = loader.load();
             currentStage.setScene(new Scene(root));
             currentStage.show();

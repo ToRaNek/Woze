@@ -113,6 +113,8 @@ public class AccueilController {
                 filterCities(newValue);
             }
         });
+        FxmlWoze.plateforme.updateUser();
+
     }
 
 
@@ -455,6 +457,8 @@ public class AccueilController {
                 villeDepart.setText(FxmlWoze.plateforme.getCurrentUser().getVille()); 
             }
         }
+        FxmlWoze.plateforme.updateUser();
+
     }
 
     @FXML
@@ -467,6 +471,8 @@ public class AccueilController {
             poppupChangeVilleIsActivated = true;
         }
         constructionListeTrajets();
+        FxmlWoze.plateforme.updateUser();
+
 
     }
 
@@ -502,14 +508,25 @@ public class AccueilController {
     public void reserver(HBox hb, Button b){
         hb.getChildren().remove(b);
         FxmlWoze.plateforme.getCurrentUser().addHistorique(hb);
+        FxmlWoze.plateforme.updateUser();
+
     }
 
-    public void constructionMapCouts(Map<TypeCout, Double> map, Boolean button, TextField critere, TypeCout type){
+    public void constructionMapCouts(Map<TypeCout, Double> map, Boolean button, TextField critere, TypeCout type) {
         if (button) {
-            if (critere == null || "".equals(critere.getText())) {
+            if (critere == null || critere.getText().isBlank()) {
                 map.put(type, Double.MAX_VALUE);
             } else {
-                map.put(type, Double.parseDouble(critere.getText()));
+                try {
+                    double value = Double.parseDouble(critere.getText());
+                    if (value >= 0) {
+                        map.put(type, value);
+                    } else {
+                        showAlert("Erreur", "Veuillez saisir une valeur positive ou nulle pour " + type.toString());
+                    }
+                } catch (NumberFormatException e) {
+                    showAlert("Erreur", "Veuillez saisir un nombre valide pour " + type.toString());
+                }
             }
         }
     }
