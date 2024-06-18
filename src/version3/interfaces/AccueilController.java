@@ -3,6 +3,12 @@ package version3.interfaces;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,7 +33,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import version3.graphe.Trajet;
 import version3.graphe.TypeCout;
+import version3.graphe.Arete;
+import version3.utils.algorithm.Algorithme;
 
 public class AccueilController {
 
@@ -80,11 +89,7 @@ public class AccueilController {
     ListView<HBox> listeTrajets;
 
     public void initialize() {
-        ObservableList<HBox> hboxList = FXCollections.observableArrayList();
-        hboxList.add(hboxTrajet("Lille", "Paris", "12", "14", "30", true, true, true));
-        hboxList.add(hboxTrajet("Lyon", "Marseille", "2", "20", "28", true, false, true));
-        listeTrajets.setItems(hboxList);
-        villeDepart.setText(FxmlWoze.voyageur.getVille());
+        villeDepart.setText(FxmlWoze.plateforme.getCurrentUser().getVille());
 
         villesArriveeCB.setEditable(true);
         villesArriveeCB.setItems(FXCollections.observableArrayList(ConnexionController.villes));
@@ -94,6 +99,7 @@ public class AccueilController {
                 filterCities(newValue);
             }
             System.out.println("Nouvelle valeur : " + newValue);
+            constructionListeTrajets();
         });
 
         villesCB.setEditable(true);
@@ -103,6 +109,7 @@ public class AccueilController {
             if (newValue != null && !ConnexionController.villes.contains(newValue)) {
                 filterCities(newValue);
             }
+            constructionListeTrajets();
             System.out.println("Nouvelle valeur : " + newValue);
         });
     }
@@ -143,7 +150,7 @@ public class AccueilController {
     
         Button reserverButton = new Button("Réserver");
         reserverButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-radius: 5px;");
-        reserverButton.setOnMousePressed(e -> showPopup(reserverButton));
+        reserverButton.setOnMousePressed(e -> showPopupAndReserver(reserverButton, hb));
     
         Pane spacer = new Pane();
         Pane spacer2 = new Pane();
@@ -155,7 +162,8 @@ public class AccueilController {
     
         return hb;
     }
-    private void showPopup(Button button) {
+    private void showPopupAndReserver(Button button, HBox hb) {
+        reserver(hb, button);
         Popup popup = new Popup();
         Label popupLabel = new Label("Réservé !");
         VBox popupContent = new VBox(popupLabel);
@@ -191,6 +199,7 @@ public class AccueilController {
             buttonBus.setGraphic(imageBusLogo);
             buttonBusActionisActivated = true;
         }
+        constructionListeTrajets();
     }
 
     @FXML
@@ -208,6 +217,7 @@ public class AccueilController {
             buttonTrain.setGraphic(imageTrainLogo);
             buttonTrainActionisActivated = true;
         }
+        constructionListeTrajets();
     }
 
     @FXML
@@ -225,6 +235,7 @@ public class AccueilController {
             buttonAvion.setGraphic(imageAvionLogo);
             buttonAvionActionisActivated = true;
         }
+        constructionListeTrajets();
     }
 
     @FXML
@@ -265,6 +276,7 @@ public class AccueilController {
             ((Control) critereCO2).setDisable(false);
             critereCO2.setVisible(true);
         }
+        constructionListeTrajets();
     }
 
     @FXML
@@ -283,6 +295,7 @@ public class AccueilController {
             ((Control) criterePrix).setDisable(false);
             criterePrix.setVisible(true);
         }
+        constructionListeTrajets();
     }
 
     @FXML
@@ -301,6 +314,7 @@ public class AccueilController {
             ((Control) critereTemps).setDisable(false);
             critereTemps.setVisible(true);
         }
+        constructionListeTrajets();
     }
 
     @FXML
@@ -335,6 +349,9 @@ public class AccueilController {
         VBCouts.getChildren().add(0, co2);
         FxmlWoze.ordreCout.remove(TypeCout.CO2);
         FxmlWoze.ordreCout.add(0, TypeCout.CO2);
+        FxmlWoze.plateforme.setCurrentCrit(TypeCout.CO2);
+        constructionListeTrajets();
+
     }
 
     @FXML
@@ -343,6 +360,10 @@ public class AccueilController {
         VBCouts.getChildren().add(0, temps);
         FxmlWoze.ordreCout.remove(TypeCout.CO2);
         FxmlWoze.ordreCout.add(0, TypeCout.TEMPS);
+        FxmlWoze.plateforme.setCurrentCrit(TypeCout.TEMPS);
+        constructionListeTrajets();
+
+
     }
 
     @FXML
@@ -351,6 +372,10 @@ public class AccueilController {
         VBCouts.getChildren().add(0, prix);
         FxmlWoze.ordreCout.remove(TypeCout.CO2);
         FxmlWoze.ordreCout.add(0, TypeCout.PRIX);
+        FxmlWoze.plateforme.setCurrentCrit(TypeCout.PRIX);
+        constructionListeTrajets();
+
+
     }
 
     @FXML
@@ -364,6 +389,8 @@ public class AccueilController {
             villeDepart.setText(villesCB.getSelectionModel().getSelectedItem());
             poppupChangementVille.setVisible(false);
             poppupChangeVilleIsActivated = false;
+            constructionListeTrajets();
+
         }
     }
 
@@ -376,5 +403,52 @@ public class AccueilController {
             poppupChangementVille.setVisible(true);
             poppupChangeVilleIsActivated = true;
         }
+        constructionListeTrajets();
+
     }
+
+    public void textFeildCritereAction(){
+        constructionListeTrajets();
+    }
+
+    public void constructionListeTrajets() {
+        Map<TypeCout, Double> map = new HashMap<TypeCout, Double>();
+        constructionMapCouts(map, buttonCO2isActivated, critereCO2, TypeCout.CO2);
+        constructionMapCouts(map, buttonPrixisActivated, criterePrix, TypeCout.PRIX);
+        constructionMapCouts(map, buttonTempsisActivated, critereTemps, TypeCout.TEMPS);
+        List<ModaliteTransport> modalites = new ArrayList<ModaliteTransport>();
+        if (buttonAvionActionisActivated) {
+            modalites.add(ModaliteTransport.AVION);
+        }
+        if (buttonBusActionisActivated) {
+            modalites.add(ModaliteTransport.BUS);
+        }
+        if (buttonTrainActionisActivated) {
+            modalites.add(ModaliteTransport.TRAIN);
+        }
+        List<Trajet> trajets = Algorithme.kpccUltime(FxmlWoze.plateforme, villeDepart.getText(), villesArriveeCB.getSelectionModel().getSelectedItem(), map, modalites, 50);        
+        System.out.println(villeDepart.getText() + villesArriveeCB.getSelectionModel().getSelectedItem().toString() + map.toString() + modalites.toString() + 50);
+        System.out.println(trajets.toString());
+        ObservableList<HBox> hboxList = FXCollections.observableArrayList();
+        for (Trajet trajet : trajets) {
+            hboxList.add(hboxTrajet(trajet.getDepart(), trajet.getArrivee(), trajet.getPoids(TypeCout.CO2)+"", trajet.getPoids(TypeCout.PRIX)+"", trajet.getPoids(TypeCout.TEMPS)+"", buttonBusActionisActivated, buttonTrainActionisActivated, buttonAvionActionisActivated));
+        }
+        listeTrajets.setItems(hboxList);
+    }
+
+    public void reserver(HBox hb, Button b){
+        hb.getChildren().remove(b);
+        FxmlWoze.plateforme.getCurrentUser().addHistorique(hb);
+    }
+
+    public void constructionMapCouts(Map<TypeCout, Double> map, Boolean button, TextField critere, TypeCout type){
+        if (button) {
+            if (critere == null || "".equals(critere.getText())) {
+                map.put(type, Double.MAX_VALUE);
+            } else {
+                map.put(type, Double.parseDouble(critere.getText()));
+            }
+        }
+    }
+
 }

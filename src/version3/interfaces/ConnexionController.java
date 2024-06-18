@@ -13,8 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import version1.Voyageur;
-;
+import version3.user.User;
 
 public class ConnexionController {
     static Set<String> villes;    
@@ -62,7 +61,7 @@ public class ConnexionController {
 
     @FXML
     public void buttonSeConnecter(ActionEvent e) throws IOException {
-        FxmlWoze.voyageur = new Voyageur(prenom.getText(), nom.getText(), villesCB.getSelectionModel().getSelectedItem(), null);
+        FxmlWoze.plateforme.setCurrentUser(new User(prenom.getText(), nom.getText(), villesCB.getSelectionModel().getSelectedItem(), null));
 
         // Get the stage from the current scene
         Stage currentStage = (Stage) ((Button) e.getSource()).getScene().getWindow();
