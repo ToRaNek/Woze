@@ -7,6 +7,7 @@ import version3.graphe.management.*;
 import version3.user.management.UserManagement;
 import version3.user.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -140,6 +141,9 @@ public class Plateforme {
         this.currentUser = currentUser;
         this.currentCrit = currentUser.getCritere();
         graphes.get(currentCrit);
+    }
+    public void updateUser() {
+        users.updateUser(currentUser);
     }
 
     public ArrayList<User> getUsers() {
