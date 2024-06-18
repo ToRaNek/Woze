@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.layout.HBox;
 import version3.graphe.Trajet;
 import version3.graphe.TypeCout;
 
@@ -77,7 +78,7 @@ public class User implements Serializable {
     }
 
     /** La liste des trajets cliqués */
-    private List<Trajet> historique;
+    private List<HBox> historique;
 
     /** Le critère de l'utilisateur */
     private TypeCout critere;
@@ -222,7 +223,7 @@ public class User implements Serializable {
      * Obtient la liste des trajets de l'historique de l'utilisateur.
      * @return La liste des trajets de l'historique.
      */
-    public List<Trajet> getHistorique() {
+    public List<HBox> getHistorique() {
         return historique;
     }
 
@@ -230,7 +231,7 @@ public class User implements Serializable {
      * Définit la liste des trajets de l'historique de l'utilisateur.
      * @param historique La nouvelle liste des trajets de l'historique.
      */
-    public void setHistorique(List<Trajet> historique) {
+    public void setHistorique(List<HBox> historique) {
         this.historique = historique;
     }
 
@@ -245,7 +246,7 @@ public class User implements Serializable {
      * Ajoute un trajet à l'historique de l'utilisateur.
      * @param trajet Le trajet à ajouter.
      */
-    public void addHistorique(Trajet trajet) {
+    public void addHistorique(HBox trajet) {
         this.historique.add(trajet);
     }
 
@@ -253,7 +254,7 @@ public class User implements Serializable {
      * Supprime un trajet à l'historique de l'utilisateur.
      * @param trajet Le trajet à supprimer.
      */
-    public void removeHistorique(Trajet trajet){
+    public void removeHistorique(HBox trajet){
         this.historique.remove(trajet);
     }
 
