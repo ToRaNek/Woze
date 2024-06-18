@@ -431,7 +431,7 @@ public class AccueilController {
         System.out.println(trajets.toString());
         ObservableList<HBox> hboxList = FXCollections.observableArrayList();
         for (Trajet trajet : trajets) {
-            hboxList.add(hboxTrajet(trajet.getDepart(), trajet.getArrivee(), trajet.getPoids(TypeCout.CO2)+"", trajet.getPoids(TypeCout.PRIX)+"", trajet.getPoids(TypeCout.TEMPS)+"", buttonBusActionisActivated, buttonTrainActionisActivated, buttonAvionActionisActivated));
+            hboxList.add(hboxTrajet(trajet.getDepart(), trajet.getArrivee(), trajet.getPoids(TypeCout.CO2)+"", trajet.getPoids(TypeCout.PRIX)+"", trajet.getPoids(TypeCout.TEMPS)+"", trajet.contains(ModaliteTransport.BUS), trajet.contains(ModaliteTransport.TRAIN), trajet.contains(ModaliteTransport.AVION)));
         }
         listeTrajets.setItems(hboxList);
     }
