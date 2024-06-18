@@ -131,8 +131,20 @@ public class Arete implements Trancon, Serializable{
             return false;
         }
         Arete other = (Arete) obj;
+        
+        // Check for null values of modalite
+        if (modalite == null ) {
+            if (other.getModalite() == null) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        // Compare depart, arrivee, and modalite
         return depart.equals(other.depart) && arrivee.equals(other.arrivee) && modalite.equals(other.modalite);
     }
+    
 
     /**
      * Renvoie une représentation textuelle

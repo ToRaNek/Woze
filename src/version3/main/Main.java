@@ -221,7 +221,7 @@ public class Main {
         }
 
         // Recherche des chemins en utilisant kpccUltime avec les noms de villes et les paramètres choisis
-        List<Trajet> chemins = Algorithme.kpccUltimeTrajets(p, villeDepart, villeArrivee, poidsMaximaux, modalitesChoisies, k);
+        List<Trajet> chemins = Algorithme.kpccUltime(p, villeDepart, villeArrivee, poidsMaximaux, modalitesChoisies, k);
         // chemins = Plateforme.reductionAffichageChemins(chemins);
 
         // Affichage des résultats

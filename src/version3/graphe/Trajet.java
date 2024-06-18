@@ -14,7 +14,7 @@ import fr.ulille.but.sae_s2_2024.ModaliteTransport;
  * Classe représentant un trajet, implémentant l'interface Chemin et Serializable.
  * Un trajet est défini par une liste ordonnée de trançons (arêtes) et un ensemble de poids pour chaque type de coût.
  */
-public class Trajet implements Chemin, Serializable {
+public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
 
     /** La liste ordonnée des trançons (arêtes) constituant le trajet */
     private List<Trancon> trancons;
@@ -30,7 +30,7 @@ public class Trajet implements Chemin, Serializable {
     /**
      * Constructeur de la classe Trajet.
      * @param trancons La liste des trançons (arêtes) constituant le trajet.
-     * @param poidsParType La map associant chaque type de coût à son poids.
+     * @param chemin Le chemin associé au trajet.
      */
     public Trajet(List<Trancon> trancons, Chemin chemin) {
         this.trancons = trancons;
@@ -91,13 +91,6 @@ public class Trajet implements Chemin, Serializable {
         return false;
     }
 
-    /**
-     * Redéfinition de la méthode equals pour comparer deux trajets.
-     * Deux trajets sont considérés égaux s'ils ont les mêmes trançons
-     * dans le même ordre et que les trançons sont égaux deux à deux.
-     * @param obj L'objet à comparer.
-     * @return true si les trajets sont égaux, false sinon.
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -107,7 +100,59 @@ public class Trajet implements Chemin, Serializable {
             return false;
         }
         Trajet other = (Trajet) obj;
-        return trancons.equals(other.trancons);
+
+        // Comparer les chemins
+        if (Objects.equals(this.chemin, other.chemin)) {
+            return true;
+        }
+
+        // Comparer les trançons
+        List<Trancon> thisTrancons = this.getTrancons(); 
+        List<Trancon> otherTrancons = other.getTrancons();
+
+        if (thisTrancons.size() != otherTrancons.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < thisTrancons.size(); i++) {
+            if (!thisTrancons.get(i).equals( otherTrancons.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(chemin);
+    }
+
+    /**
+     * Compare ce trajet avec un autre trajet en fonction du poids pour le type de coût courant.
+     * @param autreTrajet Le trajet à comparer.
+     * @return Un entier négatif, zéro ou un entier positif selon que ce trajet est moins que, égal à ou plus que l'autre trajet.
+     */
+    @Override
+    public int compareTo(Trajet autreTrajet) {
+        double poidsCourant = this.poids();
+        double poidsAutre = autreTrajet.poids();
+        return Double.compare(poidsCourant, poidsAutre);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Trajet(");
+        for (Trancon trancon : trancons) {
+            sb.append(((Arete)trancon) + ", ");
+        }
+        sb.replace(sb.length()-2, sb.length(), "| ");
+        for (TypeCout tc : poidsParType.keySet()) {
+            sb.append(tc.toString() + ": " + poidsParType.get(tc) + tc.getSymbole() + ", "); 
+        }
+        sb.replace(sb.length()-2, sb.length(), "");
+        sb.append(")");
+        return sb.toString();
     }
 
     // Getters et setters
@@ -134,21 +179,6 @@ public class Trajet implements Chemin, Serializable {
 
     public void setCurrentType(TypeCout currentType) {
         this.currentType = currentType;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("Trajet(");
-        for (Trancon trancon : trancons) {
-            sb.append(((Arete)trancon)+ ", ");
-        }
-        sb.replace(sb.length()-2, sb.length(), "| ");
-        for (TypeCout tc : poidsParType.keySet()) {
-            sb.append( tc.toString()+ ": " + poidsParType.get(tc) + tc.getSymbole() + ", "); 
-        }
-        sb.replace(sb.length()-2, sb.length(), "");
-        sb.append(")");
-        return sb.toString();
     }
 
     public Chemin getChemin() {
