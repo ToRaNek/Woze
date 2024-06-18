@@ -16,9 +16,6 @@ import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import fr.ulille.but.sae_s2_2024.MultiGrapheOrienteValue;
 import fr.ulille.but.sae_s2_2024.Trancon;
 
-/**
- * La classe Plateforme représente une plateforme de transport.
- */
 public class Plateforme {
 
 
