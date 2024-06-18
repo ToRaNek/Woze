@@ -8,6 +8,5 @@ E3.iml
 *.class
 /.vscode
 *.code-workspace
-/res/version3/users/*.dat
 *.json
 .gitignore 
