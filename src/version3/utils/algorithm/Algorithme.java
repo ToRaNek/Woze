@@ -76,33 +76,6 @@ public class Algorithme {
 
     /**
      * 
-     * 
-     * @param p La plateforme contenant les graphes et les structures.
-     * @param depart La ville de départ.
-     * @param arrivee La ville d'arrivée.
-     * @param modaliteTransports La liste des modalités de transport à utiliser.
-     * @param k Le nombre de chemins à retourner.
-     * @return Une liste de trajets utilisant les modalités de transport spécifiées.
-     */
-    public static List<Trajet> cheminsParTransport(Plateforme p, final String depart, final String arrivee, List<ModaliteTransport> modaliteTransports, int k) {
-        List<Trajet> tousLesChemins = new ArrayList<>();
-        Map<TypeCout, Double> M = new HashMap<>();
-        for (TypeCout cout : TypeCout.values()) {
-            M.put(cout, Double.MAX_VALUE);
-        }
-        List<Trajet> chemins = kpccUltime(p, depart, arrivee, M, modaliteTransports, k);
-        tousLesChemins.addAll(chemins);
-
-        // Limiter la liste aux k premiers chemins
-        if (tousLesChemins.size() > k) {
-            tousLesChemins = tousLesChemins.subList(0, k);
-        }
-
-        return tousLesChemins;
-    }
-
-    /**
-     * 
      *
      * @param p             La plateforme contenant les graphes pour chaque critère.
      * @param villeDepart   La ville de départ du chemin.
@@ -113,46 +86,64 @@ public class Algorithme {
      * @return Une liste des Trajets les plus courts respectant tous les critères et modalités spécifiées.
      */
     public static List<Trajet> kpccUltime(Plateforme p, String villeDepart, String villeArrivee, Map<TypeCout, Double> poidsMaximaux, List<ModaliteTransport> modalites, int k) {
-        List<Trajet> trajetsUnique = new ArrayList<>(); // Utiliser un Set pour stocker les chemins uniques
-
+        List<Trajet> trajetsUnique = new ArrayList<>(); // Liste pour stocker les chemins uniques
+    
         // Récupération des structures de départ et d'arrivée
         List<Structure> structuresDepart = p.getStructuresFrom(villeDepart);
         List<Structure> structuresArrivee = p.getStructuresFrom(villeArrivee);
-
-        // Parcours de chaque critère avec son poids maximal
-        for (TypeCout critere : TypeCout.values()) {
-            double poidsMax = poidsMaximaux.getOrDefault(critere, Double.MAX_VALUE);
-
-            // Parcours de toutes les combinaisons de structures de départ et d'arrivée
-            for (Structure depart : structuresDepart) {
-                for (Structure arrivee : structuresArrivee) {
-                    // Trouver les chemins les plus courts entre chaque paire de structures
+    
+        // Parcours de toutes les combinaisons de structures de départ et d'arrivée
+        for (Structure depart : structuresDepart) {
+            for (Structure arrivee : structuresArrivee) {
+                // Trouver les chemins les plus courts entre chaque paire de structures pour chaque critère
+                for (TypeCout critere : TypeCout.values()) {
+                    double poidsMax = poidsMaximaux.getOrDefault(critere, Double.MAX_VALUE);
                     List<Chemin> cheminsPartiels = KPlusCourtsChemins(p, depart, arrivee, critere, poidsMax, k);
-
-                    // Filtrer les chemins selon les modalités choisies
+    
+                    // Ajouter les trajets potentiels en évitant les doublons
                     for (Chemin chemin : cheminsPartiels) {
-                        if (verifierModalites(chemin, modalites)) {
-                            Trajet T = new Trajet(chemin.aretes(), chemin);
-                            if (!thereIs(trajetsUnique, T)) {
-                                T.setCurrentType(p.getCurrentCrit());
-                                trajetsUnique.add(T); // Ajouter le Trajet s'il n'y a pas de trajet similaire
-                            }
+                        Trajet trajet = new Trajet(chemin.aretes(), chemin);
+                        if (!thereIs(trajetsUnique, trajet)) {
+                            trajet.setCurrentType(p.getCurrentCrit());
+                            trajetsUnique.add(trajet);
                         }
                     }
                 }
             }
         }
-
-        // Trier les trajets par ordre croissant de poids total pour le critère actuel
-        Collections.sort(trajetsUnique);
-
-        // Limiter la liste aux k premiers chemins
-        if (trajetsUnique.size() > k) {
-            trajetsUnique = trajetsUnique.subList(0, k);
+    
+        // Création d'une nouvelle liste pour les trajets filtrés
+        List<Trajet> trajetsFiltres = new ArrayList<>();
+        for (Trajet trajet : trajetsUnique) {
+            if (verifierModalites(trajet.getChemin(), modalites) && verifierCouts(trajet, poidsMaximaux)) {
+                trajetsFiltres.add(trajet);
+            }
         }
-
-        return trajetsUnique;
+    
+        // Trier les trajets par ordre croissant de poids total pour le critère actuel
+        Collections.sort(trajetsFiltres);
+    
+        // Limiter la liste aux k premiers chemins
+        if (trajetsFiltres.size() > k) {
+            trajetsFiltres = trajetsFiltres.subList(0, k);
+        }
+    
+        return trajetsFiltres;
     }
+    
+    private static boolean verifierCouts(Trajet trajet, Map<TypeCout, Double> poidsMaximaux) {
+        for (TypeCout critere : TypeCout.values()) {
+            double cout = trajet.getPoids(critere);
+            double poidsMax = poidsMaximaux.getOrDefault(critere, Double.MAX_VALUE);
+            if (cout > poidsMax) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+
+    
     
      /**
      * Vérifie si un trajet donné existe dans une liste de trajets.
@@ -161,9 +152,9 @@ public class Algorithme {
      * @param trajet Le trajet à vérifier.
      * @return true si le trajet existe dans la liste, false sinon.
      */
-    public static boolean thereIs(List<Trajet> trajets, Trajet trajet) {
-        for (Trajet t : trajets) {
-            if (t.equals(trajet)) {
+    private static boolean thereIs(List<Trajet> trajetsUnique, Trajet newTrajet) {
+        for (Trajet trajet : trajetsUnique) {
+            if (trajet.equals(newTrajet)) {
                 return true;
             }
         }

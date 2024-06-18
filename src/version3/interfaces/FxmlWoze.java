@@ -5,10 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import version1.Plateforme;
-import version1.Voyageur;
+import version3.graphe.Plateforme;
 import version3.graphe.TypeCout;
-import version3.utils.data.extract.VilleDataExtractor;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,8 +14,7 @@ import java.util.ArrayList;
 
 public class FxmlWoze extends Application {
         
-        static Plateforme plateforme = new Plateforme(VilleDataExtractor.data_villes);
-        static Voyageur voyageur;
+        static Plateforme plateforme = new Plateforme();
         static ArrayList<TypeCout> ordreCout;
 
         public void start(Stage stage) throws IOException {
@@ -36,7 +33,7 @@ public class FxmlWoze extends Application {
 
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("FXML demo");
+                stage.setTitle("Woze");
                 stage.show();
         }
 

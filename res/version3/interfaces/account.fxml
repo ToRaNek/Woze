@@ -15,17 +15,17 @@
             <Image url="@images/Avatar.png" />
          </image>
       </ImageView>
-      <Text layoutX="147.0" layoutY="80.0" strokeType="INSIDE" strokeWidth="0.0" text="leNom" textAlignment="CENTER" wrappingWidth="94.3671875">
+      <Text fx:id="leNom" layoutX="147.0" layoutY="80.0" strokeType="INSIDE" strokeWidth="0.0" text="leNom" textAlignment="CENTER" wrappingWidth="94.3671875">
          <font>
             <Font size="16.0" />
          </font>
       </Text>
-      <Text layoutX="262.0" layoutY="80.0" strokeType="INSIDE" strokeWidth="0.0" text="lePrenom" textAlignment="CENTER" wrappingWidth="94.3671875">
+      <Text fx:id="lePrenom" layoutX="262.0" layoutY="80.0" strokeType="INSIDE" strokeWidth="0.0" text="lePrenom" textAlignment="CENTER" wrappingWidth="94.3671875">
          <font>
             <Font size="16.0" />
          </font>
       </Text>
-      <ListView layoutX="4.0" layoutY="147.0" prefHeight="248.0" prefWidth="592.0" />
+      <ListView fx:id="historiqueListV" layoutX="4.0" layoutY="147.0" prefHeight="248.0" prefWidth="592.0" />
       <Text layoutX="4.0" layoutY="140.0" strokeType="INSIDE" strokeWidth="0.0" text="Historique des trajets" textAlignment="CENTER" wrappingWidth="216.3671875">
          <font>
             <Font size="16.0" />
