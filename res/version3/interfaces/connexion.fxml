@@ -15,7 +15,7 @@
          <children>
             <ImageView fx:id="logo" fitHeight="169.0" fitWidth="411.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../woze-removebg-preview.png" />
+                  <Image url="@images/woze-removebg-preview.png" />
                </image>
             </ImageView>
          </children>

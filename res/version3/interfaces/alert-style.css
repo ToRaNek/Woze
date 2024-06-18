@@ -1,0 +1,7 @@
+.myDialog .dialog-pane {
+    -fx-background-color: #f0f0f0;
+}
+
+.myDialog .dialog-pane .label {
+    -fx-text-fill: #333;
+}

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.DocFlavor.URL;
+
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,9 +19,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -96,8 +100,7 @@ public class AccueilController {
             if (newValue != null && !ConnexionController.villes.contains(newValue)) {
                 filterCities(newValue);
             }
-            System.out.println("Nouvelle valeur : " + newValue);
-            constructionListeTrajets();
+            validateCitySelection(); // Validate city selection
         });
 
         villesCB.setEditable(true);
@@ -107,8 +110,6 @@ public class AccueilController {
             if (newValue != null && !ConnexionController.villes.contains(newValue)) {
                 filterCities(newValue);
             }
-            constructionListeTrajets();
-            System.out.println("Nouvelle valeur : " + newValue);
         });
     }
 
@@ -184,6 +185,11 @@ public class AccueilController {
 
     @FXML
     public void buttonBusAction(ActionEvent e){
+        if (!buttonBusActionisActivated && villesArriveeCB.getSelectionModel().isEmpty()) {
+            showAlert("Ville d'arrivée manquante", "Veuillez sélectionner une ville d'arrivée.");
+            return; // Exit the method if no arrival city is selected
+        }
+
         if(buttonBusActionisActivated){
             buttonBus.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10");
             imageBusLogo.setImage(new Image(("/version3/interfaces/images/bus_noir.png")));
@@ -197,11 +203,17 @@ public class AccueilController {
             buttonBus.setGraphic(imageBusLogo);
             buttonBusActionisActivated = true;
         }
+        validateCitySelection();
         constructionListeTrajets();
     }
 
     @FXML
     public void buttonTrainAction(ActionEvent e){
+        if (!buttonTrainActionisActivated && villesArriveeCB.getSelectionModel().isEmpty()) {
+            showAlert("Ville d'arrivée manquante", "Veuillez sélectionner une ville d'arrivée.");
+            return; // Exit the method if no arrival city is selected
+        }
+
         if(buttonTrainActionisActivated){
             buttonTrain.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10");
             imageTrainLogo.setImage(new Image(("/version3/interfaces/images/Train_noir.png")));
@@ -215,11 +227,17 @@ public class AccueilController {
             buttonTrain.setGraphic(imageTrainLogo);
             buttonTrainActionisActivated = true;
         }
+        validateCitySelection();
         constructionListeTrajets();
     }
 
     @FXML
     public void buttonAvionAction(ActionEvent e){
+        if (!buttonAvionActionisActivated && villesArriveeCB.getSelectionModel().isEmpty()) {
+            showAlert("Ville d'arrivée manquante", "Veuillez sélectionner une ville d'arrivée.");
+            return; // Exit the method if no arrival city is selected
+        }
+
         if(buttonAvionActionisActivated){
             buttonAvion.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10");
             imageAvionLogo.setImage(new Image(("/version3/interfaces/images/Avion_noir.png")));
@@ -233,6 +251,7 @@ public class AccueilController {
             buttonAvion.setGraphic(imageAvionLogo);
             buttonAvionActionisActivated = true;
         }
+        validateCitySelection();
         constructionListeTrajets();
     }
 
@@ -243,19 +262,23 @@ public class AccueilController {
     Button account;
 
     @FXML
-    public void openPopupCritere(ActionEvent e){
-        if(parametreIsActivated){
+    public void openPopupCritere(ActionEvent e) {
+        if (villesArriveeCB.getSelectionModel().isEmpty()) {
+            showAlert("Ville d'arrivée manquante", "Veuillez sélectionner une ville d'arrivée avant d'accéder aux paramètres.");
+            return; // Exit the method if no arrival city is selected
+        }
+
+        if (parametreIsActivated) {
             popupParametre.setVisible(false);
             parametreIsActivated = false;
             imageAccount.setVisible(true);
             account.setVisible(true);
-        }else{
+        } else {
             popupParametre.setVisible(true);
             parametreIsActivated = true;
             imageAccount.setVisible(false);
             account.setVisible(false);
         }
-        
     }
 
     @FXML
@@ -382,13 +405,18 @@ public class AccueilController {
     boolean poppupChangeVilleIsActivated = false;
 
     @FXML
-    public void boutonChangementValider(ActionEvent e){
-        if(poppupChangeVilleIsActivated){
-            villeDepart.setText(villesCB.getSelectionModel().getSelectedItem());
-            poppupChangementVille.setVisible(false);
-            poppupChangeVilleIsActivated = false;
-            constructionListeTrajets();
+    public void boutonChangementValider(ActionEvent e) {
+        if (poppupChangeVilleIsActivated) {
+            String selectedCity = villesCB.getSelectionModel().getSelectedItem();
 
+            if (selectedCity != null && !selectedCity.isBlank() && ConnexionController.villes.contains(selectedCity)) {
+                villeDepart.setText(selectedCity);
+                poppupChangementVille.setVisible(false);
+                poppupChangeVilleIsActivated = false;
+                constructionListeTrajets();
+            } else {
+                showAlert("Ville invalide", "Veuillez sélectionner une ville valide pour le départ.");
+            }
         }
     }
 
@@ -449,4 +477,39 @@ public class AccueilController {
         }
     }
 
+    private void validateCitySelection() {
+        boolean departureValid = !villeDepart.getText().isBlank();
+        boolean arrivalValid = !villesArriveeCB.getSelectionModel().isEmpty();
+    
+        // Enable buttons if both cities are valid, otherwise disable them
+        buttonBus.setDisable(!departureValid || !arrivalValid);
+        buttonTrain.setDisable(!departureValid || !arrivalValid);
+        buttonAvion.setDisable(!departureValid || !arrivalValid);
+    
+        if (departureValid && arrivalValid) {
+            constructionListeTrajets();
+        } else {
+            listeTrajets.getItems().clear();
+        }
+    }
+
+
+    private void showAlert(String title, String message) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+
+    // Corrected stylesheet loading (if you have a custom CSS file)
+    java.net.URL styleSheetUrl = getClass().getResource("/version3/interfaces/alert-style.css");
+    if (styleSheetUrl != null) {
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(styleSheetUrl.toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+    } else {
+        System.err.println("Error loading stylesheet: alert-style.css not found.");
+    }
+
+    alert.showAndWait();
+    }
 }
