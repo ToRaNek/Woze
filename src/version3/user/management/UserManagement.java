@@ -1,7 +1,7 @@
 package version3.user.management;
 
 import version3.user.User;
-import version3.utils.data.save.DataSave;
+import version3.utils.data.save.UsersSave;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 public class UserManagement {
 
     private ArrayList<User> users;
-    private DataSave dataSave;
+    private UsersSave usersSave;
 
     public UserManagement() {
         users = new ArrayList<>();
-        dataSave = new DataSave();
+        usersSave = new UsersSave();
         initializeUsersDat();
     }
 
@@ -27,7 +27,7 @@ public class UserManagement {
     public void addUser(final User user) {
         users.add(user);
         try {
-            dataSave.saveUserToFile(user);
+            usersSave.saveUserToFile(user);
         } catch (IOException e) {
             System.err.println("Erreur lors de la sauvegarde de l'utilisateur : " + e.getMessage());
         }
@@ -36,7 +36,7 @@ public class UserManagement {
     public void removeUser(final User user) {
         User.getIdTrash().add(user.getId());
         users.remove(user);
-        dataSave.deleteUserFile(user);
+        usersSave.deleteUserFile(user);
     }
 
     public User getUserById(int userId) {
@@ -86,7 +86,7 @@ public class UserManagement {
     // }
 
     private void initializeUsersDat() {
-    File userDirectory = new File(DataSave.getUserDirectory());
+    File userDirectory = new File(UsersSave.getUserDirectory());
     File[] userFiles = userDirectory.listFiles();
 
     if (userFiles != null) {

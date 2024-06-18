@@ -4,7 +4,7 @@ import version3.user.User;
 
 import java.io.*;
 
-public class DataSave {
+public class UsersSave {
 
     private static final String USER_DIRECTORY = "res/version3/users/";
 
