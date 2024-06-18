@@ -27,7 +27,7 @@ public class UserManagement {
     public void addUser(final User user) {
         users.add(user);
         try {
-            usersSave.saveUserToFile(user);
+            usersSave.saveUserToFile(user); // Sauvegarde du nouvel utilisateur ajouté
         } catch (IOException e) {
             System.err.println("Erreur lors de la sauvegarde de l'utilisateur : " + e.getMessage());
         }
@@ -37,6 +37,15 @@ public class UserManagement {
         User.getIdTrash().add(user.getId());
         users.remove(user);
         usersSave.deleteUserFile(user);
+    }
+
+    public void updateUser(final User user) {
+ 
+        try {
+            usersSave.saveUserToFile(user);
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la mise à jour de l'utilisateur : " + e.getMessage());
+        }
     }
 
     public User getUserById(int userId) {
@@ -58,22 +67,21 @@ public class UserManagement {
     }
 
     private void initializeUsersDat() {
-    File userDirectory = new File(UsersSave.getUserDirectory());
-    File[] userFiles = userDirectory.listFiles();
+        File userDirectory = new File(UsersSave.getUserDirectory());
+        File[] userFiles = userDirectory.listFiles();
 
-    if (userFiles != null) {
-        for (File file : userFiles) {
-            if (file.isFile() && file.getName().endsWith(".dat")) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                    User user = (User) ois.readObject();
-                    users.add(user);
-                    User.setProchaineID(user.getId()+1);
-                } catch (IOException | ClassNotFoundException e) {
-                    System.err.println("Erreur lors de la lecture du fichier utilisateur " + file.getName() + ": " + e.getMessage());
+        if (userFiles != null) {
+            for (File file : userFiles) {
+                if (file.isFile() && file.getName().endsWith(".dat")) {
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                        User user = (User) ois.readObject();
+                        users.add(user);
+                        User.setProchaineID(user.getId()+1);
+                    } catch (IOException | ClassNotFoundException e) {
+                        System.err.println("Erreur lors de la lecture du fichier utilisateur " + file.getName() + ": " + e.getMessage());
+                    }
                 }
             }
         }
     }
-}
-
 }
