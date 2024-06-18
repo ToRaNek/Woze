@@ -68,7 +68,7 @@
             <Font size="16.0" />
          </font>
       </Text>
-      <Text fx:id="villeDepart" layoutX="62.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="162.13671875">
+      <Text fx:id="villeDepart" layoutX="61.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="162.13671875">
          <font>
             <Font size="16.0" />
          </font>
@@ -76,7 +76,7 @@
       <VBox fx:id="partieTrajet" layoutY="188.0" prefHeight="222.0" prefWidth="600.0" />
       <ImageView fx:id="parametreLogo1" fitHeight="21.0" fitWidth="18.0" layoutX="37.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/VilleDepart.png" />
+            <Image url="@images/Subtract.png" />
          </image>
       </ImageView>
       <ComboBox fx:id="villesArriveeCB" editable="true" layoutX="198.0" layoutY="54.0" prefHeight="22.0" prefWidth="179.0" promptText="Quel est votre ville d'arrivé" />
@@ -185,5 +185,18 @@
                </padding>
             </VBox>
          </children></Pane>
+      <Button layoutX="34.0" layoutY="76.0" mnemonicParsing="false" onAction="#boutonChangement" opacity="0.0" prefHeight="22.0" prefWidth="22.0" />
+      <Pane fx:id="poppupChangementVille" layoutX="34.0" layoutY="25.0" prefHeight="107.0" prefWidth="149.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="107.0" stroke="BLACK" strokeType="INSIDE" width="149.0" />
+            <ComboBox fx:id="villesCB" layoutX="11.0" layoutY="29.0" prefHeight="25.0" prefWidth="128.0" promptText="ville" />
+            <ImageView fitHeight="34.0" fitWidth="35.0" layoutX="58.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/Check-Circle.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="58.0" layoutY="59.0" mnemonicParsing="false" onAction="#boutonChangementValider" opacity="0.0" prefHeight="34.0" prefWidth="34.0" />
+         </children>
+      </Pane>
    </children>
 </Pane>

@@ -11,16 +11,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import version1.Voyageur;
 ;
 
 public class ConnexionController {
-    static Set<String> villes;
-    boolean buttonBusActionisActivated = false;
-    
+    static Set<String> villes;    
 
     public ConnexionController(){
         villes = new HashSet<>();

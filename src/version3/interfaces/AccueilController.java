@@ -92,6 +92,16 @@ public class AccueilController {
             }
             System.out.println("Nouvelle valeur : " + newValue);
         });
+
+        villesCB.setEditable(true);
+        villesCB.setItems(FXCollections.observableArrayList(ConnexionController.villes));
+        villesCB.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+            villesCB.show();
+            if (newValue != null && !ConnexionController.villes.contains(newValue)) {
+                filterCities(newValue);
+            }
+            System.out.println("Nouvelle valeur : " + newValue);
+        });
     }
 
     public HBox hboxTrajet(String dep, String arr, String co2, String prix, String temps, boolean bus, boolean train, boolean avion) {
@@ -319,5 +329,30 @@ public class AccueilController {
         VBCouts.getChildren().add(0, prix);
         FxmlWoze.ordreCout.remove(TypeCout.CO2);
         FxmlWoze.ordreCout.add(0, TypeCout.PRIX);
+    }
+
+    @FXML
+    Pane poppupChangementVille;
+
+    boolean poppupChangeVilleIsActivated = false;
+
+    @FXML
+    public void boutonChangementValider(ActionEvent e){
+        if(poppupChangeVilleIsActivated){
+            villeDepart.setText(villesCB.getSelectionModel().getSelectedItem());
+            poppupChangementVille.setVisible(false);
+            poppupChangeVilleIsActivated = false;
+        }
+    }
+
+    @FXML
+    ComboBox<String> villesCB;
+
+    @FXML
+    public void boutonChangement(ActionEvent e){
+        if(!poppupChangeVilleIsActivated){
+            poppupChangementVille.setVisible(true);
+            poppupChangeVilleIsActivated = true;
+        }
     }
 }
