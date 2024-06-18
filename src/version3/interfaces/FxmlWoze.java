@@ -23,7 +23,7 @@ public class FxmlWoze extends Application {
                 ordreCout.add(TypeCout.PRIX);
                 ordreCout.add(TypeCout.TEMPS);
                 FXMLLoader loader = new FXMLLoader();
-                URL fxmlFileUrl = getClass().getResource("connexion.fxml");
+                URL fxmlFileUrl = getClass().getResource("inscription.fxml");
                 if (fxmlFileUrl == null) {
                         System.out.println("Impossible de charger le fichier fxml");
                         System.exit(-1);

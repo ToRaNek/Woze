@@ -14,10 +14,10 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import version3.user.User;
 
-public class ConnexionController {
+public class InscriptionController {
     static Set<String> villes;
 
-    public ConnexionController() {
+    public InscriptionController() {
         villes = new HashSet<>();
         villes.addAll(FxmlWoze.plateforme.getVilles());
     }
@@ -100,5 +100,14 @@ public class ConnexionController {
         }
 
         alert.showAndWait();
+    }
+
+    @FXML
+    public void buttonJaiDejaUnCompte(ActionEvent e) throws IOException {
+        Stage currentStage = (Stage) ((Button) e.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("accueil.fxml"));
+            Parent root = loader.load();
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
     }
 }
