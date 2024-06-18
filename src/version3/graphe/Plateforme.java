@@ -109,6 +109,7 @@ public class Plateforme {
     public void setCurrentCrit(TypeCout critere) {
         this.currentCrit = critere;
         // Re-construire le graphe avec le nouveau critère
+        this.currentUser.setCritere(critere);
         currentGraphe = graphes.get(critere);
     }
        
