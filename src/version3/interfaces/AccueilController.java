@@ -426,8 +426,8 @@ public class AccueilController {
         if (buttonTrainActionisActivated) {
             modalites.add(ModaliteTransport.TRAIN);
         }
-        List<Trajet> trajets = Algorithme.kpccUltime(FxmlWoze.plateforme, villeDepart.getText(), villesArriveeCB.getSelectionModel().getSelectedItem(), map, modalites, 50);        
         System.out.println(villeDepart.getText() + villesArriveeCB.getSelectionModel().getSelectedItem().toString() + map.toString() + modalites.toString() + 50);
+        List<Trajet> trajets = Algorithme.kpccUltime(FxmlWoze.plateforme, villeDepart.getText(), villesArriveeCB.getSelectionModel().getSelectedItem(), map, modalites, 50);        
         System.out.println(trajets.toString());
         ObservableList<HBox> hboxList = FXCollections.observableArrayList();
         for (Trajet trajet : trajets) {

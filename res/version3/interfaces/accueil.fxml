@@ -103,7 +103,7 @@
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="critereCO2" alignment="CENTER_RIGHT" disable="true" prefHeight="24.0" prefWidth="79.0" promptText="1.26 kg/CO2" visible="false" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="critereCO2" alignment="CENTER_RIGHT" disable="true" onAction="#textFeildCritereAction" onKeyTyped="#textFeildCritereAction" prefHeight="24.0" prefWidth="79.0" promptText="1.26 kg/CO2" visible="false" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="11.0" />
                            </font>
@@ -137,7 +137,7 @@
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="criterePrix" alignment="CENTER_RIGHT" disable="true" prefHeight="25.0" prefWidth="29.0" promptText="45€" visible="false" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="criterePrix" alignment="CENTER_RIGHT" disable="true" onAction="#textFeildCritereAction" onKeyTyped="#textFeildCritereAction" prefHeight="25.0" prefWidth="29.0" promptText="45€" visible="false" HBox.hgrow="ALWAYS" />
                         <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#prixPrio" prefHeight="24.0" prefWidth="32.0" style="-fx-background-color: none;">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -164,7 +164,7 @@
                               </ImageView>
                            </graphic>
                         </ToggleButton>
-                        <TextField fx:id="critereTemps" alignment="CENTER_RIGHT" disable="true" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" prefWidth="25.0" promptText="5 min" visible="false" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="critereTemps" alignment="CENTER_RIGHT" disable="true" maxHeight="-Infinity" minWidth="-Infinity" onAction="#textFeildCritereAction" onKeyTyped="#textFeildCritereAction" prefHeight="23.0" prefWidth="25.0" promptText="5 min" visible="false" HBox.hgrow="ALWAYS" />
                         <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#tempsPrio" prefHeight="24.0" prefWidth="33.0" style="-fx-background-color: none;">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
