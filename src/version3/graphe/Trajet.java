@@ -66,6 +66,23 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
     }
 
     /**
+     * Retourne la ville de départ.
+     * @return La ville de départ.
+     */
+    public String getDepart(){
+        return ((Arete)trancons.get(0)).getDepart().getVille();
+    } 
+
+    /**
+     * Retourne la ville d'arrivée.
+     * @return La ville d'arrivée.
+     */
+    public String getArrivee(){
+        return ((Arete)trancons.get(0)).getArrivee().getVille();
+    } 
+
+
+    /**
      * Retourne le poids total du trajet pour le type de coût courant.
      * @return Le poids total du trajet pour le type de coût courant.
      */
