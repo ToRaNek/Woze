@@ -39,15 +39,6 @@ public class UserManagement {
         usersSave.deleteUserFile(user);
     }
 
-    public void updateUser(final User user) {
- 
-        try {
-            usersSave.saveUserToFile(user);
-        } catch (IOException e) {
-            System.err.println("Erreur lors de la mise à jour de l'utilisateur : " + e.getMessage());
-        }
-    }
-
     public User getUserById(int userId) {
         for (User user : users) {
             if (user.getId() == userId) {

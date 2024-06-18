@@ -6,9 +6,10 @@ import java.util.List;
 
 import javafx.scene.layout.HBox;
 import version3.graphe.TypeCout;
+import version3.utils.data.save.UsersSave;
 
 /**
- * La classe User ²représente un utilisateur du système.
+ * La classe User représente un utilisateur du système.
  */
 public class User implements Serializable {
 
@@ -23,6 +24,9 @@ public class User implements Serializable {
 
     /** La ville de référence de l'utilisateur par défaut */
     private static final String ville_defaut = "Aucune";
+
+    /** La sauvegarde des utilisateurs */
+    private static final UsersSave usersSave = new UsersSave();
 
     /**
      * Obtient le critère par défaut.
@@ -56,19 +60,11 @@ public class User implements Serializable {
         User.prochaineID = prochaineID;
     }
 
-        /**
-     * Définit le prochain ID disponible pour un nouvel utilisateur.
-     * @param prochaineID Le prochain ID disponible.
-     */
-    public static void plusProchaineID() {
-        User.prochaineID ++;
-    }
-
     /**
      * Génère un ID unique pour le User.
      * @return Un ID unique.
      */
-    private static int generateId() { 
+    private static int generateId() {
         if (!IdTrash.isEmpty()) {
             return IdTrash.remove(0);
         } else {
@@ -101,49 +97,43 @@ public class User implements Serializable {
      * @param ville La ville de référence de l'utilisateur.
      * @param critere Le critère de l'utilisateur.
      */
-    public User(final String prenom, final String nom, final String ville, final TypeCout critere) {
+    public User(final String prenom, final String nom, final String ville, final TypeCout critere) throws Exception  {
         this.id = generateId();
         this.prenom = prenom;
         this.nom = nom;
         this.ville = ville;
         this.critere = critere;
         this.historique = new ArrayList<>();
+        saveUserToFile(); // Sauvegarde initiale à la création de l'utilisateur
     }
 
     /**
-     * Constructeur de la classe User.
+     * Constructeur de la classe User avec critère par défaut.
      * @param prenom Le prénom de l'utilisateur.
      * @param nom Le nom de l'utilisateur.
      * @param ville La ville de référence de l'utilisateur.
      */
-    public User(final String prenom, final String nom, final String ville) {
+    public User(final String prenom, final String nom, final String ville)throws Exception  {
         this(prenom, nom, ville, critere_defaut);
     }
 
     /**
-     * Constructeur de la classe User.
-     * @param prenom Le prénom de l'utilisateur.
-     * @param nom Le nom de l'utilisateur.
-     */
-    public User(final String prenom, final String nom) {
-        this(prenom, nom, ville_defaut, critere_defaut);
-    }
-
-    /**
-     * Constructeur de la classe User.
+     * Constructeur de la classe User avec ville par défaut et critère spécifié.
      * @param prenom Le prénom de l'utilisateur.
      * @param nom Le nom de l'utilisateur.
      * @param critere Le critère de l'utilisateur.
      */
-    public User(final String prenom, final String nom, final TypeCout critere) {
+    public User(final String prenom, final String nom, final TypeCout critere) throws Exception {
         this(prenom, nom, ville_defaut, critere);
     }
 
     /**
-     * Ajoute l'ID de l'utilisateur à la liste des ID supprimés.
+     * Constructeur de la classe User avec ville et critère par défaut.
+     * @param prenom Le prénom de l'utilisateur.
+     * @param nom Le nom de l'utilisateur.
      */
-    public void addIdToIdTrash() {
-        IdTrash.add(this.id);
+    public User(final String prenom, final String nom) throws Exception {
+        this(prenom, nom, ville_defaut, critere_defaut);
     }
 
     /**
@@ -190,32 +180,36 @@ public class User implements Serializable {
      * Définit le critère de l'utilisateur.
      * @param critere Le nouveau critère de l'utilisateur.
      */
-    public void setCritere(final TypeCout critere) {
+    public void setCritere(final TypeCout critere) throws Exception {
         this.critere = critere;
+        updateUserInFile();
     }
 
     /**
      * Définit le nom de l'utilisateur.
      * @param nom Le nouveau nom de l'utilisateur.
      */
-    public void setNom(final String nom) {
+    public void setNom(final String nom) throws Exception {
         this.nom = nom;
+        updateUserInFile();
     }
 
     /**
      * Définit le prénom de l'utilisateur.
      * @param prenom Le nouveau prénom de l'utilisateur.
      */
-    public void setPrenom(final String prenom) {
+    public void setPrenom(final String prenom)throws Exception  {
         this.prenom = prenom;
+        updateUserInFile();
     }
 
     /**
      * Définit la ville de référence de l'utilisateur.
      * @param ville La nouvelle ville de référence de l'utilisateur.
      */
-    public void setVille(final String ville) {
+    public void setVille(final String ville) throws Exception {
         this.ville = ville;
+        updateUserInFile();
     }
 
     /**
@@ -230,41 +224,60 @@ public class User implements Serializable {
      * Définit la liste des trajets de l'historique de l'utilisateur.
      * @param historique La nouvelle liste des trajets de l'historique.
      */
-    public void setHistorique(List<HBox> historique) {
+    public void setHistorique(List<HBox> historique)throws Exception  {
         this.historique = historique;
-    }
-
-    /**
-     * Supprime l'historique des trajets de l'utilisateur.
-     */
-    public void supprimerHistorique() {
-        historique.clear();
+        updateUserInFile();
     }
 
     /**
      * Ajoute un trajet à l'historique de l'utilisateur.
      * @param trajet Le trajet à ajouter.
      */
-    public void addHistorique(HBox trajet) {
+    public void addHistorique(HBox trajet) throws Exception {
         this.historique.add(trajet);
+        updateUserInFile();
     }
 
     /**
      * Supprime un trajet à l'historique de l'utilisateur.
      * @param trajet Le trajet à supprimer.
      */
-    public void removeHistorique(HBox trajet){
+    public void removeHistorique(HBox trajet) throws Exception {
         this.historique.remove(trajet);
+        updateUserInFile();
     }
 
     /**
-     * Supprime un trajet à l'historique de l'utilisateur.
-     * @param trajet L'index du trajet à supprimer.
+     * Supprime un trajet à l'historique de l'utilisateur par index.
+     * @param index L'index du trajet à supprimer.
      */
-    public void removeHistorique(int index){
+    public void removeHistorique(int index) throws Exception {
         this.historique.remove(index);
+        updateUserInFile();
     }
 
+    /**
+     * Ajoute l'ID de l'utilisateur à la liste des ID supprimés.
+     */
+    public void addIdToIdTrash() throws Exception  {
+        IdTrash.add(this.id);
+        updateUserInFile();
+    }
+
+    /**
+     * Met à jour l'utilisateur dans le fichier correspondant.
+     */
+    private void updateUserInFile() throws Exception {
+        usersSave.saveUserToFile(this);
+    }
+
+    /**
+     * Supprime l'historique des trajets de l'utilisateur.
+     */
+    public void supprimerHistorique() throws Exception  {
+        historique.clear();
+        updateUserInFile();
+    }
 
     /**
      * Renvoie une représentation textuelle de l'utilisateur sous forme de chaîne de caractères.
@@ -275,6 +288,11 @@ public class User implements Serializable {
         return "User [critere=" + critere + ", id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", ville="
                 + ville + "]";
     }
-    
 
+    /**
+     * Sauvegarde l'utilisateur dans un fichier correspondant à son ID.
+     */
+    public void saveUserToFile() throws Exception {
+        usersSave.saveUserToFile(this);
+    }
 }

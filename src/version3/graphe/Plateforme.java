@@ -107,7 +107,7 @@ public class Plateforme {
     }
 
     // Méthode pour changer le critère actuel
-    public void setCurrentCrit(TypeCout critere) {
+    public void setCurrentCrit(TypeCout critere) throws Exception {
         this.currentCrit = critere;
         // Re-construire le graphe avec le nouveau critère
         this.currentUser.setCritere(critere);
@@ -119,7 +119,7 @@ public class Plateforme {
         return currentCrit;
     }
 
-    public void setCurrentGraph(TypeCout critere) {
+    public void setCurrentGraph(TypeCout critere) throws Exception  {
         setCurrentCrit(critere);
     }
     
@@ -141,9 +141,6 @@ public class Plateforme {
         this.currentUser = currentUser;
         this.currentCrit = currentUser.getCritere();
         graphes.get(currentCrit);
-    }
-    public void updateUser() {
-        users.updateUser(currentUser);
     }
 
     public ArrayList<User> getUsers() {
