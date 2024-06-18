@@ -67,6 +67,7 @@ public class UserManagement {
                 try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                     User user = (User) ois.readObject();
                     users.add(user);
+                    User.setProchaineID(user.getId()+1);
                 } catch (IOException | ClassNotFoundException e) {
                     System.err.println("Erreur lors de la lecture du fichier utilisateur " + file.getName() + ": " + e.getMessage());
                 }
