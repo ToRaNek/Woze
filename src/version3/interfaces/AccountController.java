@@ -43,4 +43,32 @@ public class AccountController {
         currentStage.setScene(newScene);
         currentStage.show();
     }
+
+    @FXML
+    public void buttonSupprCompte(ActionEvent e) throws IOException{
+        Stage currentStage = (Stage) ((Button) e.getSource()).getScene().getWindow();
+
+        FxmlWoze.plateforme.removeCurrentUser();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("inscription.fxml"));
+        Parent root = loader.load();
+        Scene newScene = new Scene(root);
+
+        // Set the new scene on the stage and show it
+        currentStage.setScene(newScene);
+        currentStage.show();
+    }
+
+    @FXML
+    public void boutonDeco(ActionEvent e) throws IOException{
+        Stage currentStage = (Stage) ((Button) e.getSource()).getScene().getWindow();
+
+        // Load the new scene (replace "accueil.fxml" with your desired FXML file)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("inscription.fxml"));
+        Parent root = loader.load();
+        Scene newScene = new Scene(root);
+
+        // Set the new scene on the stage and show it
+        currentStage.setScene(newScene);
+        currentStage.show();
+    }
 }

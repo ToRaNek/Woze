@@ -15,12 +15,12 @@
             <Image url="@images/Avatar.png" />
          </image>
       </ImageView>
-      <Text fx:id="leNom" layoutX="147.0" layoutY="80.0" strokeType="INSIDE" strokeWidth="0.0" text="leNom" textAlignment="CENTER" wrappingWidth="94.3671875">
+      <Text fx:id="leNom" layoutX="125.0" layoutY="79.0" strokeType="INSIDE" strokeWidth="0.0" text="leNom" textAlignment="CENTER" wrappingWidth="94.3671875">
          <font>
             <Font size="16.0" />
          </font>
       </Text>
-      <Text fx:id="lePrenom" layoutX="262.0" layoutY="80.0" strokeType="INSIDE" strokeWidth="0.0" text="lePrenom" textAlignment="CENTER" wrappingWidth="94.3671875">
+      <Text fx:id="lePrenom" layoutX="253.0" layoutY="79.0" strokeType="INSIDE" strokeWidth="0.0" text="lePrenom" textAlignment="CENTER" wrappingWidth="94.3671875">
          <font>
             <Font size="16.0" />
          </font>
@@ -37,5 +37,15 @@
          </image>
       </ImageView>
       <Button layoutX="561.0" layoutY="15.0" mnemonicParsing="false" onAction="#boutonRetour" opacity="0.0" prefHeight="25.0" prefWidth="25.0" />
+      <Button alignment="CENTER" layoutX="383.0" layoutY="62.0" mnemonicParsing="false" onAction="#boutonDeco" prefHeight="24.0" prefWidth="203.0" style="-fx-background-color: Black;" text="Déconnection" textFill="WHITE">
+         <font>
+            <Font name="DejaVu Sans Bold" size="13.0" />
+         </font>
+      </Button>
+      <Button alignment="CENTER" layoutX="383.0" layoutY="96.0" mnemonicParsing="false" onAction="#buttonSupprCompte" prefHeight="24.0" prefWidth="203.0" style="-fx-background-color: Black;" text="Supprimer mon compte" textFill="WHITE">
+         <font>
+            <Font name="DejaVu Sans Bold" size="13.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

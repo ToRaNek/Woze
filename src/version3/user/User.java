@@ -289,8 +289,7 @@ public class User implements Serializable {
      */
     @Override
     public String toString() {
-        return "User [critere=" + critere + ", id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", ville="
-                + ville + "]";
+        return id + ".  " + nom.toUpperCase() + " " + prenom + "        Ma ville : "+ ville ;
     }
 
     /**

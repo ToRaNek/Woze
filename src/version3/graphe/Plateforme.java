@@ -374,4 +374,12 @@ public class Plateforme {
         }
         currentGraphe = graphes.get(User.getCritereDefaut());
     }
+
+    public UserManagement getUsersManagement(){
+        return users;
+    }
+
+    public void removeCurrentUser(){
+        users.removeUser(currentUser);
+    }
 }
