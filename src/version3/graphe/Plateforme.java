@@ -7,7 +7,6 @@ import version3.graphe.management.*;
 import version3.user.management.UserManagement;
 import version3.user.User;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +106,7 @@ public class Plateforme {
     }
 
     // Méthode pour changer le critère actuel
-    public void setCurrentCrit(TypeCout critere) throws Exception {
+    public void setCurrentCrit(TypeCout critere)  {
         this.currentCrit = critere;
         // Re-construire le graphe avec le nouveau critère
         this.currentUser.setCritere(critere);
@@ -119,7 +118,7 @@ public class Plateforme {
         return currentCrit;
     }
 
-    public void setCurrentGraph(TypeCout critere) throws Exception  {
+    public void setCurrentGraph(TypeCout critere)   {
         setCurrentCrit(critere);
     }
     
