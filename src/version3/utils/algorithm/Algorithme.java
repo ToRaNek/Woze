@@ -120,7 +120,7 @@ public class Algorithme {
         List<Structure> structuresArrivee = p.getStructuresFrom(villeArrivee);
 
         // Parcours de chaque critère avec son poids maximal
-        for (TypeCout critere : poidsMaximaux.keySet()) {
+        for (TypeCout critere : TypeCout.values()) {
             double poidsMax = poidsMaximaux.getOrDefault(critere, Double.MAX_VALUE);
 
             // Parcours de toutes les combinaisons de structures de départ et d'arrivée
