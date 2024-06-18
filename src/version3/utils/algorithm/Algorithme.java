@@ -20,12 +20,13 @@ import version3.graphe.Trajet;
 import version3.graphe.TypeCout;
 
 public class Algorithme {
-// TODO javadoc
-
     // Afficher les chemins les plus courts avec un critère sans poids.
     public static List<Chemin> simplePCC(final MultiGrapheOrienteValue graphe,final Structure depart,final Structure arrivee,final int k) {
         return AlgorithmeKPCC.kpcc(graphe, depart, arrivee, k);
     }
+
+    Map<TypeCout, Double> M = new HashMap<>();
+
 
     /**
      * Trouve les k plus courts chemins entre deux structures en utilisant un critère de coût spécifique,
@@ -86,6 +87,9 @@ public class Algorithme {
     public static List<Trajet> cheminsParTransport(Plateforme p, final String depart, final String arrivee, List<ModaliteTransport> modaliteTransports, int k) {
         List<Trajet> tousLesChemins = new ArrayList<>();
         Map<TypeCout, Double> M = new HashMap<>();
+        for (TypeCout cout : TypeCout.values()) {
+            M.put(cout, Double.MAX_VALUE);
+        }
         List<Trajet> chemins = kpccUltime(p, depart, arrivee, M, modaliteTransports, k);
         tousLesChemins.addAll(chemins);
 
