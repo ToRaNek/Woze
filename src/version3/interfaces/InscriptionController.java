@@ -50,7 +50,7 @@ public class InscriptionController {
     }
 
     @FXML
-    public void buttonSeConnecter(ActionEvent e) throws IOException {
+    public void buttonSeConnecter(ActionEvent e) throws IOException, Exception {
         if (isValidInput()) {
             User user = new User(prenom.getText(), nom.getText(), villesCB.getSelectionModel().getSelectedItem(), null);
             FxmlWoze.plateforme.addUser(user);

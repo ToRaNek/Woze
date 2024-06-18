@@ -102,7 +102,11 @@ public class Algorithme {
     
                     // Ajouter les trajets potentiels en évitant les doublons
                     for (Chemin chemin : cheminsPartiels) {
-                        Trajet trajet = new Trajet(chemin.aretes(), chemin);
+                        List<Arete> ar = new ArrayList<>();
+                        for (Trancon tr : chemin.aretes()) {
+                            ar.add(((Arete)tr));
+                        }
+                        Trajet trajet = new Trajet(ar);
                         if (!thereIs(trajetsUnique, trajet)) {
                             trajet.setCurrentType(p.getCurrentCrit());
                             trajetsUnique.add(trajet);

@@ -12,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import version3.graphe.Trajet;
 
 public class AccountController {
     @FXML
@@ -21,7 +22,7 @@ public class AccountController {
     Text lePrenom;
     
     @FXML
-    ListView<HBox> historiqueListV;
+    ListView<Trajet> historiqueListV;
 
     public void initialize() {
         leNom.setText(FxmlWoze.plateforme.getCurrentUser().getNom());

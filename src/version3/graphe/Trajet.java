@@ -1,14 +1,15 @@
 package version3.graphe;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import fr.ulille.but.sae_s2_2024.Trancon;
 import fr.ulille.but.sae_s2_2024.Chemin;
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
+import fr.ulille.but.sae_s2_2024.Trancon;
 
 /**
  * Classe représentant un trajet, implémentant l'interface Chemin et Serializable.
@@ -17,7 +18,7 @@ import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
 
     /** La liste ordonnée des trançons (arêtes) constituant le trajet */
-    private List<Trancon> trancons;
+    private List<Arete> trancons;
 
     /** Map associant chaque type de coût à son poids */
     private Map<TypeCout, Double> poidsParType;
@@ -25,16 +26,13 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
     /** Le type de coût actuellement utilisé pour les calculs */
     private TypeCout currentType;
 
-    private Chemin chemin;
-
     /**
      * Constructeur de la classe Trajet.
      * @param trancons La liste des trançons (arêtes) constituant le trajet.
      * @param chemin Le chemin associé au trajet.
      */
-    public Trajet(List<Trancon> trancons, Chemin chemin) {
+    public Trajet(List<Arete> trancons) {
         this.trancons = trancons;
-        this.chemin = chemin;
         initMap();
         this.currentType = TypeCout.CO2;
     }
@@ -50,7 +48,7 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
 
     public double getPoids(TypeCout typeCout) {
         double poids = 0;
-        for (Trancon trancon : chemin.aretes()) {
+        for (Trancon trancon : trancons) {
             poids += ((Arete)trancon).getCout(typeCout);
         }
         return poids;
@@ -62,7 +60,11 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
      */
     @Override
     public List<Trancon> aretes() {
-        return trancons;
+        List<Trancon> T = new ArrayList<>();
+        for (Arete arete : trancons) {
+            T.add((Trancon)arete);
+        }
+        return T;
     }
 
     /**
@@ -97,7 +99,7 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
      * @return true si le trajet contient la modalité, false sinon.
      */
     public boolean contains(ModaliteTransport modalite) {
-        for (Trancon trancon : trancons) {
+        for (Arete trancon : trancons) {
             if (trancon instanceof Arete) {
                 ModaliteTransport modaliteDeLArete = ((Arete) trancon).getModalite();
                 if (Objects.equals(modaliteDeLArete, modalite)) {
@@ -118,14 +120,9 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
         }
         Trajet other = (Trajet) obj;
 
-        // Comparer les chemins
-        if (Objects.equals(this.chemin, other.chemin)) {
-            return true;
-        }
-
         // Comparer les trançons
-        List<Trancon> thisTrancons = this.getTrancons(); 
-        List<Trancon> otherTrancons = other.getTrancons();
+        List<Arete> thisTrancons = this.getTrancons(); 
+        List<Arete> otherTrancons = other.getTrancons();
 
         if (thisTrancons.size() != otherTrancons.size()) {
             return false;
@@ -142,7 +139,7 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(chemin);
+        return Objects.hash(trancons);
     }
 
     /**
@@ -160,7 +157,7 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Trajet(");
-        for (Trancon trancon : trancons) {
+        for (Arete trancon : trancons) {
             sb.append(((Arete)trancon) + ", ");
         }
         sb.replace(sb.length()-2, sb.length(), "| ");
@@ -174,11 +171,11 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
 
     // Getters et setters
 
-    public List<Trancon> getTrancons() {
+    public List<Arete> getTrancons() {
         return trancons;
     }
 
-    public void setTrancons(List<Trancon> trancons) {
+    public void setTrancons(List<Arete> trancons) {
         this.trancons = trancons;
     }
 
@@ -198,11 +195,4 @@ public class Trajet implements Chemin, Comparable<Trajet>, Serializable {
         this.currentType = currentType;
     }
 
-    public Chemin getChemin() {
-        return chemin;
-    }
-
-    public void setChemin(Chemin chemin) {
-        this.chemin = chemin;
-    }
 }

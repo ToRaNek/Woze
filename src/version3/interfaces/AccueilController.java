@@ -43,6 +43,7 @@ import version3.graphe.TypeCout;
 import version3.utils.algorithm.Algorithme;
 
 public class AccueilController {
+    Map<HBox, Trajet> trajetsMapHbox = new HashMap<HBox, Trajet>();
 
     boolean buttonBusActionisActivated = false;
     boolean buttonTrainActionisActivated = false;
@@ -113,8 +114,6 @@ public class AccueilController {
                 filterCities(newValue);
             }
         });
-        FxmlWoze.plateforme.updateUser();
-
     }
 
 
@@ -457,8 +456,6 @@ public class AccueilController {
                 villeDepart.setText(FxmlWoze.plateforme.getCurrentUser().getVille()); 
             }
         }
-        FxmlWoze.plateforme.updateUser();
-
     }
 
     @FXML
@@ -471,8 +468,6 @@ public class AccueilController {
             poppupChangeVilleIsActivated = true;
         }
         constructionListeTrajets();
-        FxmlWoze.plateforme.updateUser();
-
 
     }
 
@@ -500,16 +495,16 @@ public class AccueilController {
         System.out.println(trajets.toString());
         ObservableList<HBox> hboxList = FXCollections.observableArrayList();
         for (Trajet trajet : trajets) {
-            hboxList.add(hboxTrajet(trajet.getDepart(), trajet.getArrivee(), trajet.getPoids(TypeCout.CO2)+"", trajet.getPoids(TypeCout.PRIX)+"", trajet.getPoids(TypeCout.TEMPS)+"", trajet.contains(ModaliteTransport.BUS), trajet.contains(ModaliteTransport.TRAIN), trajet.contains(ModaliteTransport.AVION)));
+            HBox hBox = hboxTrajet(trajet.getDepart(), trajet.getArrivee(), trajet.getPoids(TypeCout.CO2)+"", trajet.getPoids(TypeCout.PRIX)+"", trajet.getPoids(TypeCout.TEMPS)+"", trajet.contains(ModaliteTransport.BUS), trajet.contains(ModaliteTransport.TRAIN), trajet.contains(ModaliteTransport.AVION));
+            hboxList.add(hBox);
+            trajetsMapHbox.put(hBox, trajet);
         }
         listeTrajets.setItems(hboxList);
     }
 
     public void reserver(HBox hb, Button b){
         hb.getChildren().remove(b);
-        FxmlWoze.plateforme.getCurrentUser().addHistorique(hb);
-        FxmlWoze.plateforme.updateUser();
-
+        FxmlWoze.plateforme.getCurrentUser().addHistorique(trajetsMapHbox.get(hb));
     }
 
     public void constructionMapCouts(Map<TypeCout, Double> map, Boolean button, TextField critere, TypeCout type) {
