@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.print.DocFlavor.URL;
 
@@ -21,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.DialogPane;
@@ -94,20 +96,20 @@ public class AccueilController {
         villeDepart.setText(FxmlWoze.plateforme.getCurrentUser().getVille());
 
         villesArriveeCB.setEditable(true);
-        villesArriveeCB.setItems(FXCollections.observableArrayList(ConnexionController.villes));
+        villesArriveeCB.setItems(FXCollections.observableArrayList(InscriptionController.villes));
         villesArriveeCB.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
             villesArriveeCB.show();
-            if (newValue != null && !ConnexionController.villes.contains(newValue)) {
+            if (newValue != null && !InscriptionController.villes.contains(newValue)) {
                 filterCities(newValue);
             }
             validateCitySelection(); // Validate city selection
         });
 
         villesCB.setEditable(true);
-        villesCB.setItems(FXCollections.observableArrayList(ConnexionController.villes));
+        villesCB.setItems(FXCollections.observableArrayList(InscriptionController.villes));
         villesCB.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
             villesCB.show();
-            if (newValue != null && !ConnexionController.villes.contains(newValue)) {
+            if (newValue != null && !InscriptionController.villes.contains(newValue)) {
                 filterCities(newValue);
             }
         });
@@ -161,22 +163,49 @@ public class AccueilController {
     
         return hb;
     }
+
     private void showPopupAndReserver(Button button, HBox hb) {
-        reserver(hb, button);
+        // 1. Show Confirmation Popup
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation de réservation");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Voulez-vous vraiment réserver ce trajet ?");
+
+        // 2. Wait for User Response
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+        // 3. Handle Response
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            reserver(hb, button); // Proceed with reservation
+            showReservationSuccessPopup(button); // Show success popup
+        } else {
+            // Do nothing or handle cancellation if needed
+        }
+    }
+
+    private void showReservationSuccessPopup(Button button) {
         Popup popup = new Popup();
         Label popupLabel = new Label("Réservé !");
         VBox popupContent = new VBox(popupLabel);
         popupContent.setStyle("-fx-background-color: white; -fx-padding: 10px;");
         popup.getContent().add(popupContent);
         popup.setAutoHide(true);
-        popup.show(button.getScene().getWindow(), button.getScene().getWindow().getX() + button.getScene().getWindow().getWidth() / 2, button.getScene().getWindow().getY() + button.getScene().getWindow().getHeight() / 2);
+
+        // Get the scene directly from the button
+        Scene scene = button.getScene();
+
+        if (scene != null) {
+            popup.show(scene.getWindow(),
+                    button.localToScreen(button.getBoundsInLocal()).getMinX(),
+                    button.localToScreen(button.getBoundsInLocal()).getMinY());
+        }
     }
     
     
 
     public void filterCities(String filter) {
         villesArriveeCB.getItems().clear();
-        for (String city : ConnexionController.villes) {
+        for (String city : InscriptionController.villes) {
             if (city.toLowerCase().contains(filter.toLowerCase())) {
                 villesArriveeCB.getItems().add(city);
             }
@@ -409,13 +438,21 @@ public class AccueilController {
         if (poppupChangeVilleIsActivated) {
             String selectedCity = villesCB.getSelectionModel().getSelectedItem();
 
-            if (selectedCity != null && !selectedCity.isBlank() && ConnexionController.villes.contains(selectedCity)) {
+            // Check if the selected city is different from the arrival city
+            if (selectedCity != null && !selectedCity.isBlank() && InscriptionController.villes.contains(selectedCity) 
+                    && !selectedCity.equals(villesArriveeCB.getValue())) { // Added condition
                 villeDepart.setText(selectedCity);
                 poppupChangementVille.setVisible(false);
                 poppupChangeVilleIsActivated = false;
                 constructionListeTrajets();
             } else {
-                showAlert("Ville invalide", "Veuillez sélectionner une ville valide pour le départ.");
+                if (selectedCity.equals(villesArriveeCB.getValue())) {
+                    showAlert("Erreur", "La ville de départ et d'arrivée doivent être différentes.");
+                } else {
+                    showAlert("Ville invalide", "Veuillez sélectionner une ville valide pour le départ.");
+                }
+                // Reset the departure city if the change is invalid
+                villeDepart.setText(FxmlWoze.plateforme.getCurrentUser().getVille()); 
             }
         }
     }
@@ -480,16 +517,21 @@ public class AccueilController {
     private void validateCitySelection() {
         boolean departureValid = !villeDepart.getText().isBlank();
         boolean arrivalValid = !villesArriveeCB.getSelectionModel().isEmpty();
-    
-        // Enable buttons if both cities are valid, otherwise disable them
-        buttonBus.setDisable(!departureValid || !arrivalValid);
-        buttonTrain.setDisable(!departureValid || !arrivalValid);
-        buttonAvion.setDisable(!departureValid || !arrivalValid);
-    
-        if (departureValid && arrivalValid) {
+
+        // Additional check for same departure and arrival cities
+        boolean differentCities = !villeDepart.getText().equals(villesArriveeCB.getValue());
+
+        buttonBus.setDisable(!departureValid || !arrivalValid || !differentCities);
+        buttonTrain.setDisable(!departureValid || !arrivalValid || !differentCities);
+        buttonAvion.setDisable(!departureValid || !arrivalValid || !differentCities);
+
+        if (departureValid && arrivalValid && differentCities) {
             constructionListeTrajets();
         } else {
             listeTrajets.getItems().clear();
+            if (!differentCities) {
+                showAlert("Erreur", "La ville de départ et d'arrivée doivent être différentes.");
+            }
         }
     }
 
