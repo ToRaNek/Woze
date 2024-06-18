@@ -13,6 +13,7 @@ public class Structure implements Lieu, Serializable {
     /** Static fields for managing IDs */
     private static int nextId = 1;
     private static final List<Integer> deletedIds = new ArrayList<>();
+
     /**
      * Génère un nom de structure en fonction du nom de base de la ville et de la modalité de transport.
      * @param ville Le nom de base de la ville.
@@ -36,6 +37,7 @@ public class Structure implements Lieu, Serializable {
         }
         return nom;
     }
+
     /**
      * Génère un ID unique pour la structure.
      * @return Un ID unique.
@@ -51,9 +53,7 @@ public class Structure implements Lieu, Serializable {
     /** Le nom de la structure */
     private final String nom;
     private final String ville;
-
     private final ModaliteTransport modalite;
-
     private final int id;
 
     /**
@@ -118,6 +118,12 @@ public class Structure implements Lieu, Serializable {
         return ville + " : " + nom ;
     }
 
+    /**
+     * Méthode pour vérifier l'égalité avec un autre objet.
+     * Deux structures sont considérées égales si elles ont le même nom, la même ville et la même modalité de transport.
+     * @param obj L'objet à comparer.
+     *@return true si les structures sont égales, false sinon.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -127,7 +133,7 @@ public class Structure implements Lieu, Serializable {
             return false;
         }
         Structure other = (Structure) obj;
-        
+
         return nom.equals(other.getNom()) && ville.equals(other.getVille()) && modalite == other.getModalite();
     }
 }

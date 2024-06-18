@@ -9,5 +9,6 @@ E3.iml
 /.vscode
 *.code-workspace
 /res/version3/users/*.dat
-/res/version3/users/history/*.dat
+/res/version3/users/history/
 *.json
+.gitignore 
