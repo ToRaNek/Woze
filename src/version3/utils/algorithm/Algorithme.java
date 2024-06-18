@@ -115,7 +115,7 @@ public class Algorithme {
         // Création d'une nouvelle liste pour les trajets filtrés
         List<Trajet> trajetsFiltres = new ArrayList<>();
         for (Trajet trajet : trajetsUnique) {
-            if (verifierModalites(trajet.getChemin(), modalites) && verifierCouts(trajet, poidsMaximaux)) {
+            if (verifierModalites(trajet, modalites) && verifierCouts(trajet, poidsMaximaux)) {
                 trajetsFiltres.add(trajet);
             }
         }
@@ -161,42 +161,21 @@ public class Algorithme {
         return false;
     }
 
-    /** Méthode pour vérifier si un chemin satisfait au moins l'une des modalités spécifiées ou la modalité null.
-     * @param chemin Le chemin à vérifier.
+    /** Méthode pour vérifier si un trajet satisfait au moins l'une des modalités spécifiées ou la modalité null.
+     * @param trajet Le trajet à vérifier.
      * @param modalites Liste des modalités de transport à vérifier.
-     * @return true si le chemin satisfait au moins une des modalités spécifiées ou la modalité null, false sinon.
+     * @return true si le trajet satisfait au moins une des modalités spécifiées ou la modalité null, false sinon.
      */
-    private static boolean verifierModalites(Chemin chemin, List<ModaliteTransport> modalites) {
-        
-        ModaliteTransport[] tmp = ModaliteTransport.values();
-        List<ModaliteTransport> M = new ArrayList<>();
-
-        for (ModaliteTransport modaliteTransport : tmp) {
-            M.add(modaliteTransport);
-        }
-
-        for (ModaliteTransport modaliteTransport : modalites) {
-            if (M.contains(modaliteTransport)) {
-                M.remove(modaliteTransport);
+    private static boolean verifierModalites(Trajet trajet, List<ModaliteTransport> modalites) {
+        for (Trancon tr : trajet.getTrancons()) {
+            ModaliteTransport modalite = ((Arete)tr).getModalite();
+            
+            if (modalite != null && !modalites.contains(modalite)) {
+                return false; // Modalité non autorisée trouvée
             }
         }
-        for (ModaliteTransport modaliteTransport : M) {
-            boolean found = false;
-            for (Trancon trancon : chemin.aretes()) {
-                Arete arete = (Arete) trancon;
-                if (arete.getModalite() == modaliteTransport || (arete.getModalite() == null)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                return false;
-            }
-        }
-
-        
-
-        return true;
+        return true; // Aucune modalité non autorisée trouvée
     }
+
 
 }
