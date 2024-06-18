@@ -2,35 +2,34 @@ package version3.utils.data.save;
 
 import version3.user.User;
 
-import java.io.*;
+import java.io.IOException;
 
-public class UsersSave {
+public class UsersSave extends ObjectSave<User> {
 
     private static final String USER_DIRECTORY = "res/version3/users/";
 
-    public void saveUserToFile(User user) throws IOException {
-        String fileName = USER_DIRECTORY + user.getId() + ".dat";
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(user);
-        }
+    public UsersSave() {
+        super(USER_DIRECTORY);
     }
 
-    public void deleteUserFile(User user) {
-        String fileName = USER_DIRECTORY + user.getId() + ".dat";
-        File fileToDelete = new File(fileName);
-        if (fileToDelete.exists()) {
-            fileToDelete.delete();
-        }
+    public void saveUserToFile(User user) throws IOException {
+        String fileName = user.getId() + ".dat";
+        saveObjectToFile(user, fileName);
     }
 
     public User loadUserFromFile(int userId) throws IOException, ClassNotFoundException {
-        String fileName = USER_DIRECTORY + userId + ".dat";
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (User) ois.readObject();
-        }
+        String fileName = userId + ".dat";
+        return loadObjectFromFile(fileName);
+    }
+
+    public void deleteUserFile(User user) {
+        String fileName = user.getId() + ".dat";
+        deleteObjectFile(fileName);
     }
 
     public static String getUserDirectory() {
         return USER_DIRECTORY;
     }
+
+    
 }

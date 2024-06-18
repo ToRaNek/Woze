@@ -56,6 +56,14 @@ public class User implements Serializable {
         User.prochaineID = prochaineID;
     }
 
+        /**
+     * Définit le prochain ID disponible pour un nouvel utilisateur.
+     * @param prochaineID Le prochain ID disponible.
+     */
+    public static void plusProchaineID() {
+        User.prochaineID ++;
+    }
+
     /**
      * Génère un ID unique pour le User.
      * @return Un ID unique.
@@ -268,4 +276,5 @@ public class User implements Serializable {
                 + ville + "]";
     }
     
+
 }
