@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.print.DocFlavor.URL;
-
 import fr.ulille.but.sae_s2_2024.ModaliteTransport;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
