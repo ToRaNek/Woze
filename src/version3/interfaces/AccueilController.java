@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,9 +21,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import version3.graphe.TypeCout;
 
@@ -104,6 +107,7 @@ public class AccueilController {
         });
     }
 
+
     public HBox hboxTrajet(String dep, String arr, String co2, String prix, String temps, boolean bus, boolean train, boolean avion) {
         HBox hb = new HBox(5); 
         HBox hbCouts = new HBox(3); 
@@ -137,12 +141,30 @@ public class AccueilController {
             hb.getChildren().add(avionImgV);
         }
     
-        hbCouts.getChildren().addAll(co2L, prixL, tempsL);
+        Button reserverButton = new Button("Réserver");
+        reserverButton.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-radius: 5px;");
+        reserverButton.setOnMousePressed(e -> showPopup(reserverButton));
+    
         Pane spacer = new Pane();
+        Pane spacer2 = new Pane();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        hb.getChildren().addAll(spacer, hbCouts);
+        HBox.setHgrow(spacer2, Priority.ALWAYS);
+        hbCouts.getChildren().addAll(co2L, prixL, tempsL);
+        hb.getChildren().addAll(spacer, reserverButton, spacer2, hbCouts);
+        hb.setAlignment(Pos.CENTER);
+    
         return hb;
     }
+    private void showPopup(Button button) {
+        Popup popup = new Popup();
+        Label popupLabel = new Label("Réservé !");
+        VBox popupContent = new VBox(popupLabel);
+        popupContent.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+        popup.getContent().add(popupContent);
+        popup.setAutoHide(true);
+        popup.show(button.getScene().getWindow(), button.getScene().getWindow().getX() + button.getScene().getWindow().getWidth() / 2, button.getScene().getWindow().getY() + button.getScene().getWindow().getHeight() / 2);
+    }
+    
     
 
     public void filterCities(String filter) {
