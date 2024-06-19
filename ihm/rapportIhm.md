@@ -31,3 +31,6 @@ Certaines fonctionnalités manquent d'explication, par exemple les petites flèc
 Gaspard : réalisation de la maquette sur papier, aide à l'implémentation du code fonctionnel qui relie les boutons aux résultats.
 Gordon : réalisation du prototype avec figma et des fichiers.fxml avec leurs controlleurs.
 Gabriel : aide à la réalisation des fichiers.fxml avec leurs controlleurs, implémentation du code fonctionnel qui relie les boutons aux résultats.
+
+Commande pour executer le jar
+java --module-path C:\Users\Admin\Desktop\dev\javafx-sdk-17.0.11\lib --add-modules=javafx.controls,javafx.fxml -jar C:\Users\Admin\Desktop\dev\SAE\E3\Woze.jar
