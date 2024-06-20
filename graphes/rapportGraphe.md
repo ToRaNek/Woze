@@ -1,50 +1,23 @@
-Votre rapport doit suivre le plan donné dans ce document.
-
-Contraintes à respecter pour le rapport
-
-- [ ] format: Markdown qu'on peut lire sur gitlab, ou pdf, ou html
-- [ ] rapport dans un répertoire `graphes` à la racine du dépôt git
-- [ ] rapport prêt le 21/06/2024; aucun délai supplémentaire ne sera accordé quelle que soit la raison donnée. Concrètement, on va récupérer la dernier daté au plus tard le 21/06/2024 et on ne verra même pas de version ultérieure du rapport, si elles existent. Minuit et une minute du 22/06/2024 sera trop tard
-- [ ] respecte le plan donné ci-dessous
-- [ ] garder les explications *en italique* jusque la fin pour s'y référer en écrivant le rapport
-- [ ] supprimer les explications *en italique* juste avant de rendre la version finale du rapport
-- [ ] le rapport est un texte **rédigé** avec des phrases intelligibles (on ne se contente pas de répondre laconiquement aux questions posées)
-
-Idéalement, le rapport est rédigé au fur et à mesure avec le calendrier donné dans le sujet:
-
-- section Version 1 faite avant le 20/05/2024 (1pt/20 si c'est le cas) ( date modifié en amphi)
-- section Version 2 faite avant le 08/06/2024 (1pt/20 si c'est le cas) ( on nous à préciser que le rendre le 08 été "ok")
-
-Finalement, l'utilisation d'un outils de génération de langage est autorisées, à condition de le faire intelligemment. En particulier, veillez à:
-- avoir un rapport cohérent avec un style cohérent sur la totalité du document (niveau de langage, richesse du vocabulaire, termes utilisés, verbosité, ...)
-- un rapport trop verbeux est fastidieux à lire. Si vous utilisez un outil pour faire du texte verbeux inutile, on utilisera un outil pour en faire un résumé et on corrigera uniquement le résumé
-- les outils de génération insèrent parfois des phrases ne faisant pas partie du texte, mais qui s'adressent à l'interlocuteur (par exemple, pour vous informer que la limite de 2000 tokens est atteinte). La présence de telles phrases dans le rapport indique que vous n'avez pas relu et sera lourdement pénalisée.
-
-
-**Début du rapport** Tout ce qui précède sera enlevé pour la version finale
-
-------------------------------------------
-
 SAE S2.02 -- Rapport pour la ressource Graphes
 ===
 
-*Noms des auteurs, groupe*
 Delangue 
 Catry
 Mille
 Groupe E
 
+---
+
+- section Version 1 faite avant le 20/05/2024 (1pt/20 si c'est le cas) ( date modifié en amphi)
+- section Version 2 faite avant le 08/06/2024 (1pt/20 si c'est le cas) ( on nous à préciser que le rendre le 08 été "ok")
+- section Version 2 faite avant le 20/06/2024 (1pt/20 si c'est le cas) (Aucun mail de votre part ou de qui que ce soit ne m'a été parvenue, si la date a été changé je m'en excuse mais il faut prévenir l'ensemble des étudiants.)
+
+---
+
 Version 1 : un seul moyen de transport
 ---
 
-*Cette section traite uniquement de la Version 1 du projet.*
-
-
 ### Présentation d'un exemple
-
-*Présenter un exemple concret de problème (données complètes pour la plateforme avec tous les moyens de transport, préférences de l'utilisatrices qui comprennent le moyen de transport choisi, le critère d'optimisation, et nombre d'itinéraires demandés).*
-*Donner la solution du problème du point de vue de l'utilisatrice, càd quels sont les itinéraires possibles, quels sont les meilleurs itinéraires et pourquoi.*
-*Pour l'instant on ne parle pas de graphes; on peut éventuellement faire des schémas.*
 
 **Problème :**
 
@@ -66,9 +39,6 @@ En résumé, la solution du problème consiste à recommander les meilleurs itin
 
 
 ### Modèle pour l'exemple
-
-*Donner le graphe modélisant l'exemple ci-dessus.*
-*Donner la solution du problème (càd les meilleurs itinéraires) en tant que chemins dans le graphe.*
 
 **Graphe :**
 
@@ -101,14 +71,6 @@ AVION : Lille -> Paris : 120€
 
 ### Modélisation pour la Version 1 dans le cas général
 
-*Expliquer de manière abstraite comment, étant donné un problème de recherche d'itinéraire (plateforme avec tous types de lignes, moyen de transport choisi, critère d'optimisation, nombre d'itinéraires demandés) on peut construire un graphe permettant de résoudre le problème de recherche d'itinéraire. C'est à dire:*
-- *quels sont les sommets du graphe par rapport aux données du problème*, 
-- *quelles sont ses arêtes, par rapport aux données du problème*, 
-- *comment sont définis les poids des arêtes*,
-- *quel algorithme sur les graphes permet de résoudre le problème d'itinéraire (nom de l'algorithme, arguments).*
-
-*Utiliser un vocabulaire précis sur les graphes.*
-
 Pour modéliser le problème de recherche d'itinéraire dans un graphe, nous pouvons suivre les étapes suivantes :
 
     Sommets du Graphe : Chaque sommet du graphe représente une structure d'une ville. Dans notre exemple, nous avons trois villes : Lille, Paris et Marseille et 3 structures possible ( Gare, aéroport et Arrêt de bus).
@@ -123,23 +85,14 @@ En résumé, pour résoudre un problème de recherche d'itinéraire, nous constr
 
 ### Implémentation de la Version 1
 
-*Écrire une classe de test qui reprend l'exemple, définit toutes les données de la plateforme, construit le graphe et calcule la solution.*
-*Votre classe peut utiliser des assertions (test unitaire) ou bien afficher la solution.*
-*Donner ici le **[Test](../../src/Version1/Test.java)** ou bien **[Main](../../src/Version1/Main.java)** si vous voulez tester vous même, **19/05/2024 4e74e89f0db2af92bc65ef7936b7e8104421efd3 ** et un **[lien vers la page de cette classe sur gitlab qui correspond au bon commit](https://gitlab.univ-lille.fr/sae2.01-2.02/2024/E3/-/commit/4e74e89f0db2af92bc65ef7936b7e8104421efd3)**.
 
-*On insiste sur l'importance de spécifier le commit. En effet, quand vous commencerez la Version 2, le code utilisé pour le test de la Version 1 sera modifié. Il se peut que vous n'ayez pas le temps de finaliser la Version 2 et vous retrouver avec un code qui ne marche pas même pour la Version 1. C'est pourquoi il est important de rédiger le rapport au fur et à mesure et de donner ici un lien vers la version de votre code qui marche pour la Version 1 du projet.*
+[Test](../../src/Version1/Test.java) ou bien [Main](../../src/Version1/Main.java) si vous voulez tester vous même, 19/05/2024 4e74e89f0db2af92bc65ef7936b7e8104421efd3 et un [lien vers la page de cette classe sur gitlab qui correspond au bon commit](https://gitlab.univ-lille.fr/sae2.01-2.02/2024/E3/-/commit/4e74e89f0db2af92bc65ef7936b7e8104421efd3).
 
 
 Version 2 : multimodalité et prise en compte des correspondances
 ---
 
-*Cette section explique la solution pour la Version 2 du projet.*
-
 ### Présentation d'un exemple
-
-*Présenter un exemple concret (plateforme, couts de correspondance, critère d'optimalité).*
-*Donner la solution du problème du point de vue de l'utilisatrice (quels sont les itinéraires possibles, lesquels sont optimaux et pourquoi).*
-*Il est possible d'utiliser le même exemple que pour la Version 1 ou le modifier si pertinent.*
 
 Prenons l'exemple d'un utilisateur qui souhaite voyager de Lille à Paris en utilisant plusieurs moyens de transport, avec des correspondances possibles entre chaque mode de transport. La plateforme comprend trois moyens de transport : le train, l'avion et le bus. Les coûts de correspondance entre chaque type de transport sont également pris en compte.
 
@@ -158,8 +111,6 @@ il peut aussi choisir un itinéraire qui mélange les 3 et qui fait un compromis
 
 ### Modèle pour l'exemple
 
-*Donner le graphe modélisant l'exemple ci-dessus.*
-*Donner la solution du problème (càd les meilleurs itinéraires) en tant que chemins dans le graphe.*
 
 ```csv
   départ;arrivee;transport;temps;emission;prix
@@ -177,8 +128,6 @@ Les meilleurs itinéraires dans le graphe sont les suivants :
 
 ### Modélisation pour la Version 2 dans le cas général
 
-*Mêmes questions que pour la section correspondante de la Version 1, mais cette fois-ci les données d'entrée contiennent aussi des couts de correspondance.*
-*Vous pouvez expliquer l'entièreté de la solution pour la Version 2, ou bien indiquer **clairement** les différences par rapport à la solution proposée pour la Version 1.*
 
 Vous pouvez modéliser vous-même n'importe quelle situation en utilisant le fichier [Main](../src/version2/main/Main.java), en modifiant le fichier [data](../res/version2/data/data.csv) que vous nous avez fourni.
 
@@ -196,45 +145,126 @@ Preuves : Il sera donné par une liste de coûts de correspondance similaires à
 
 Dans le pdf.
 
-*Donner ici le [**nom complet de la classe**], **la date et l'identifiant du commit à regarder** et un **lien vers la page de cette classe sur gitlab qui correspond au bon commit***.
-
 [Main](../src/version2/main/Main.java), 08/06/2024 : adaptation au csv,  [Lien](https://gitlab.univ-lille.fr/sae2.01-2.02/2024/E3/-/commit/3541578dceef53142d47c98fabbc7d0a1351834c).
 
 Version 3 : optimisation multi-critères
 ---
 
-*Suivre le même plan que pour les deux autres sections.*
-*Pour l'exemple, veillez à spécifier toutes les données des problèmes. En particulier, on ajoute ici l'expression des préférences d'optimisation de l'utilisatrice.*
-*Comme précédemment, il est possible d'utiliser le même exemple et simplement l'enrichir.*
+### Présentation d'un exemple
 
-----------------------------------------------------
+Prenons l'exemple d'un utilisateur qui souhaite voyager de Lille à Paris en utilisant plusieurs moyens de transport avec des correspondances possibles entre chaque mode de transport. Les critères d'optimisation incluent le coût, le temps de trajet et les émissions de CO2, et l'utilisateur a exprimé ses préférences d'optimisation. De plus, il y a des bornes maximales pour chaque critère que l'utilisateur ne souhaite pas dépasser.
 
-**Fin du rapport**
+#### Données
 
-### Barème sur 30 pts
+Les données de la plateforme incluent les informations suivantes :
 
-Toute question sur le barème est à adresser à iovka.boneva@univ-lille.fr
+| Départ       | Arrivée      | Transport | Temps (min) | Émissions CO2 (kg) | Prix (€) |
+|--------------|--------------|-----------|-------------|--------------------|----------|
+| Lille        | Paris        | Train     | 120         | 1.7                | 45       |
+| Lille        | Paris        | Avion     | 60          | 2.8                | 120      |
+| Lille        | Paris        | Bus       | 180         | 1.2                | 30       |
+| Lille        | Valenciennes | Train     | 30          | 0.5                | 15       |
+| Valenciennes | Paris        | Bus       | 150         | 0.7                | 25       |
+
+Les coûts de correspondance entre chaque type de transport sont également pris en compte :
+
+| Ville        | Correspondance | Entre     | Minutes | kg CO2e | Euro |
+|--------------|----------------|-----------|---------|---------|------|
+| Lille        | Train          | Avion     | 20      | 0.1     | 10   |
+| Lille        | Train          | Bus       | 15      | 0       | 5    |
+| Valenciennes | Train          | Bus       | 10      | 0       | 3    |
+
+Les préférences de l'utilisateur sont les suivantes :
+
+- Optimiser pour le coût, le temps et les émissions de CO2
+- Le coût total ne doit pas dépasser 80 €
+- Le temps total de trajet ne doit pas dépasser 180 minutes
+- Les émissions de CO2 ne doivent pas dépasser 2.0 kg
+
+#### Solution du problème
+
+1. **Itinéraires possibles :**
+   - Train de Lille à Paris
+   - Avion de Lille à Paris
+   - Bus de Lille à Paris
+   - Train de Lille à Valenciennes puis bus de Valenciennes à Paris
+
+2. **Meilleurs itinéraires :**
+   - **Itinéraire 1 : Train de Lille à Valenciennes puis bus de Valenciennes à Paris**  
+     - Coût total : 15 (Train) + 25 (Bus) + 3 (Correspondance) = 43 €
+     - Temps total : 30 (Train) + 150 (Bus) + 10 (Correspondance) = 190 minutes
+     - Émissions de CO2 : 0.5 (Train) + 0.7 (Bus) + 0 (Correspondance) = 1.2 kg
+     - Cet itinéraire est optimal en termes de coût et émissions de CO2 mais dépasse légèrement la borne maximale pour le temps total.
+
+   - **Itinéraire 2 : Bus de Lille à Paris**
+     - Coût total : 30 €
+     - Temps total : 180 minutes
+     - Émissions de CO2 : 1.2 kg
+     - Cet itinéraire respecte toutes les bornes et est optimal en termes de coût.
+
+   - **Itinéraire 3 : Train de Lille à Paris**
+     - Coût total : 45 €
+     - Temps total : 120 minutes
+     - Émissions de CO2 : 1.7 kg
+     - Cet itinéraire est optimal en termes de temps tout en respectant les bornes de coût et d'émissions de CO2.
+
+En résumé, les itinéraires sont évalués et sélectionnés en fonction des préférences de l'utilisateur et des bornes imposées sur le coût, le temps et les émissions de CO2.
+
+### Modèle pour l'exemple
+
+#### Graphe
+
+Le graphe modélisant l'exemple ci-dessus peut être représenté de la manière suivante :
+
+```csv
+  Départ,Arrivée,Transport,Temps (min),Émissions CO2 (kg),Prix (€)
+  Lille,Paris,Train,120,1.7,45
+  Lille,Paris,Avion,60,2.8,120
+  Lille,Paris,Bus,180,1.2,30
+  Lille,Valenciennes,Train,30,0.5,15
+  Valenciennes,Paris,Bus,150,0.7,25
+```
+
+```csv
+  Ville,Transport 1,Transport 2,Temps (min),Émissions CO2 (kg),Prix (€)
+  Lille,Train,Avion,20,0.1,10
+  Lille,Train,Bus,15,0,5
+  Valenciennes,Train,Bus,10,0,3
+```
+
+#### Solution
+
+Les meilleurs itinéraires dans le graphe sont les suivants :
+
+- **Lille - Valenciennes (Train) - Paris (Bus)**
+  - Coût total : 43 €
+  - Temps total : 190 minutes
+  - Émissions de CO2 : 1.2 kg
+
+- **Lille - Paris (Bus)**
+  - Coût total : 30 €
+  - Temps total : 180 minutes
+  - Émissions de CO2 : 1.2 kg
+
+- **Lille - Paris (Train)**
+  - Coût total : 45 €
+  - Temps total : 120 minutes
+  - Émissions de CO2 : 1.7 kg
+
+### Modélisation pour la Version 3 dans le cas général
+
+Pour modéliser le problème de recherche d'itinéraire avec multi-critères, multi-bornes et multi-modalités de transport dans un graphe, nous suivons les étapes suivantes :
+
+1. **Sommets du Graphe :** Chaque sommet représente une structure d'une ville (gare, aéroport, arrêt de bus).  
+2. **Arêtes du Graphe :** Les arêtes représentent les trajets possibles entre les structures des villes, pondérées par les critères d'optimisation (coût, temps, émissions de CO2).  
+3. **Poids des Arêtes :** Les poids sont déterminés par les critères d'optimisation du problème (prix, émissions de CO2, temps de trajet) et les coûts de correspondance.  
+4. **Algorithme de Recherche d'Itinéraire :** Pour résoudre ce problème, nous pouvons utiliser un algorithme de cheminement multicritère, tel que kpccUltime dans la classe [Algorithme](../src/version3/utils/algorithm/Algorithme.java) modifié pour tenir compte des critères multiples et des bornes maximales.
+
+En utilisant kpccUltime dans la classe [Algorithme](../src/version3/utils/algorithm/Algorithme.java), nous spécifions le sommet de départ, le sommet d'arrivée, les poids des arêtes et les bornes maximales pour chaque critère. L'algorithme nous donne les meilleurs itinéraires respectant les préférences de l'utilisateur.
+
+### Implémentation de la Version 3
 
 
-- Rapport non rendu à temps -> note 0 
-- **(7, décomposé comme suit)** Divers
-  - **(1,5)** Respect de la structure du rapport
-  - **(1,5)** Section Version 1 rendue pour le 18/05/2024. Cette version peut contenir les parties en italique.
-  - **(1,5)** Section Version 2 rendue pour le 08/06/2024. Cette version peut contenir les parties en italique.
-  - **(1)** Utilisation de vocabulaire précis sur les graphes (termes vu en cours, noms des algorithmes, etc.)
-  - **(1,5)** Style d'écriture fluide et compréhensible
+Pour tester ce que vous souhaitez : [Main.java](../../src/version3/main/Main.java), 20/06/2024 : [Graphe-v3](https://gitlab.univ-lille.fr/sae2.01-2.02/2024/E3/-/commit/b77ab9cc9bcd243c4d6d9e93d7aadb3fd3268bb8).
 
-- **(8, décomposé comme suit)** Solution pour la Version 1
-  - **(2)** Exemple pertinent (illustre tous les aspects du problème) et lisible (en particulier, ni trop grand ni trop petit, bien présenté)
-  - **(4)** Le modèle de l'exemple permet de trouver la solution sur l'exemple. La modélisation pour le cas général permet de résoudre le problème posé
-  - **(2)** L'implémentation de l'exemple est correcte et fonctionnelle
-
-- **(6, décomposé comme suit)** Solution pour la Version 2
-  - **(1)** Exemple pertinent
-  - **(4)** le modèle de l'exemple permet de trouver la solution sur l'exemple. La modélisation pour le cas général permet de résoudre le problème posé
-  - **(1)** L'implémentation de l'exemple est correcte et fonctionnelle
-
-- **(3)** Qualité de la description de la solution (concerne les sections "Modèlisation dans le cas général" pour les Versions 1 et 2):
-  - La modélisation pour le cas général est décrite de manière abstraite mais précise et complète. Pour vous donner une idée, un·e étudiant·e de BUT qui a validé les ressources Graphes et Dev devrait être en mesure d'implémenter votre solution d'après la description que vous en faites, sans avoir à trop réfléchir.
-
-- **(6)** Solution pour la Version 3: mêmes critères que pour la Version 2
+---
