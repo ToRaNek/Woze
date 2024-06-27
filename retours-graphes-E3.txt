@@ -1,0 +1,11 @@
+# E3
+
+*Delangue Catry Mille Groupe E*
+
+Votre rapport ne permet pas de savoir comment exactement vous avez modélisé. Il aurait été très utile de dessiner les graphes qui correspondent à vos exemples, cela permet tout de suite de comprendre ce que vous faites.
+
+Pour la V1, vous semblez ajouter des sommets pour les "structures" dans les villes (gare, aéroport), or, ce n'est pas nécessaire pour cette version simple du problème à résoudre. Surtout, vous ne dites pas comment vous reliez ces structures entre elles pour avoir un graphe connexe.
+
+Pour la V2, je comprends que vous êtes en colère car vous n'avez pas eu les données pour tester à temps. Ceci étant, pour la partie graphes vous n'avez pas besoin de grandes données, juste avoir un petit exemple, dessiner le graphe, et expliquer comment vous avez obtenu les sommets, les arêtes et les poids des arêtes dans ce graphe. 
+
+Pour la V3, les critères de ne pas dépasser certaines bornes permettent d'exclure des trajets, mais ça ne nous dit pas comment les trajets admissibles sont interclassés entre eux. Vous dites que les arêtes sont "pondérées par les critères d'optimisation", mais concrètement ça ne permet pas de savoir quel serait le poids d'une arête donnée.
